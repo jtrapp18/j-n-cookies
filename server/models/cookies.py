@@ -1,7 +1,7 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 
-from ..config import db
+from config import db
 
 class Cookie(db.Model, SerializerMixin):
     __tablename__ = 'cookies'

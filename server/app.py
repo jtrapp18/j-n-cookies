@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from server import CartItem, Cookie, Favorite, Order, User
-from server import app, db, api
+from models import CartItem, Cookie, Favorite, Order, User
+from config import app, db, api
 
 from flask import request, session
 from flask_restful import Resource
