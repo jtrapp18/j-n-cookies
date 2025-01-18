@@ -5,5 +5,6 @@ from .cookies import Cookie
 from .favorites import Favorite
 from .orders import Order
 from .users import User
+from .reviews import Review
 
-__all__ = ["CartItem", "Cookie", "Favorite", "Order", "User"]
+__all__ = ["CartItem", "Cookie", "Favorite", "Order", "User", "Review"]

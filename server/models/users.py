@@ -15,6 +15,17 @@ class User(db.Model, SerializerMixin):
     phone_number = db.Column(db.String)
     email = db.Column(db.String)
 
+    favorites = db.relationship(
+        'Favorite', back_populates='user', cascade='all, delete-orphan')
+    
+    orders = db.relationship(
+        'Order', back_populates='user', cascade='all, delete-orphan')
+
+    reviews = db.relationship(
+        'Review', back_populates='user', cascade='all, delete-orphan')
+    
+    serialize_rules = ('-favorites.user', '-orders.user', '-reviews.user')
+    
     @hybrid_property
     def password_hash(self):
         raise Exception('Password hashes may not be viewed.')
