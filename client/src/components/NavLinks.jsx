@@ -1,15 +1,26 @@
 import { StyledNavLink, StyledLink } from "../MiscStyling";
 
-function NavLinks({handleClick}) {
+function NavLinks() {
 
   return (
     <>
       <StyledNavLink
-        to="/page1"
+        to="/menu"
         className="nav-link"
-        onClick={handleClick}
       >
-          Page1
+          Menu
+      </StyledNavLink>
+      <StyledNavLink
+        to="/account_details"
+        className="nav-link"
+      >
+          AccountDetails
+      </StyledNavLink>
+      <StyledNavLink
+        to="/cart"
+        className="nav-link"
+      >
+          Cart
       </StyledNavLink>
     </>
   );

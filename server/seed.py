@@ -9,6 +9,7 @@ from faker import Faker
 
 from config import db, app
 from models import CartItem, Cookie, Favorite, Order, User
+from cookie_data import cookie_data
 
 fake = Faker()
 
@@ -25,20 +26,11 @@ with app.app_context():
 
     print("Creating cookies...")
 
-    # List of cookie data to insert
-    cookies_data = [
-        {"name": "Chocolate Chip", "price": 2.99, "is_vegan": False, "is_gluten_free": False, "has_nuts": True},
-        {"name": "Oatmeal Raisin", "price": 2.49, "is_vegan": True, "is_gluten_free": False, "has_nuts": False},
-        {"name": "Peanut Butter", "price": 2.79, "is_vegan": False, "is_gluten_free": True, "has_nuts": True},
-        {"name": "Sugar", "price": 1.99, "is_vegan": True, "is_gluten_free": True, "has_nuts": False},
-        # Add more cookies as needed
-    ]
-
     # Using raw SQL to insert data
-    for cookie in cookies_data:
+    for cookie in cookie_data:
         db.session.execute(
-            text("INSERT INTO cookies (name, price, is_vegan, is_gluten_free, has_nuts) "
-                 "VALUES (:name, :price, :is_vegan, :is_gluten_free, :has_nuts)"),
+            text("INSERT INTO cookies (name, image, price, is_vegan, is_gluten_free, has_nuts, frosting) "
+                 "VALUES (:name, :image, :price, :is_vegan, :is_gluten_free, :has_nuts, :frosting)"),
             cookie
         )
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from models import CartItem, Cookie, Favorite, Order, User
+from models import CartItem, Cookie, Favorite, Order, User, Review
 from config import app, db, api
 
 from flask import request, session
