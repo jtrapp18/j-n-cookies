@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 from faker import Faker
 
 from config import db, app
-from models import CartItem, Cookie, Favorite, Order, User
+from models import CartItem, Cookie, Favorite, Order, User, Review
 from cookie_data import cookie_data
 
 fake = Faker()
@@ -87,8 +87,7 @@ with app.app_context():
 
     print("Creating orders...")
 
-    unpurchased_orders = []
-    purchased_orders = []
+    orders = []
 
     for user in users:
         unpurchased_order = Order(
@@ -99,7 +98,7 @@ with app.app_context():
             user_id=user.id
         )
         
-        unpurchased_orders.append(unpurchased_order)
+        orders.append(unpurchased_order)
 
         order_date = datetime.now().date() - timedelta(11 * 365)
         for i in range(randint(1, 6)):
@@ -116,17 +115,16 @@ with app.app_context():
 
                 order_date += timedelta(randint(1 * 365, 2 * 365))
             
-                purchased_orders.append(purchased_order)
+                orders.append(purchased_order)
 
-    db.session.add_all(unpurchased_orders)
-    db.session.add_all(purchased_orders)
+    db.session.add_all(orders)
     db.session.commit()
 
     print("Creating cart items...")
 
     cart_items = []
 
-    for order in unpurchased_orders:
+    for order in orders:
         for cookie in cookies:
             if random()>.8:
                 cart_item = CartItem(
@@ -138,6 +136,25 @@ with app.app_context():
                 cart_items.append(cart_item)
 
     db.session.add_all(cart_items)
+    db.session.commit()
+
+    print("Creating reviews...")
+
+    reviews = []
+
+    for order in orders:
+        if order.purchase_complete:
+            for cart_item in order.cart_items:
+                if random()>.6:
+                    review = Review(
+                        rating=randint(0, 5),
+                        user_id=order.user_id,
+                        cookie_id=cart_item.cookie_id
+                    )
+                    
+                    reviews.append(review)
+
+    db.session.add_all(reviews)
     db.session.commit()
 
     print("Seeding Complete.")
