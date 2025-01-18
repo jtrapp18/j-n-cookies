@@ -7,9 +7,10 @@ class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True)
-    purchase_complete = db.Column(db.Integer, default=False)
+    purchase_complete = db.Column(db.Boolean, default=False)
     order_date = db.Column(db.Date)
     delivery_date = db.Column(db.Date)
+    order_total = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):

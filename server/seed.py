@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
-from random import randint, choice as rc
+from random import randint, choice as rc, random
+from sqlalchemy import text
 
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from faker import Faker
 
 from config import db, app
@@ -20,6 +23,27 @@ with app.app_context():
 
     fake = Faker()
 
+    print("Creating cookies...")
+
+    # List of cookie data to insert
+    cookies_data = [
+        {"name": "Chocolate Chip", "price": 2.99, "is_vegan": False, "is_gluten_free": False, "has_nuts": True},
+        {"name": "Oatmeal Raisin", "price": 2.49, "is_vegan": True, "is_gluten_free": False, "has_nuts": False},
+        {"name": "Peanut Butter", "price": 2.79, "is_vegan": False, "is_gluten_free": True, "has_nuts": True},
+        {"name": "Sugar", "price": 1.99, "is_vegan": True, "is_gluten_free": True, "has_nuts": False},
+        # Add more cookies as needed
+    ]
+
+    # Using raw SQL to insert data
+    for cookie in cookies_data:
+        db.session.execute(
+            text("INSERT INTO cookies (name, price, is_vegan, is_gluten_free, has_nuts) "
+                 "VALUES (:name, :price, :is_vegan, :is_gluten_free, :has_nuts)"),
+            cookie
+        )
+
+    cookies = Cookie.query.all()
+
     print("Creating users...")
 
     # make sure users have unique usernames
@@ -27,14 +51,22 @@ with app.app_context():
     usernames = []
 
     for i in range(20):
-        
-        username = fake.first_name()
+
+        first_name=fake.first_name()
+        last_name=fake.last_name()
+        username=f'{first_name}.{last_name}{randint(1,20)}'
+
         while username in usernames:
             username = fake.first_name()
         usernames.append(username)
 
         user = User(
             username=username,
+            first_name=first_name,
+            last_name=last_name,
+            address=fake.address(),
+            phone_number=str(randint(1000000000, 9999999999)),
+            email=f'{username}@gmail.com'
         )
 
         user.password_hash = user.username + 'password'
@@ -42,5 +74,78 @@ with app.app_context():
         users.append(user)
 
     db.session.add_all(users)
+    db.session.commit()
+
+    print("Creating favorites...")
+
+    favorites = []
+
+    for user in users:
+        for cookie in cookies:
+            if random()>.7:
+                favorite = Favorite(
+                    user_id=user.id,
+                    cookie_id=cookie.id
+                )
+                
+                favorites.append(favorite)
+
+    db.session.add_all(favorites)
+    db.session.commit()
+
+    print("Creating orders...")
+
+    unpurchased_orders = []
+    purchased_orders = []
+
+    for user in users:
+        unpurchased_order = Order(
+            order_date=None,
+            delivery_date=None,
+            purchase_complete=False,
+            order_total=0,
+            user_id=user.id
+        )
+        
+        unpurchased_orders.append(unpurchased_order)
+
+        order_date = datetime.now().date() - timedelta(11 * 365)
+        for i in range(randint(1, 6)):
+            if i > 0:
+                delivery_date = order_date + timedelta(randint(1, 14))
+
+                purchased_order = Order(
+                    order_date=order_date,
+                    delivery_date=delivery_date,
+                    purchase_complete=True,
+                    order_total=0,
+                    user_id=user.id
+                )
+
+                order_date += timedelta(randint(1 * 365, 2 * 365))
+            
+                purchased_orders.append(purchased_order)
+
+    db.session.add_all(unpurchased_orders)
+    db.session.add_all(purchased_orders)
+    db.session.commit()
+
+    print("Creating cart items...")
+
+    cart_items = []
+
+    for order in unpurchased_orders:
+        for cookie in cookies:
+            if random()>.8:
+                cart_item = CartItem(
+                    num_cookies=randint(1, 10),
+                    order_id=order.id,
+                    cookie_id=cookie.id
+                )
+                
+                cart_items.append(cart_item)
+
+    db.session.add_all(cart_items)
+    db.session.commit()
 
     print("Seeding Complete.")

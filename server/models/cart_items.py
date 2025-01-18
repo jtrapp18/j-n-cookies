@@ -8,9 +8,9 @@ class CartItem(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     num_cookies = db.Column(db.Integer, default=1)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
     cookie_id = db.Column(db.Integer, db.ForeignKey('cookies.id'))
 
     def __repr__(self):
         return f'<Cart Item {self.id}, {self.num_cookies}>' + \
-        f'<Cookie id: {self.cookie_id}, User id: {self.user_id}>'
+        f'<Cookie id: {self.cookie_id}, Order id: {self.order_id}>'
