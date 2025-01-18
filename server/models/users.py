@@ -1,14 +1,19 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 
-from config import db, bcrypt
+from ..config import db
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String)
+    username = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String)
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
+    address = db.Column(db.String)
+    phone_number = db.Column(db.String)
+    email = db.Column(db.String)
 
     @hybrid_property
     def password_hash(self):
@@ -25,4 +30,4 @@ class User(db.Model, SerializerMixin):
             self._password_hash, password.encode('utf-8'))
 
     def __repr__(self):
-        return f'User {self.username}, ID: {self.id}'
+        return f'<User {self.username}, ID: {self.id}>'
