@@ -5,7 +5,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 from config import db, app
-# CartItem, Cookie, Favorite, Order, User
+from models import CartItem, Cookie, Favorite, Order, User
 
 fake = Faker()
 
