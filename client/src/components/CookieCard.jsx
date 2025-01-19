@@ -28,15 +28,15 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
 
     const tags = []
     if (isVegan) {
-        tags.append("Vegan")
+        tags.push("Vegan")
     }
 
     if (isGlutenFree) {
-        tags.append("GF")
+        tags.push("GF")
     }
 
     if (hasNuts) {
-        tags.append("Contains Nuts")
+        tags.push("Contains Nuts")
     }
 
     return (

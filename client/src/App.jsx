@@ -1,23 +1,31 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
-import { getJSON } from 'helper';
+import { getJSON, snakeToCamel } from './helper';
+import LoginForm from './components/LoginForm'
 
 function App() {
 
-  [user, setUser] = useState(null);
-  [cookies, setCookies] = useState([]);
+  const [user, setUser] = useState(null);
+  const [cookies, setCookies] = useState([]);
 
   useEffect(() => {
-    getJSON("menu_items").then((menu_items) => {
-      const menuTransformed = snakeToCamel(menu_items).map(cookie => ({
-        ...cookie,
-      }));
+    
+    getJSON("cookies").then((cookies) => {
+      const menuTransformed = snakeToCamel(cookies);
       setCookies(menuTransformed);      
     });
 
-  }, [user]);
+  }, []);
+
+  useEffect(() => {
+    // auto-login
+    getJSON("check_session")
+    .then((user) => {
+      setUser(user);
+    });
+  }, []);
 
   return (
     <>

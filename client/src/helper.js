@@ -1,10 +1,10 @@
 //****************************************************************************************************
 // JSON-server CRUD functionality
 
-function getJSON(dbKey) {
+function getReviewsByCookieId(cookieId) {
 
   // Make the API call to your Lambda (via API Gateway)
-  return fetch(`${dbKey}`)
+  return fetch(`/api/reviews/cookie/${cookieId}`)
     .then(res => {
       if (!res.ok) {
         console.error(`Error fetching user information! Status: ${res.status}`);
@@ -18,10 +18,30 @@ function getJSON(dbKey) {
     });
 }
 
+function getJSON(dbKey) {
+
+  // Make the API call to your Lambda (via API Gateway)
+  return fetch(`/api/${dbKey}`)
+    .then(res => {
+      if (!res.ok) {
+        console.error(`Error fetching ${dbKey} information! Status: ${res.status}`);
+        // throw new Error(`Error fetching forecast! Status: ${res.status}`);
+      }
+      if (res.status === 204) {
+        return null
+      }
+      return res.json();
+    })
+    .catch(err => {
+      console.error('Request failed', err);
+      // You can handle further error logic here if needed
+    });
+}
+
 function getJSONById(dbKey, Id) {
 
     // Make the API call to your Lambda (via API Gateway)
-    fetch(`${dbKey}/${Id}`)
+    fetch(`/api/${dbKey}/${Id}`)
       .then(res => {
         if (!res.ok) {
           console.error(`Error fetching user information! Status: ${res.status}`);
@@ -39,7 +59,7 @@ function postJSONToDb(dbKey, jsonObj) {
 
     const snake_object = camelToSnake(jsonObj);
 
-    return fetch(`new/${dbKey}`, {
+    return fetch(`/api/${dbKey}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -58,7 +78,7 @@ function patchJSONToDb(dbKey, Id, jsonObj) {
 
     const snake_object = camelToSnake(jsonObj);
 
-    fetch(`${dbKey}/${Id}`, {
+    fetch(`/api/${dbKey}/${Id}`, {
     method: 'PATCH',
     headers: {
         'Content-Type': 'application/json'
@@ -77,7 +97,7 @@ function patchJSONToDb(dbKey, Id, jsonObj) {
 
 function deleteJSONFromDb(dbKey, Id) {
 
-  fetch(`${dbKey}/${Id}`, {
+  fetch(`/api/${dbKey}/${Id}`, {
   method: 'DELETE',
   headers: {
       'Content-Type': 'application/json'
@@ -134,5 +154,5 @@ const scrollToTop = () => {
   });
 };
 
-export {getJSON, getJSONById, postJSONToDb, patchJSONToDb, 
-  deleteJSONFromDb, snakeToCamel, scrollToTop};
+export {getReviewsByCookieId, getJSON, getJSONById, postJSONToDb, 
+  patchJSONToDb, deleteJSONFromDb, snakeToCamel, scrollToTop};
