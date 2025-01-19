@@ -8,14 +8,13 @@ const StyledCookieCard = styled.article`
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
 
     img {
-        width: 100%;
-        height: 85%;
-        object-fit: cover;
-        overflow: hidden;
-        border-radius: 5px;
-        cursor: pointer;
+        height: 50%;
+        box-shadow: var(--shadow);
+        // border-radius: 10px;
     }
 `
 

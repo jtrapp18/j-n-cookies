@@ -33,6 +33,7 @@ function App() {
       <Outlet
           context={{
             user,
+            setUser,
             cookies,
           }}
         />

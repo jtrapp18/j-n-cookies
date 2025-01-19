@@ -14,7 +14,7 @@ function NavLinks() {
         to="/account_details"
         className="nav-link"
       >
-          AccountDetails
+          Account Details
       </StyledNavLink>
       <StyledNavLink
         to="/cart"

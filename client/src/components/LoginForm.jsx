@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-// import { Button, Error, Input, FormField, Label } from "../styles";
+import {useOutletContext} from "react-router-dom";
 import { postJSONToDb } from "../helper";
 import styled from "styled-components";
 
-const Button = styled.button`
+const Button = styled.button` 
 `
 
 const Error = styled.button`
@@ -21,26 +21,20 @@ const FormField = styled.div`
 const Label = styled.label`
 `
 
-function LoginForm({ onLogin }) {
+function LoginForm() {
+
+  const { setUser } = useOutletContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true);
 
-    const body = JSON.stringify({ username, password })
+    const body = { username, password }
 
-    postJSONToDb("login", body).then((r) => {
-      setIsLoading(false);
-      if (r.ok) {
-        r.json().then((user) => onLogin(user));
-      } else {
-        r.json().then((err) => setErrors(err.errors));
-      }
-    });
+    postJSONToDb("login", body)
+    .then(setUser);
   }
 
   return (
@@ -67,7 +61,7 @@ function LoginForm({ onLogin }) {
       </FormField>
       <FormField>
         <Button variant="fill" color="primary" type="submit">
-          {isLoading ? "Loading..." : "Login"}
+          Login
         </Button>
       </FormField>
       <FormField>

@@ -1,5 +1,9 @@
+import {useOutletContext} from "react-router-dom";
 
 const Cart = () => {
+  const { user } = useOutletContext();
+
+  if (!user) return <Login />
 
   return (
     <main>

@@ -1,5 +1,10 @@
+import {useOutletContext} from "react-router-dom";
+import Login from './Login'
 
 const AccountDetails = () => {
+  const { user } = useOutletContext();
+
+  if (!user) return <Login />
 
     return (
       <main>
