@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {useOutletContext} from "react-router-dom";
 import { postJSONToDb } from "../helper";
 import styled from "styled-components";
+import {UserContext} from '../context/userProvider'
 
 const Button = styled.button` 
 `
@@ -23,7 +24,7 @@ const Label = styled.label`
 
 function LoginForm() {
 
-  const { setUser } = useOutletContext();
+  const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);

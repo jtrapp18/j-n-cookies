@@ -18,6 +18,24 @@ function getReviewsByCookieId(cookieId) {
     });
 }
 
+function userLogout() {
+
+  fetch(`/api/logout`, {
+  method: 'DELETE',
+  headers: {
+      'Content-Type': 'application/json'
+  }
+  })
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    return res.json();
+  })
+  .then(data => console.log("DELETED", data))
+  .catch(e => console.error(e));
+}
+
 function getJSON(dbKey) {
 
   // Make the API call to your Lambda (via API Gateway)
@@ -154,5 +172,5 @@ const scrollToTop = () => {
   });
 };
 
-export {getReviewsByCookieId, getJSON, getJSONById, postJSONToDb, 
+export {userLogout, getReviewsByCookieId, getJSON, getJSONById, postJSONToDb, 
   patchJSONToDb, deleteJSONFromDb, snakeToCamel, scrollToTop};

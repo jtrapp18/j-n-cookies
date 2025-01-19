@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
 import { getJSON, snakeToCamel } from './helper';
-import LoginForm from './components/LoginForm'
+import { UserContext } from './context/userProvider';
 
 function App() {
 
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useContext(UserContext);
   const [cookies, setCookies] = useState([]);
 
   useEffect(() => {
@@ -29,11 +29,9 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header/>
       <Outlet
           context={{
-            user,
-            setUser,
             cookies,
           }}
         />

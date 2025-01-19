@@ -7,6 +7,7 @@ import AccountDetails from "./pages/AccountDetails";
 import Cart from "./pages/Cart";
 import OrderHistory from "./pages/OrderHistory";
 import ErrorPage from "./pages/ErrorPage";
+import Login from './pages/Login';
 
 const routes = [
   {
@@ -17,6 +18,10 @@ const routes = [
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
       {
         path: "menu",

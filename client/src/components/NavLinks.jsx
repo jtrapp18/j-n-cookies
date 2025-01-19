@@ -1,6 +1,17 @@
-import { StyledNavLink, StyledLink } from "../MiscStyling";
+import { useContext } from "react";
+import { StyledNavLink } from "../MiscStyling";
+import { userLogout } from "../helper";
+import {UserContext} from '../context/userProvider'
 
 function NavLinks() {
+  const { user, setUser } = useContext(UserContext);
+
+  const handleAccountToggle = () => {
+    if (user) {
+      userLogout();
+      setUser(null);
+    }
+  }
 
   return (
     <>
@@ -21,6 +32,19 @@ function NavLinks() {
         className="nav-link"
       >
           Cart
+      </StyledNavLink>
+      <StyledNavLink
+        to="/order_history"
+        className="nav-link"
+      >
+          Order History
+      </StyledNavLink>
+      <StyledNavLink
+        to="/login"
+        className="nav-link"
+        onClick={handleAccountToggle}
+      >
+          {user ? 'Logout' : 'Login'}
       </StyledNavLink>
     </>
   );
