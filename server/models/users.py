@@ -24,7 +24,9 @@ class User(db.Model, SerializerMixin):
     reviews = db.relationship(
         'Review', back_populates='user', cascade='all, delete-orphan')
     
-    serialize_rules = ('-favorites.user', '-orders.user', '-reviews.user')
+    serialize_rules = ('-favorites.user', '-favorites.cookie', '-order.cart_items', 
+                       '-order.user', '-cookie.cart_items', '-cookie.favorites', 
+                       '-cookie.reviews', '-reviews.cookie', '-reviews.user')
     
     @hybrid_property
     def password_hash(self):

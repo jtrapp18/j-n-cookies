@@ -13,7 +13,8 @@ class Favorite(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='favorites')
     cookie = db.relationship('Cookie', back_populates='favorites')
 
-    serialize_rules = ('-user.favorites', '-cookie.favorites')
+    serialize_rules = ('-user.orders', '-user.favorites', '-user.reviews', 
+                       '-cookie.cart_items', '-cookie.favorites', '-cookie.reviews')
 
     def __repr__(self):
         return f'<Favorite {self.id}, Cookie id: {self.cookie_id}, User id: {self.user_id}>'

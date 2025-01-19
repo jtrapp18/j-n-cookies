@@ -1,5 +1,6 @@
 {
-  "name": "my-interactive-portfolio",
+  "name": "jn-cookies",
+  "proxy": "http://localhost:5555",
   "private": true,
   "version": "0.0.0",
   "type": "module",

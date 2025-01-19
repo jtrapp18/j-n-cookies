@@ -16,7 +16,8 @@ class Review(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='reviews')
     cookie = db.relationship('Cookie', back_populates='reviews')
 
-    serialize_rules = ('-user.reviews', '-cookie.reviews')
+    serialize_rules = ('-user.orders', '-user.favorites', '-user.reviews', 
+                       '-cookie.cart_items', '-cookie.favorites', '-cookie.reviews')
 
     def __repr__(self):
         return f'<Review {self.id}, {self.rating}>' + \

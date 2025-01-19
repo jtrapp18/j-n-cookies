@@ -14,7 +14,8 @@ class CartItem(db.Model, SerializerMixin):
     order = db.relationship('Order', back_populates='cart_items')
     cookie = db.relationship('Cookie', back_populates='cart_items')
 
-    serialize_rules = ('-order.cart_items',)
+    serialize_rules = ('-order.cart_items', '-order.user', '-cookie.cart_items', 
+                       '-cookie.favorites', '-cookie.reviews')
 
     def __repr__(self):
         return f'<Cart Item {self.id}, {self.num_cookies}>' + \
