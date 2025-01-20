@@ -1,9 +1,13 @@
 import { useNavigate} from "react-router-dom";
 import styled from "styled-components";
+import OrderSummary from "./OrderSummary";
+import OrderDetail from "./OrderDetail";
 
 const StyledOrderCard = styled.article`
     height: 300px;
-    max-width: 90vw;
+    width: 100%;
+    display: flex;
+    // max-width: 90vw;
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
@@ -11,15 +15,16 @@ const StyledOrderCard = styled.article`
     border-radius: 10px;
 `
 
-const OrderCard = ({id, purchase_complete, order_date, delivery_date, order_total}) => {
+const OrderCard = ({order}) => {
 
     return (
         <StyledOrderCard>
-            <p>{id}</p>
-            <p>{purchase_complete}</p>
-            <p>{order_date}</p>
-            <p>{delivery_date}</p>
-            <p>{order_total}</p>
+            <OrderSummary
+                {...order} 
+            />
+            <OrderDetail
+                {...order}
+            />
         </StyledOrderCard>
     );
 }

@@ -10,7 +10,7 @@ const StyledMain = styled.main`
 
 const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `
 
 const OrderHistory = () => {
@@ -45,7 +45,7 @@ const OrderHistory = () => {
           {showOrders.map(order=>
             <OrderCard
                 key={order.id}
-                {...order} 
+                order={order} 
             />
           )}
         </CardContainer>

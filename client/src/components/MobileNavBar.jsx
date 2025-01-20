@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 import { StyledNavLink } from "../MiscStyling";
 import NavLinks from "./NavLinks";
+import { scrollToTop } from "../helper";
 
 // Styled components
 
@@ -102,6 +103,7 @@ const MobileNavBar = () => {
   };
 
   const handleClick = () => {
+    scrollToTop();
     setIsMenuOpen(false); // Close menu after navigation
   };
 
