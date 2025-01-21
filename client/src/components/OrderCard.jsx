@@ -20,7 +20,7 @@ const OrderCard = ({order, setActiveReview}) => {
     return (
         <StyledOrderCard>
             <OrderSummary
-                {...order} 
+                {...order}
             />
             <OrderDetail
                 {...order}

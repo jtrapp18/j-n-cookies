@@ -23,7 +23,7 @@ const StyledCookieCard = styled.article`
     }
 `
 
-const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, frosting, reviews, favorites}) => {
+const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, frosting, reviews, favorites, cartItems}) => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
     const { cartOrder, addCookieToCart, removeCookieFromCart, addCookieToFavorites, removeCookieFromFavorites } = useOutletContext();
@@ -40,6 +40,16 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
         setFavoriteId("");
         }
     }, [favorites, user]);
+
+    useEffect(() => {
+        if (cartItems){
+            const userCart = cartItems.filter((cartItem) => cartItem.order_id === cartOrder.id);
+            if (userCart.length > 0) {
+            setCartId(userCart[0].id);
+            } else {
+            setCartId("");
+        }}
+    }, [cartItems, user]);
 
     // Update average review when reviews change
     useEffect(() => {
@@ -132,17 +142,20 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
             <Tags
                 tags={tags}
             />
-            {favoriteId ?
-                <button onClick={removeFromFavorites}>Remove from Favorites</button>
-            :
-                <button onClick={addToFavorites}>Add to Favorites</button>
+            {cartItems &&
+                <>
+                    {favoriteId ?
+                        <button onClick={removeFromFavorites}>Remove from Favorites</button>
+                    :
+                        <button onClick={addToFavorites}>Add to Favorites</button>
+                    }
+                    {cartId ?
+                        <button onClick={removeFromCart}>Remove from Cart</button>
+                    :
+                        <button onClick={addToCart}>Add to Cart</button>
+                    }
+                </>
             }
-            {cartId ?
-                <button onClick={removeFromCart}>Remove from Cart</button>
-            :
-                <button onClick={addToCart}>Add to Cart</button>
-            }
-
         </StyledCookieCard>
     );
 }

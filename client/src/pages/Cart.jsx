@@ -5,6 +5,8 @@ import OrderCard from '../components/OrderCard';
 import {getJSON, snakeToCamel} from '../helper'
 import {UserContext} from '../context/userProvider'
 import {useOutletContext} from "react-router-dom";
+import CartItem from '../components/CartItem';
+import OrderSummary from '../components/OrderSummary';
 
 const StyledMain = styled.main`
 `
@@ -37,10 +39,15 @@ const Cart = () => {
       <StyledMain>
         <h1>Cart</h1>
         <CardContainer>
-          <OrderCard
-              key={cartOrder.id}
-              order={cartOrder} 
+          <OrderSummary
+            {...cartOrder}
           />
+          {cartOrder.cartItems.map(cartItem=>
+            <CartItem
+                key={cartItem.id}
+                {...cartItem}
+            />
+          )}
         </CardContainer>
       </StyledMain>
     );
