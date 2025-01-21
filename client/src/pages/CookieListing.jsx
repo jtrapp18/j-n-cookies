@@ -1,4 +1,4 @@
-
+import CookieCard from '../components/CookieCard';
 const CookieListing = () => {
 
   return (
