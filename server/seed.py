@@ -21,6 +21,7 @@ with app.app_context():
     Favorite.query.delete()
     Order.query.delete()
     User.query.delete()
+    Review.query.delete()
 
     fake = Faker()
 
@@ -149,7 +150,9 @@ with app.app_context():
                     review = Review(
                         rating=randint(0, 5),
                         user_id=order.user_id,
-                        cookie_id=cart_item.cookie_id
+                        cookie_id=cart_item.cookie_id,
+                        review_title="Review Title",
+                        review_body="This cookie was good"
                     )
                     
                     reviews.append(review)
