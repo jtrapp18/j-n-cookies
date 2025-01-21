@@ -24,8 +24,9 @@ class Cookie(db.Model, SerializerMixin):
     reviews = db.relationship(
         'Review', back_populates='cookie', cascade='all, delete-orphan')
     
-    serialize_rules = ('-favorites.cookie','-favorites.user',
-                       '-cart_items', '-reviews.cookie', '-reviews.user')
+    serialize_rules = ('-cart_items.cookie', '-cart_items.order', '-cart_items.cookie_id',
+                       '-favorites.cookie','-favorites.user',
+                       '-reviews.cookie', '-reviews.user')
 
     def __repr__(self):
         return f'<Cookie {self.id}, {self.name}, {self.price}>'

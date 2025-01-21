@@ -18,7 +18,7 @@ class Order(db.Model, SerializerMixin):
     cart_items = db.relationship(
         'CartItem', back_populates='order', cascade='all, delete-orphan')
 
-    serialize_rules = ('-user', '-cart_items.order', '-cart_items')
+    serialize_rules = ('-user', '-cart_items.order')
 
     def __repr__(self):
         return f'<Order {self.id}, {self.order_date}>' + \
