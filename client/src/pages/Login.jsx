@@ -32,7 +32,7 @@ function Login() {
           <SignupForm />
           <p>Already have an account?</p>
           <button
-            onClick={()=>setShowSignUp(true)}
+            onClick={()=>setShowSignUp(false)}
           >
             Log In
           </button>

@@ -16,7 +16,6 @@ const StyledOrderCard = styled.article`
 `
 
 const OrderCard = ({order, setActiveReview}) => {
-    console.log("order", order)
 
     return (
         <StyledOrderCard>

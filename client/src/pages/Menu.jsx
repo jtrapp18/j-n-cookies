@@ -24,7 +24,7 @@ const StyledMain = styled.main`
 const CardContainer = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 10px;
 `
 

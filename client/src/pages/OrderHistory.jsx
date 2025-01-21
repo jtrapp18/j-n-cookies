@@ -5,28 +5,21 @@ import OrderCard from '../components/OrderCard';
 import {getJSON, snakeToCamel} from '../helper'
 import {UserContext} from '../context/userProvider'
 import ReviewForm from '../components/ReviewForm';
+import {useOutletContext} from "react-router-dom";
 
 const StyledMain = styled.main`
 `
 
 const CardContainer = styled.div`
   display: grid;
-  // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `
+  // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
 
 const OrderHistory = () => {
   const { user, setUser } = useContext(UserContext);
-  const [orders, setOrders] = useState([]);
   const [activeReview, setActiveReview] = useState(null);
-
-  useEffect(() => {
-    
-    getJSON("orders").then((orders) => {
-      const orderTransformed = snakeToCamel(orders);
-      setOrders(orderTransformed);      
-    });
-
-  }, []);
+  const { orders } = useOutletContext();
 
   const showOrders = orders.filter(order=>order.purchaseComplete)
 
@@ -63,4 +56,3 @@ const OrderHistory = () => {
   };
   
   export default OrderHistory;
-  
