@@ -16,12 +16,11 @@ const StyledOrderCard = styled.article`
 `
 
 const OrderCard = ({order, setActiveReview}) => {
-    console.log("order", order)
 
     return (
         <StyledOrderCard>
             <OrderSummary
-                {...order} 
+                {...order}
             />
             <OrderDetail
                 {...order}

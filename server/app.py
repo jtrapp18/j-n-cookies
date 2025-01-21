@@ -135,8 +135,7 @@ class CookieById(Resource):
 class CartItems(Resource):
 
     def get(self):
-        user_id = session['user_id']
-        cart_items = [cart_item.to_dict() for cart_item in CartItem.query.filter_by(user_id=user_id)]
+        cart_items = [cart_item.to_dict() for cart_item in CartItem.query.all()]
         return make_response(jsonify(cart_items), 200)
     
     def post(self):
@@ -165,9 +164,10 @@ class CartItemById(Resource):
         cart_item = CartItem.query.get(item_id)
         if not cart_item:
             return make_response(jsonify({'message': 'Cart item not found'}), 404)
+        cart_item_dict = cart_item.to_dict()
         db.session.delete(cart_item)
         db.session.commit()
-        return make_response('', 204)
+        return make_response(cart_item_dict, 204)
 
 
 class Favorites(Resource):

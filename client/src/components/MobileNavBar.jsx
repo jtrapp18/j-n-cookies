@@ -35,7 +35,7 @@ const LinkContainer = styled.div`
 
   a {
     // border-top: 1px solid var(--light-green);
-    height: 16vh;
+    height: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
