@@ -1,6 +1,9 @@
-import { useNavigate} from "react-router-dom";
+import {useEffect, useState} from 'react'
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Tags from "./Tags"
+import { getReviewsByCookieId } from "../helper";
+import Rating from './Rating';
 
 const StyledCookieCard = styled.article`
     height: 300px;
@@ -20,6 +23,19 @@ const StyledCookieCard = styled.article`
 
 const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, frosting}) => {
     const navigate = useNavigate();
+    const [avgReview, setAvgReview] = useState(0);
+
+    useEffect(() => {
+      getReviewsByCookieId(id).then((reviews) => {
+        if (reviews.length > 0) {
+          const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+          const average = totalRating / reviews.length;
+          setAvgReview(average);
+        } else {
+          setAvgReview(0); // Handle case with no reviews
+        }
+      });
+    }, [id]);
 
     function handleClick() {
         navigate(`/menu/${id}`);
@@ -44,12 +60,13 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
         >
             <h2>{name}</h2>
             <h3>`Frosting: {frosting ? frosting : 'None'}`</h3>
+            <span>${price}</span>
             <img
                 src={`images/menu_items/${image}`}
                 alt={name}
             >
             </img>
-
+            <Rating rating={avgReview}/>
             <Tags
                 tags={tags}
             />

@@ -14,7 +14,7 @@ function App() {
     
     getJSON("cookies").then((cookies) => {
       const menuTransformed = snakeToCamel(cookies);
-      setCookies(menuTransformed);      
+      setCookies(menuTransformed);
     });
 
   }, []);

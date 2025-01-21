@@ -6,6 +6,7 @@ import styled from "styled-components";
 import {UserContext} from '../context/userProvider'
 import CookieCard from './CookieCard'
 import CloseButton from 'react-bootstrap/CloseButton';
+import Rating from '../components/Rating'
 
 const ReviewContainer = styled.div`
   padding: 10px;
@@ -58,6 +59,15 @@ function ReviewForm({ cookie, setActiveReview }) {
     });
 }
 
+  function updateRating(rating) {
+    setFormData(prevData=>{
+        return {
+            ...prevData,
+            rating: rating,
+        }
+    });
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -87,6 +97,7 @@ function ReviewForm({ cookie, setActiveReview }) {
             onChange={handleChange}
           />
         </FormField>
+        <Rating rating={filterInput.rating} handleStarClick={updateRating}/>
         <FormField>
           <Label htmlFor="rating">Rating</Label>
           <Input

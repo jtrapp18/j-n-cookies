@@ -29,9 +29,18 @@ const Menu = () => {
   });
 
   const showCookies = cookies.filter(cookie=>{
+
+      let avgReview
+      if (cookie.reviews.length > 0) {
+        const totalRating = cookie.reviews.reduce((sum, review) => sum + review.rating, 0);
+        avgReview = totalRating / cookie.reviews.length;
+      } else {
+        avgReview = 0;
+      }
+   
       const searchFilter = searchInput==="" ? true : cookie.name.toLowerCase().includes(searchInput.toLowerCase());
       const priceFilter = filterInput.price ? filterInput.price >= cookie.price : true;
-      const ratingFilter = filterInput.rating ? filterInput.rating <= cookie.rating : true;
+      const ratingFilter = filterInput.rating ? filterInput.rating <= avgReview : true;
       const veganFilter = !filterInput.isVegan ? true : cookie.isVegan;
       const glutenFreeFilter = !filterInput.isGlutenFree ? true : cookie.isGlutenFree;
       const nutsFilter = !filterInput.nutFree ? true : !cookie.hasNuts;
