@@ -82,12 +82,12 @@ function App() {
     }));
   }
 
-  function updateCookieCount(cookie, newCount) {
-    setOrders(prevCartOrder => ({
-      ...prevCartOrder,
-      cartItems: prevCartOrder.cartItems.map(item =>
-        item.id === cookie.id ? { ...item, count: newCount } : item
-      )
+  function updateCookieCount(cartId, newCount) {
+    setCartOrder((prevCartOrder) => ({
+        ...prevCartOrder,
+        cartItems: prevCartOrder.cartItems.map((item) =>
+        item.id === cartId ? { ...item, count: newCount } : item
+        ),
     }));
   }
 

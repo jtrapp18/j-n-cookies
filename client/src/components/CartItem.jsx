@@ -1,12 +1,8 @@
-import {useEffect, useState} from 'react'
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import styled from "styled-components";
-import Tags from "./Tags"
-import { getReviewsByCookieId, postJSONToDb } from "../helper";
-import Rating from './Rating';
-import CookieCard from '../components/CookieCard'
-import {useOutletContext} from "react-router-dom";
-import { deleteJSONFromDb, patchJSONToDb } from '../helper';
+import CookieCard from '../components/CookieCard';
+import { patchJSONToDb, deleteJSONFromDb } from '../helper';
+import { useOutletContext } from "react-router-dom";
 
 const StyledCartItem = styled.article`
     height: 300px;
@@ -20,56 +16,62 @@ const StyledCartItem = styled.article`
     img {
         height: 50%;
         box-shadow: var(--shadow);
-        // border-radius: 10px;
     }
-`
+`;
 
 function CartItem({ id, cookie, numCookies }) {
     const [newNumCookies, setNewNumCookies] = useState(numCookies);
-    const { removeCookieFromCart } = useOutletContext();
+    const { removeCookieFromCart, updateCookieCount } = useOutletContext();
+    const [isUpdating, setIsUpdating] = useState(false); // To manage async updates
 
-    function handleIncrement() {
-        const updatedNumCookies = numCookies + 1;
-        setNewNumCookies(updatedNumCookies);
-        patchJSONToDb("cart_items", id, { numCookies: updatedNumCookies });
-    }
-
-    function handleDecrement() {
-        if (numCookies > 0) {
-            const updatedNumCookies = numCookies - 1;
-            setNewNumCookies(updatedNumCookies);
-            patchJSONToDb("cart_items", id, { numCookies: updatedNumCookies });
+    useEffect(() => {
+        if (isUpdating) {
+            // Patch to DB after a delay (debounced effect)
+            const timeout = setTimeout(async () => {
+                try {
+                    await patchJSONToDb("cart_items", id, { numCookies: newNumCookies });
+                    updateCookieCount(id, newNumCookies); // Update parent state
+                } catch (error) {
+                    console.error("Failed to update numCookies:", error);
+                } finally {
+                    setIsUpdating(false); // Reset updating state
+                }
+            }, 300); // Debounce duration
+            return () => clearTimeout(timeout);
         }
-    }
+    }, [newNumCookies, id, updateCookieCount, isUpdating]);
 
     function handleInputChange(e) {
-        const value = Math.max(0, parseInt(e.target.value) || 0); // Ensure no negative values
+        const value = Math.max(0, parseInt(e.target.value) || 0);
         setNewNumCookies(value);
-        patchJSONToDb("cart_items", id, { numCookies: value });
+        setIsUpdating(true); // Mark as updating
     }
 
     function removeFromCart() {
         deleteJSONFromDb("cart_items", id)
-        removeCookieFromCart(id);
+            .then(() => {
+                removeCookieFromCart(id);
+                updateCookieCount(id, 0);
+            })
+            .catch((error) => console.error("Failed to remove from cart:", error));
     }
 
     return (
-        <div className="cart-item">
+        <StyledCartItem>
             <CookieCard {...cookie} />
             <label htmlFor="numCookies">Number of Cookies:</label>
             <div className="input-wrapper">
-                <button onClick={handleDecrement} className="decrement-btn">-</button>
                 <input
                     type="number"
                     id="numCookies"
                     value={newNumCookies}
                     onChange={handleInputChange}
                     min="0"
+                    disabled={isUpdating} // Optional: disable while updating
                 />
-                <button onClick={handleIncrement} className="increment-btn">+</button>
             </div>
-            <button onClick={() => removeFromCart(id)}>Remove from Cart</button>
-        </div>
+            <button onClick={removeFromCart}>Remove from Cart</button>
+        </StyledCartItem>
     );
 }
 
