@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import OrderCard from '../components/OrderCard';
 import {getJSON, snakeToCamel} from '../helper'
 import {UserContext} from '../context/userProvider'
+import ReviewForm from '../components/ReviewForm';
 
 const StyledMain = styled.main`
 `
@@ -16,6 +17,7 @@ const CardContainer = styled.div`
 const OrderHistory = () => {
   const { user, setUser } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
+  const [activeReview, setActiveReview] = useState(null);
 
   useEffect(() => {
     
@@ -46,9 +48,16 @@ const OrderHistory = () => {
             <OrderCard
                 key={order.id}
                 order={order} 
+                setActiveReview={setActiveReview}
             />
           )}
         </CardContainer>
+        {activeReview && 
+          <ReviewForm 
+            cookie={activeReview} 
+            setActiveReview={setActiveReview}
+          />
+        }
       </StyledMain>
     );
   };

@@ -9,14 +9,28 @@ const StyledOrderDetail = styled.article`
     position: relative;
     box-shadow: var(--shadow);
     border-radius: 10px;
+
+    span {
+        border-bottom: 1px solid gray;
+    }
 `
 
-const OrderDetail = ({cartItems}) => {
+const OrderDetail = ({cartItems, setActiveReview}) => {
 
     return (
         <StyledOrderDetail>
             {cartItems.map(cartItem =>
-                <li>{cartItem.cookie.name} | {cartItem.numCookies}</li>
+                <span>
+                    {cartItem.cookie.name} 
+                    ({cartItem.numCookies}) | 
+                    ${cartItem.cookie.price} each
+                    <button 
+                        onClick={()=>setActiveReview(cartItem.cookie)}
+                    >
+                        Add Review
+                    </button>
+                    
+                </span>
             )}
         </StyledOrderDetail>
     );

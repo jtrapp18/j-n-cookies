@@ -15,7 +15,7 @@ const StyledOrderCard = styled.article`
     border-radius: 10px;
 `
 
-const OrderCard = ({order}) => {
+const OrderCard = ({order, setActiveReview}) => {
 
     return (
         <StyledOrderCard>
@@ -24,6 +24,7 @@ const OrderCard = ({order}) => {
             />
             <OrderDetail
                 {...order}
+                setActiveReview={setActiveReview}
             />
         </StyledOrderCard>
     );
