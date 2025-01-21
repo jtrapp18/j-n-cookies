@@ -15,7 +15,7 @@ const CardContainer = styled.div`
 `
 
 const OrderHistory = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser} = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [activeReview, setActiveReview] = useState(null);
 
