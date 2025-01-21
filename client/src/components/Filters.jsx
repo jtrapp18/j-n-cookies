@@ -4,6 +4,13 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import Rating from './Rating';
 
 const FilterContainer = styled.div`
+    width: 100%;
+    display: flex;
+
+    section {
+        display: flex;
+        flex-direction: column;
+    }
 
 `
 
@@ -70,9 +77,9 @@ const Filters = ({filterInput, setFilterInput}) => {
 
     return (
         <FilterContainer>
-            <h2>Apply Filters</h2>
+            {/* <h2>Apply Filters</h2> */}
             {/* <ToggleButtonGroup type="checkbox"> */}
-                <div>
+                <section>
                     <label htmlFor="price-range">Price Range:</label>
                     <input
                         type="range"
@@ -84,10 +91,16 @@ const Filters = ({filterInput, setFilterInput}) => {
                         onChange={handleChange}
                     />
                     <span>{`$${filterInput.price}`}</span>
-                </div>    
-                <h3>Minimum Rating</h3>
-                <Rating rating={filterInput.rating} handleStarClick={updateRating}/>   
-                <ClearFilter onClick={()=>clearFilter("rating")}>clear rating filter</ClearFilter>
+                </section>
+                <section> 
+                    <p>Minimum Rating</p>
+                    <Rating rating={filterInput.rating} handleStarClick={updateRating}/>   
+                    <ClearFilter 
+                        onClick={()=>clearFilter("rating")}
+                    >
+                        clear rating filter
+                    </ClearFilter>
+                </section>
                 <ToggleButton
                     id="toggle-vegan"
                     name="isVegan"

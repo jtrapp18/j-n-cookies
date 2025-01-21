@@ -5,13 +5,27 @@ import {WindowWidthContext} from "../context/windowSize";
 import {useOutletContext} from "react-router-dom";
 import CookieCard from '../components/CookieCard';
 import SearchBar from '../components/SearchBar';
+import SortBy from '../components/SortBy';
 
 const StyledMain = styled.main`
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  section {
+    width: 100%;
+    display: flex;
+    justiry-content: space-between;
+  }
 `
 
 const CardContainer = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
 `
 
 const Menu = () => {
@@ -19,6 +33,7 @@ const Menu = () => {
   const { cookies } = useOutletContext();
 
   const [searchInput, setSearchInput] = useState("");
+  const [sortInput, setSortInput] = useState("");
   const [filterInput, setFilterInput] = useState({
       price: 0,
       rating: 0,
@@ -30,17 +45,24 @@ const Menu = () => {
 
   const showCookies = cookies.filter(cookie=>{
 
-      let avgReview
-      if (cookie.reviews.length > 0) {
-        const totalRating = cookie.reviews.reduce((sum, review) => sum + review.rating, 0);
-        avgReview = totalRating / cookie.reviews.length;
+      let ratingFilter
+
+      if (filterInput.rating) {
+        let avgReview
+
+        if (cookie.reviews.length > 0) {
+          const totalRating = cookie.reviews.reduce((sum, review) => sum + review.rating, 0);
+          avgReview = totalRating / cookie.reviews.length;
+        } else {
+          avgReview = 0;
+        }
+        ratingFilter = filterInput.rating <= avgReview
       } else {
-        avgReview = 0;
+        ratingFilter = true
       }
    
       const searchFilter = searchInput==="" ? true : cookie.name.toLowerCase().includes(searchInput.toLowerCase());
       const priceFilter = filterInput.price ? filterInput.price >= cookie.price : true;
-      const ratingFilter = filterInput.rating ? filterInput.rating <= avgReview : true;
       const veganFilter = !filterInput.isVegan ? true : cookie.isVegan;
       const glutenFreeFilter = !filterInput.isGlutenFree ? true : cookie.isGlutenFree;
       const nutsFilter = !filterInput.nutFree ? true : !cookie.hasNuts;
@@ -49,18 +71,35 @@ const Menu = () => {
       return searchFilter && priceFilter && ratingFilter && veganFilter && glutenFreeFilter && nutsFilter && frostingFilter;   
   })
 
+  const sortedCookies = sortInput === "" 
+  ? showCookies 
+  : [...showCookies].sort((a, b) => {
+      if (sortInput === "price") {
+        return a.price - b.price; // Sort by price (ascending)
+      } else if (sortInput === "name") {
+        return a.name.localeCompare(b.name); // Sort by name (alphabetical)
+      }
+      return 0; // No sorting if sortInput is neither 'price' nor 'name'
+    });
+
   return (
       <StyledMain>
           <SearchBar
             searchInput={searchInput}
             setSearchInput={setSearchInput}
           />
-          <Filters
-            filterInput={filterInput}
-            setFilterInput={setFilterInput}
-          />
+          <section>
+            <Filters
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+            />
+            <SortBy
+              sortInput={sortInput}
+              setSortInput={setSortInput}
+            />
+          </section>
         <CardContainer>
-          {showCookies.map(cookie=>
+          {sortedCookies.map(cookie=>
             <CookieCard
                 key={cookie.id}
                 {...cookie} 

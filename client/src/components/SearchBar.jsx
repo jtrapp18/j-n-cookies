@@ -7,7 +7,8 @@ const SearchContainer = styled.div`
     height: 100px;
     background-color: var(--blue);
     padding: 0;
-    width: 100%;
+    width: 500px;
+    max-width: 80%;
 
     input {
         border-radius: 20px;
@@ -31,7 +32,7 @@ const SearchBar = ({searchInput, setSearchInput}) => {
                 value={searchInput}
                 type="text"
                 id="search"
-                placeholder="Type location to search..."
+                placeholder="Type cookie to search..."
                 onChange={handleChangeSearch}
             />
         </SearchContainer>

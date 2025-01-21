@@ -19,23 +19,11 @@ const ReviewContainer = styled.div`
   border: 1px solid black;
 `
 
-const Button = styled.button` 
-`
-
-const Error = styled.button`
-`
-
-const Input = styled.input`
-`
-
 const FormField = styled.div`
   &:not(:last-child) {
     margin-bottom: 12px;
   }
 `;
-
-const Label = styled.label`
-`
 
 function ReviewForm({ cookie, setActiveReview }) {
   const { user } = useContext(UserContext);
@@ -87,8 +75,8 @@ function ReviewForm({ cookie, setActiveReview }) {
       <CookieCard {...cookie}/>
       <form onSubmit={handleSubmit}>
         <FormField>
-          <Label htmlFor="reviewTitle">Title</Label>
-          <Input
+          <label htmlFor="reviewTitle">Title</label>
+          <input
             type="text"
             id="reviewTitle"
             name="reviewTitle"
@@ -97,10 +85,10 @@ function ReviewForm({ cookie, setActiveReview }) {
             onChange={handleChange}
           />
         </FormField>
-        <Rating rating={filterInput.rating} handleStarClick={updateRating}/>
+        <Rating rating={formData.rating} handleStarClick={updateRating}/>
         <FormField>
-          <Label htmlFor="rating">Rating</Label>
-          <Input
+          <label htmlFor="rating">Rating</label>
+          <input
             type="text"
             id="rating"
             name="rating"
@@ -110,8 +98,8 @@ function ReviewForm({ cookie, setActiveReview }) {
           />
         </FormField>
         <FormField>
-          <Label htmlFor="reviewBody">Description</Label>
-          <Input
+          <label htmlFor="reviewBody">Description</label>
+          <input
             type="text"
             id="reviewBody"
             name="reviewBody"
@@ -121,7 +109,7 @@ function ReviewForm({ cookie, setActiveReview }) {
           />
         </FormField>
         <FormField>
-          <Button type="submit">Submit Review</Button>
+          <button type="submit">Submit Review</button>
         </FormField>
       </form>
     </ReviewContainer>
