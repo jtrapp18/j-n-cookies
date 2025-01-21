@@ -15,10 +15,10 @@ const OrderSummary = ({id, purchaseComplete, orderDate, deliveryDate, orderTotal
 
     return (
         <StyledOrderSummary>
-            <p>{id}</p>
-            <p>Complete: {purchaseComplete}</p>
+            <p>Order ID: {id}</p>
+            <p>Complete: {1*purchaseComplete}</p>
             <p>Order Date: {orderDate}</p>
-            <p>Delivery Date:{deliveryDate}</p>
+            <p>Delivery Date: {deliveryDate}</p>
             <hr />
             <strong>Total: ${orderTotal}</strong>
         </StyledOrderSummary>

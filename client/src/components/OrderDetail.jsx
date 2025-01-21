@@ -20,7 +20,7 @@ const OrderDetail = ({cartItems, setActiveReview}) => {
     return (
         <StyledOrderDetail>
             {cartItems.map(cartItem =>
-                <span>
+                <span key={cartItem.cookie.name}>
                     {cartItem.cookie.name} 
                     ({cartItem.numCookies}) | 
                     ${cartItem.cookie.price} each

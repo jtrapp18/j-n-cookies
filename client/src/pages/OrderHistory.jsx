@@ -28,7 +28,7 @@ const OrderHistory = () => {
 
   }, []);
 
-  const showOrders = orders
+  const showOrders = orders.filter(order=>order.purchaseComplete)
 
   if (!user) return <Login />
 
