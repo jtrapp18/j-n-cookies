@@ -2,16 +2,17 @@ import {useContext, useState} from "react";
 import Login from './Login'
 import {UserContext} from '../context/userProvider'
 import { patchJSONToDb } from "../helper";
-import { useResolvedPath } from "react-router-dom";
+
 const AccountDetails = () => {
   const { user, setUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: user?.firstName|| "",
-    lastName: user?.lastName || "",
-    address: user?.address || "",
-    phoneNumber: user?.phoneNumber || "",
+    first_name: user?.first_name|| "",
+    last_name: user?.last_name || "",
     email: user?.email || "",
+    address: user?.address || "",
+    phone_number: user?.phone_number || "",
+    
   });
 
   if (!user) return <Login />
@@ -31,11 +32,11 @@ const AccountDetails = () => {
       <h1>Account Details</h1>
       {!isEditing ? (
         <div>
-          <p><strong>First Name:</strong> {user.firstName}</p>
-          <p><strong>Last Name:</strong> {user.lastName}</p>
+          <p><strong>First Name:</strong> {user.first_name}</p>
+          <p><strong>Last Name:</strong> {user.last_name}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Address:</strong> {user.address}</p>
-          <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+          <p><strong>Phone Number:</strong> {user.phone_number}</p>
           <button onClick={() => setIsEditing(true)}>Edit</button>
         </div>
       ) : (
@@ -45,7 +46,7 @@ const AccountDetails = () => {
             <input 
               type="text" 
               name="firstName" 
-              value={formData.firstName} 
+              value={formData.first_name} 
               onChange={handleChange} 
             />
           </div>
@@ -54,7 +55,7 @@ const AccountDetails = () => {
             <input 
               type="text" 
               name="lastName" 
-              value={formData.lastName} 
+              value={formData.last_name} 
               onChange={handleChange} 
             />
           </div>
@@ -81,7 +82,7 @@ const AccountDetails = () => {
             <input 
               type="text" 
               name="phoneNumber" 
-              value={formData.phoneNumber} 
+              value={formData.phone_number} 
               onChange={handleChange} 
             />
           </div>
