@@ -33,11 +33,13 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
 
     // Update favoriteId when favorites or user changes
     useEffect(() => {
-        const userFavorite = favorites.filter((favorite) => favorite.userId === user.id);
-        if (userFavorite.length > 0) {
-        setFavoriteId(userFavorite[0].id);
-        } else {
-        setFavoriteId("");
+        if (user) {
+            const userFavorite = favorites.filter((favorite) => favorite.userId === user.id);
+            if (userFavorite.length > 0) {
+            setFavoriteId(userFavorite[0].id);
+            } else {
+            setFavoriteId("");
+            }
         }
     }, [favorites, user]);
 
@@ -48,7 +50,8 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
             setCartId(userCart[0].id);
             } else {
             setCartId("");
-        }}
+            }
+        }
     }, [cartItems, user]);
 
     // Update average review when reviews change
