@@ -9,7 +9,7 @@ const SortContainer = styled.div`
     padding: 0;
     width: 500px;
     max-width: 80%;
-
+    position: relative;
     input {
         border-radius: 20px;
         height: 45px;

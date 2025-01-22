@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useRef } from "react";
 import { scrollToTop } from "../helper";
 import { UserContext } from '../context/userProvider';
 import { NavLink } from "react-router-dom";
@@ -71,7 +71,7 @@ const AccountDropdown = ({isMenuOpen, setIsMenuOpen}) => {
 
   const handleAccountToggle = () => {
     if (user) {
-      userLogout();
+      // userLogout();
       setUser(null);
       setIsMenuOpen(false);
     }

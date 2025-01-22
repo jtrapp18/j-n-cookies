@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+
 import styled from 'styled-components';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Rating from './Rating';
@@ -6,7 +6,7 @@ import Rating from './Rating';
 const FilterContainer = styled.div`
     width: 100%;
     display: flex;
-
+    
     section {
         display: flex;
         flex-direction: column;
@@ -18,7 +18,7 @@ const ClearFilter = styled.p`
     font-style: italic;
     color: gray;
     size: 10px;
-
+    
     &:hover {
         font-weight: bold;
         cursor: pointer;
@@ -105,7 +105,7 @@ const Filters = ({filterInput, setFilterInput}) => {
                     id="toggle-vegan"
                     name="isVegan"
                     type="checkbox"
-                    variant="outline-primary"
+                    variant="outline-success"
                     checked={filterInput.isVegan}
                     onChange={handleChange}
                 >
@@ -115,7 +115,7 @@ const Filters = ({filterInput, setFilterInput}) => {
                     id="toggle-gf"
                     name="isGlutenFree"
                     type="checkbox"
-                    variant="outline-primary"
+                    variant="outline-success"
                     checked={filterInput.isGlutenFree}
                     onChange={handleChange}
                 >
@@ -125,7 +125,7 @@ const Filters = ({filterInput, setFilterInput}) => {
                     id="toggle-nuts"
                     name="nutFree"
                     type="checkbox"
-                    variant="outline-primary"
+                    variant="outline-success"
                     checked={filterInput.nutFree}
                     onChange={handleChange}
                 >
@@ -135,7 +135,7 @@ const Filters = ({filterInput, setFilterInput}) => {
                     id="toggle-frosting"
                     name="hasFrosting"
                     type="checkbox"
-                    variant="outline-primary"
+                    variant="outline-success"
                     checked={filterInput.hasFrosting}
                     onChange={handleChange}
                 >
