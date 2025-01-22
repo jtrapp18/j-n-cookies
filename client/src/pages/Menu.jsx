@@ -38,7 +38,7 @@ const Menu = () => {
   const [searchInput, setSearchInput] = useState("");
   const [sortInput, setSortInput] = useState("");
   const [filterInput, setFilterInput] = useState({
-      price: 0,
+      price: 5,
       rating: 0,
       isVegan: "",
       isGlutenFree: "",

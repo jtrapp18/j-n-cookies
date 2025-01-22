@@ -9,10 +9,7 @@ import { patchJSONToDb, postJSONToDb } from '../helper';
 const StyledMain = styled.main`
   min-height: var(--size-body);
   padding: 20px;
-  90vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
 
   h3 {
     font-size: clamp(1rem, 1.8vw, 1.1rem)
@@ -22,16 +19,11 @@ const StyledOrderSummary = styled.article`
     padding: 20px;
     margin: 10px;
     height: 100%;
-    width: 50%;
+    width: fit-content;
+    max-width: 90vw;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
-
-    div {
-      display: flex;
-      width: 50%;
-      justify-content: space-between;
-    }
 
     h3 {
       font-size: clamp(1rem, 1.8vw, 1.1rem)
@@ -60,35 +52,41 @@ const StyledDiv = styled.div`
 `
 
 const OrderConfirmation = styled.article`
-    padding: 20px;
-    margin: 10px;
-    height: 100%;
-    width: 50%;
-    margin-bottom: 10px;
-    position: relative;
-    background: var(--green);
-    border-radius: 20px;
 
-    div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+
+    .confirm-container {
+      padding: 20px;
+      margin: 10px;
+      width: 50%;
+      margin-bottom: 10px;
+      position: relative;
+      background: var(--green);
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
-      width: q00%;
-    }
+      align-items: center;
 
-    .article {
-    
-    }
+      div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
 
-    h3 {
-      font-size: clamp(1rem, 1.8vw, 1.1rem)
-    }
+      h3 {
+        font-size: clamp(1rem, 1.8vw, 1.1rem)
+      }
 
-    p {
-      line-height: 1;
-    }
+      p {
+        line-height: 1;
+      }
 
-    h2, h3, p {
-      color: white;
+      h2, h3, p {
+        color: white;
+      }
     }
 `
 
@@ -186,21 +184,20 @@ const Checkout = () => {
           </>
         ) : (
           <OrderConfirmation>
-            <h2>Order Placed!</h2>
-            <div>
-              <h3>Confirmation email sent to: {`${user.email}`}</h3>  
-            </div>
-            <hr />
-            <div>
-              <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
-              <p>{deliveryAddress}</p>
-            </div>
-            <hr />
-            <article>
-              <p>Order ID: {cartOrder.id}</p>
-              <h3><strong>Order Total: </strong>${totalPrice}</h3>
+            <div className="confirm-container">
+              <h2>Thank you for your Order!</h2>
               <hr />
-            </article>
+              <div>
+                <h3>Confirmation email sent to: {`${user.email}`}</h3>  
+                <hr />
+                <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
+                <p>{deliveryAddress}</p>
+                <hr />
+                <p>Order ID: {cartOrder.id}</p>
+                <h3><strong>Order Total: </strong>${totalPrice}</h3>
+                <hr />
+              </div>
+            </div>
           </OrderConfirmation>
         )}
       </StyledMain>
