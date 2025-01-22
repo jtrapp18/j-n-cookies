@@ -2,13 +2,15 @@ import styled from "styled-components";
 
 const SearchContainer = styled.div`
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     height: 100px;
     background-color: var(--blue);
     padding: 0;
     width: 500px;
     max-width: 80%;
+    position: relative;
+    top: -70px;
 
     input {
         border-radius: 20px;
@@ -27,7 +29,7 @@ const SearchBar = ({searchInput, setSearchInput}) => {
     }
 
     return (
-        <SearchContainer>
+        <SearchContainer >
             <input 
                 value={searchInput}
                 type="text"

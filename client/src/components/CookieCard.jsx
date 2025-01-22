@@ -22,6 +22,7 @@ const StyledCookieCard = styled.article`
         height: 40%;
         box-shadow: var(--shadow);
         // border-radius: 10px;
+
     }
 `
 
@@ -54,7 +55,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 setCartId("");
             }
         }
-    }, [cartItems, user]);
+    }, [cartItems, user, cartOrder.id]);
 
     // Update average review when reviews change
     useEffect(() => {
@@ -130,7 +131,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
     return (
         <StyledCookieCard className="cookie-card">
             <h2>{name}</h2>
-            <h3>`Frosting: {frosting ? frosting : 'None'}`</h3>
+            <h3>Frosting: {frosting ? frosting : 'None'}</h3>
             <span>${price}</span>
             <img
                 onClick={handleClick}

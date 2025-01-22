@@ -1,4 +1,4 @@
-import {useEffect, useContext, useState} from 'react';
+import { useContext, useState} from 'react';
 import styled from "styled-components";
 import Filters from "../components/Filters";
 import {WindowWidthContext} from "../context/windowSize";

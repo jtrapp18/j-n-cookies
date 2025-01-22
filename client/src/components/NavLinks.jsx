@@ -11,13 +11,15 @@ const StyledAccountIcon = styled.div`
   position: relative;
 `
 
+
 function NavLinks({ handleClick }) {
   const { cartOrder } = useContext(UserContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+ 
+  // const toggleMenu = () => {
+  //   setIsMenuOpen((prev) => !prev);
+  // };
 
 
   return (
