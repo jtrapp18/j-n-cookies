@@ -13,11 +13,12 @@ const StyledDiv = styled.div`
 
 function LoggedInConfirm({setShowConfirm}) {
 
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   function handleLogout() {
     userLogout();
     setShowConfirm(false);
+    setUser(null);
   }
 
   return (

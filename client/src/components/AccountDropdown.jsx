@@ -75,7 +75,7 @@ const AccountDropdown = ({isMenuOpen, setIsMenuOpen}) => {
 
   const handleAccountToggle = () => {
     if (user) {
-      // userLogout();
+      userLogout();
       setUser(null);
       setIsMenuOpen(false);
     }

@@ -47,11 +47,11 @@ const StyledCookieCard = styled.article`
             justify-content: center;
 
             h3 {
-            font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+                font-size: clamp(1.2rem, 1.8vw, 1.8rem);
             }
 
             .price {
-            font-size: clamp(2rem, 3.5vw, 4rem);
+                font-size: clamp(2rem, 3.5vw, 4rem);
             }
 
             .cookie-info {

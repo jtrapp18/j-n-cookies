@@ -21,18 +21,21 @@ function getReviewsByCookieId(cookieId) {
 function userLogout() {
 
   fetch(`/api/logout`, {
-  method: 'DELETE',
-  headers: {
-      'Content-Type': 'application/json'
-  }
-  })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json'
     }
-  })
-  .catch(e => console.error(e));
-}
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      else {
+        console.log('Successfully logged out')
+      }
+    })
+    .catch(e => console.error(e));
+  }
 
 function getJSON(dbKey) {
 

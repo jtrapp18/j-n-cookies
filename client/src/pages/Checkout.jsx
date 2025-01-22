@@ -19,11 +19,19 @@ const StyledOrderSummary = styled.article`
     padding: 20px;
     margin: 10px;
     height: 100%;
-    width: fit-content;
-    max-width: 90vw;
+    width: 50%;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    div {
+      display: flex;
+      width: 50%;
+      justify-content: space-between;
+    }
 
     h3 {
       font-size: clamp(1rem, 1.8vw, 1.1rem)
@@ -61,7 +69,9 @@ const OrderConfirmation = styled.article`
     .confirm-container {
       padding: 20px;
       margin: 10px;
-      width: 50%;
+      width: fit-content;
+      min-width: 50%;
+      max-width: 90vw;
       margin-bottom: 10px;
       position: relative;
       background: var(--green);
@@ -91,8 +101,8 @@ const OrderConfirmation = styled.article`
 `
 
 const Checkout = () => {
-  const { user, setUser } = useContext(UserContext);
-  const { orders, cartOrder, placeCookieOrder } = useOutletContext();
+  const { user } = useContext(UserContext);
+  const { cartOrder, placeCookieOrder } = useOutletContext();
   const [orderComplete, setOrderComplete] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState(user.address);
@@ -179,7 +189,9 @@ const Checkout = () => {
                 <h3>${totalPrice}</h3>
               </div>
               <hr />
-              <Button variant="warning" onClick={handleSubmit}>Place Order</Button>
+              <div>
+                <Button variant="warning" onClick={handleSubmit}>Place Order</Button>
+              </div>
             </StyledOrderSummary>
           </>
         ) : (
