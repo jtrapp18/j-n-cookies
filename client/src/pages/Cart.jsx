@@ -1,12 +1,11 @@
-import {useState, useEffect, useContext} from 'react';
+import {Fragment, useState, useEffect, useContext} from 'react';
 import Login from './Login'
 import styled from 'styled-components';
-import OrderCard from '../components/OrderCard';
-import {getJSON, snakeToCamel} from '../helper'
 import {UserContext} from '../context/userProvider'
 import {useOutletContext} from "react-router-dom";
 import CartItem from '../components/CartItem';
 import Button from 'react-bootstrap/Button';
+import { NavLink } from "react-router-dom";
 
 const StyledMain = styled.main`
   padding: 20px;
@@ -71,20 +70,25 @@ const Cart = () => {
         <CardContainer>
           <h2>Shopping Cart</h2>         
           {cartOrder.cartItems.map(cartItem=>
-            <>
+            <Fragment key={cartItem.id}>
               <CartItem
-                  key={cartItem.id}
                   {...cartItem}
+                  isFinal={true}
               />
               <hr />
-            </>
+            </Fragment>
           )}
         </CardContainer>
         <StyledOrderSummary>
           <h3>Subtotal ({2}) Items: <strong>${totalPrice}</strong></h3>
           <p>Order ID: {cartOrder.id}</p>
           <hr />
-          <Button variant="success">Proceed to Checkout</Button>
+          <NavLink
+            to="/checkout"
+            className="nav-link"
+          >
+            <Button variant="warning">Proceed to Checkout</Button>            
+          </NavLink>
         </StyledOrderSummary>
       </StyledMain>
     );

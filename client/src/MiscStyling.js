@@ -12,24 +12,11 @@ const StyledMenuItem = css`
 
 const StyledNavigation = css`
   ${StyledMenuItem}
-
-  .tab-name {
-    position: relative;
-    display: flex;
-
-    span {
-      position: relative;
-      z-index: 2;
-    }
-  }
-
+  
   &.active {
     text-decoration: overline;
     text-decoration-thickness: 2px;
-
-    .backdrop {
-      background: var(--striped);;
-    }
+    color: var(--green);
   }
 
   &:hover {

@@ -18,9 +18,13 @@ const StyledCartItem = styled.article`
         height: 50%;
         box-shadow: var(--shadow);
     }
+
+    div.hide {
+        height: 0;
+    }
 `;
 
-function CartItem({ id, cookie, numCookies }) {
+function CartItem({ id, cookie, numCookies, isFinal }) {
     const [newNumCookies, setNewNumCookies] = useState(numCookies);
     const { removeCookieFromCart, updateCookieCount } = useOutletContext();
     const [isUpdating, setIsUpdating] = useState(false); // To manage async updates
@@ -57,7 +61,7 @@ function CartItem({ id, cookie, numCookies }) {
     return (
         <StyledCartItem>
             <CookieCard {...cookie} />
-            <div>
+            <div className={isFinal ? "hide" : ""}>
                 <label htmlFor="numCookies">Number of Cookies:</label>
                 <div className="input-wrapper">
                     <input
@@ -69,6 +73,12 @@ function CartItem({ id, cookie, numCookies }) {
                         disabled={isUpdating} // Optional: disable while updating
                     />
                 </div>
+                <hr />
+                <p>Subtotal: <strong>{cookie.price*newNumCookies}</strong></p>
+                <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
+            </div>
+            <div className={isFinal ? "" : "hide"}>
+                <p>Quantity: {numCookies}</p>
                 <hr />
                 <p>Subtotal: <strong>{cookie.price*numCookies}</strong></p>
                 <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>

@@ -8,6 +8,7 @@ import Cart from "./pages/Cart";
 import OrderHistory from "./pages/OrderHistory";
 import ErrorPage from "./pages/ErrorPage";
 import Login from './pages/Login';
+import Checkout from "./pages/Checkout";
 
 const routes = [
   {
@@ -42,6 +43,10 @@ const routes = [
       {
         path: "order_history",
         element: <OrderHistory />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
       },
     ],
   },

@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import { useContext, useRef, useEffect } from "react";
-import { StyledNavLink } from "../MiscStyling";
 import { scrollToTop } from "../helper";
 import { UserContext } from '../context/userProvider';
+import { NavLink } from "react-router-dom";
 
 // Styled components
 
 const LinkContainer = styled.div`
   position: absolute;
-//   top: calc(var(--height-header) + 3px);
   top: 25px;
   background: white;
   
@@ -17,7 +16,7 @@ const LinkContainer = styled.div`
   width: 100%;
   text-decoration: none;
   text-align: right;
-  background: white;
+  background: var(--light-gray);
   border-bottom: 3px solid var(--green);
   display: flex;
   flex-direction: column;
@@ -27,12 +26,11 @@ const LinkContainer = styled.div`
   transition: transform 0.3s ease-in-out; /* Smooth fold-out animation */
 
   a {
-    // border-top: 1px solid var(--light-green);
     height: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(1.5rem, 3vw, 1.75rem);
+    font-size: var(--default-font-size);
   }
 
   &.open {
@@ -51,6 +49,23 @@ const LinkContainer = styled.div`
     }
   }
 `;
+
+const StyledNavLink = styled(NavLink)`
+  color: black;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+
+  &.active {
+    text-decoration: overline;
+    text-decoration-thickness: 2px;
+    color: var(--green);
+  }
+
+  &:hover {
+    color: var(--green);
+  }
+`
 
 const AccountDropdown = ({isMenuOpen, setIsMenuOpen}) => {
   const { user, setUser } = useContext(UserContext);
