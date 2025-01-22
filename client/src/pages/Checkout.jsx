@@ -11,6 +11,8 @@ const StyledMain = styled.main`
   padding: 20px;
   90vh;
   display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h3 {
     font-size: clamp(1rem, 1.8vw, 1.1rem)
@@ -64,12 +66,17 @@ const OrderConfirmation = styled.article`
     width: 50%;
     margin-bottom: 10px;
     position: relative;
-    box-shadow: var(--shadow);
+    background: var(--green);
+    border-radius: 20px;
 
     div {
       display: flex;
-      width: 50%;
-      justify-content: space-between;
+      flex-direction: column;
+      width: q00%;
+    }
+
+    .article {
+    
     }
 
     h3 {
@@ -78,6 +85,10 @@ const OrderConfirmation = styled.article`
 
     p {
       line-height: 1;
+    }
+
+    h2, h3, p {
+      color: white;
     }
 `
 
@@ -175,7 +186,21 @@ const Checkout = () => {
           </>
         ) : (
           <OrderConfirmation>
-            Complete
+            <h2>Order Placed!</h2>
+            <div>
+              <h3>Confirmation email sent to: {`${user.email}`}</h3>  
+            </div>
+            <hr />
+            <div>
+              <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
+              <p>{deliveryAddress}</p>
+            </div>
+            <hr />
+            <article>
+              <p>Order ID: {cartOrder.id}</p>
+              <h3><strong>Order Total: </strong>${totalPrice}</h3>
+              <hr />
+            </article>
           </OrderConfirmation>
         )}
       </StyledMain>

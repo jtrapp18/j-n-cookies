@@ -145,7 +145,6 @@ class CartItems(Resource):
     def post(self):
         data = request.get_json()
         new_cart_item = CartItem(
-            num_cookies=data['num_cookies'],
             order_id=data['order_id'],
             cookie_id=data['cookie_id']
         )

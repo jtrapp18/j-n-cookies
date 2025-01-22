@@ -84,6 +84,8 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 orderId: cartOrder.id,
                 cookieId: id
             }
+
+            console.log("trying to add...", body)
     
             postJSONToDb("cart_items", body)
                 .then(cartItem => {
