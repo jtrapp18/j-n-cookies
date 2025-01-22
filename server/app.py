@@ -29,9 +29,6 @@ class Signup(Resource):
     def post(self):
         try:
             json = request.get_json()
-            # Check if 'username' and 'password' are provided
-            if 'username' not in json or 'password' not in json:
-                return {'message': 'Username and password are required.'}, 400
 
             user = User(username=json['username'])
             user.password_hash = json['password']
@@ -59,10 +56,6 @@ class Login(Resource):
     def post(self):
         try:
             json = request.get_json()
-
-            # Check if 'username' and 'password' are provided
-            if 'username' not in json or 'password' not in json:
-                return {'message': 'Username and password are required.'}, 400
 
             username = json['username']
             user = User.query.filter_by(username=username).first()
@@ -98,10 +91,6 @@ def post(self):
         try:
             # Get data from the request
             data = request.get_json()
-
-            # Check if the necessary keys exist in the data
-            if 'purchase_complete' not in data or 'user_id' not in data:
-                return {'message': 'Purchase complete and user ID are required.'}, 400
 
             # Create new order
             new_order = Order(
@@ -180,13 +169,8 @@ class CartItems(Resource):
             # Get data from the request
             data = request.get_json()
 
-            # Check if the necessary keys exist in the data
-            if 'num_cookies' not in data or 'order_id' not in data or 'cookie_id' not in data:
-                return {'message': 'Number of cookies, order ID, and cookie ID are required.'}, 400
-
             # Create new cart item
             new_cart_item = CartItem(
-                num_cookies=data['num_cookies'],
                 order_id=data['order_id'],
                 cookie_id=data['cookie_id']
             )
@@ -201,14 +185,6 @@ class CartItems(Resource):
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
             return {'message': f'An error occurred: {str(e)}'}, 500
-        data = request.get_json()
-        new_cart_item = CartItem(
-            order_id=data['order_id'],
-            cookie_id=data['cookie_id']
-        )
-        db.session.add(new_cart_item)
-        db.session.commit()
-        return make_response(jsonify(new_cart_item.to_dict()), 201)
     
 
 class CartItemById(Resource):
@@ -236,10 +212,6 @@ class Favorites(Resource):
         try:
             # Get data from the request
             data = request.get_json()
-
-            # Check if the necessary keys exist in the data
-            if 'user_id' not in data or 'cookie_id' not in data:
-                return {'message': 'User ID and cookie ID are required.'}, 400
 
             # Create new favorite
             new_favorite = Favorite(
@@ -275,14 +247,10 @@ class Reviews(Resource):
             # Get data from the request
             data = request.get_json()
 
-            # Check if the necessary keys exist in the data
-            if 'rating' not in data or 'review_text' not in data or 'user_id' not in data or 'cookie_id' not in data:
-                return {'message': 'Rating, review text, user ID, and cookie ID are required.'}, 400
-
             # Create new review
             new_review = Review(
                 rating=data['rating'],
-                review_text=data['review_text'],
+                review_body=data['review_body'],
                 user_id=data['user_id'],
                 cookie_id=data['cookie_id']
             )
@@ -297,17 +265,6 @@ class Reviews(Resource):
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
             return {'message': f'An error occurred: {str(e)}'}, 500
-
-        data = request.get_json()
-        new_review = Review(
-            rating=data['rating'],
-            review_body=data['review_body'],
-            user_id=data['user_id'],
-            cookie_id=data['cookie_id']
-        )
-        db.session.add(new_review)
-        db.session.commit()
-        return make_response(jsonify(new_review.to_dict()), 201)
 
 
 class ReviewsByCookie(Resource):
