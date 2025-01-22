@@ -203,7 +203,7 @@ class Reviews(Resource):
         data = request.get_json()
         new_review = Review(
             rating=data['rating'],
-            review_text=data['review_text'],
+            review_body=data['review_body'],
             user_id=data['user_id'],
             cookie_id=data['cookie_id']
         )

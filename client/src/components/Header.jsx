@@ -13,6 +13,7 @@ const StyledHeader = styled(Headroom)`
   .headroom {
     display: flex;
     justify-content: space-between;
+    background: white;
   }
 `
 

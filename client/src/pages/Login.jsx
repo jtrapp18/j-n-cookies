@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import LoginForm from '../components/LoginForm'
 import SignupForm from '../components/SignUpForm'
 import styled from 'styled-components';
+import { userLogout } from "../helper";
+import LoggedInConfirm from '../components/LoggedInConfirm';
 
 const StyledMain = styled.main`
   min-height: var(--size-body);
@@ -36,13 +38,16 @@ const StyledMain = styled.main`
 
 function Login() {
   const [showSignUp, setShowSignUp] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  if (showConfirm) return <StyledMain><LoggedInConfirm setShowConfirm={setShowConfirm}/></StyledMain>
 
   return (
     <StyledMain>
       
       {!showSignUp &&
         <>
-          <LoginForm />
+          <LoginForm setShowConfirm={setShowConfirm}/>
           <p>Don't have an account?</p>
           <button
             onClick={()=>setShowSignUp(true)}
@@ -53,7 +58,7 @@ function Login() {
       }
       {showSignUp &&
         <>
-          <SignupForm />
+          <SignupForm setShowConfirm={setShowConfirm}/>
           <p>Already have an account?</p>
           <button
             onClick={()=>setShowSignUp(false)}

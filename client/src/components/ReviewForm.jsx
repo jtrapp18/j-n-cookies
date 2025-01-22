@@ -1,6 +1,4 @@
 import React, { useState, useContext } from "react";
-import {useOutletContext} from "react-router-dom";
-// import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import {postJSONToDb} from '../helper'
 import styled from "styled-components";
 import {UserContext} from '../context/userProvider'
@@ -9,7 +7,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Rating from '../components/Rating'
 
 const ReviewContainer = styled.div`
-  padding: 10px;
+  padding: 20px;
   position: fixed;
   z-index: 1000;
   top: var(--height-header);
@@ -17,16 +15,52 @@ const ReviewContainer = styled.div`
   transform: translateX(-50%);
   background: white;
   border: 1px solid black;
-`
 
-const FormField = styled.div`
-  &:not(:last-child) {
-    margin-bottom: 12px;
+  article.cookie-card {
+    transform: scale(.5);
+    transform-origin: top left;
   }
-`;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    position: absolute;
+    top: 60%;
+    padding: 20px;
+    background: var(--cookie);
+    align-items: center;
+
+    .form-input {
+      &:not(:last-child) {
+        margin-bottom: 12px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      align-items: space-between;
+      width: 90%;
+    }
+  }
+
+  .submitted-confirm {
+    background: var(--green);
+    border-radius: 20px;
+    padding: 20px;
+
+    label {
+      font-weight: bold;
+    }
+
+    p, label, h3 {
+      color: white;
+    }
+  }
+`
 
 function ReviewForm({ cookie, setActiveReview }) {
   const { user } = useContext(UserContext);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const emptyForm = {
     reviewTitle: "",
@@ -65,53 +99,63 @@ function ReviewForm({ cookie, setActiveReview }) {
         cookie_id: cookie.id
     }
 
-    postJSONToDb("review", body)
-    .then(console.log)
+    postJSONToDb("reviews", body)
+    .then(review=> {
+      console.log(review)
+      setIsSubmitted(true);
+    })
   }
 
   return (
     <ReviewContainer>
       <CloseButton onClick={()=>setActiveReview(null)}/>
-      <CookieCard {...cookie}/>
-      <form onSubmit={handleSubmit}>
-        <FormField>
-          <label htmlFor="reviewTitle">Title</label>
-          <input
-            type="text"
-            id="reviewTitle"
-            name="reviewTitle"
-            autoComplete="off"
-            value={formData.reviewTitle}
-            onChange={handleChange}
-          />
-        </FormField>
-        <Rating rating={formData.rating} handleStarClick={updateRating}/>
-        <FormField>
-          <label htmlFor="rating">Rating</label>
-          <input
-            type="text"
-            id="rating"
-            name="rating"
-            autoComplete="off"
-            value={formData.rating}
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <label htmlFor="reviewBody">Description</label>
-          <input
-            type="text"
-            id="reviewBody"
-            name="reviewBody"
-            autoComplete="off"
-            value={formData.reviewBody}
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <button type="submit">Submit Review</button>
-        </FormField>
-      </form>
+        {(!isSubmitted) ? (
+          <>
+            <h1>{`Review ${cookie.name}`}</h1>
+            <CookieCard {...cookie}/>
+            <form onSubmit={handleSubmit}>
+              <Rating rating={formData.rating} handleStarClick={updateRating}/>
+              <div className="form-input">
+                <label htmlFor="reviewTitle">Title</label>
+                <input
+                  type="text"
+                  id="reviewTitle"
+                  name="reviewTitle"
+                  autoComplete="off"
+                  value={formData.reviewTitle}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-input">
+                <label htmlFor="reviewBody">Description</label>
+                <textarea
+                  id="reviewBody"
+                  name="reviewBody"
+                  autoComplete="off"
+                  value={formData.reviewBody}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <button type="submit">Submit Review</button>
+              </div>
+            </form>
+          </>
+        ) : (
+          <div className="submitted-confirm">
+            <h3>Thank you for your review!</h3>
+            <hr />
+            <Rating rating={formData.rating} handleStarClick={updateRating}/>
+            <div>
+              <label htmlFor="reviewTitle">Review Title:</label>
+              <p name="reviewTitle">{formData.reviewTitle}</p>
+            </div>
+            <div>
+            <label htmlFor="reviewBody">Review:</label>
+            <p name="reviewBody">{formData.reviewBody}</p>
+            </div>
+          </div>
+        )}
     </ReviewContainer>
   );
 }

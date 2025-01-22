@@ -30,9 +30,7 @@ function userLogout() {
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
-    return res.json();
   })
-  .then(data => console.log("DELETED", data))
   .catch(e => console.error(e));
 }
 
@@ -63,7 +61,6 @@ function getJSONById(dbKey, Id) {
       .then(res => {
         if (!res.ok) {
           console.error(`Error fetching user information! Status: ${res.status}`);
-          // throw new Error(`Error fetching forecast! Status: ${res.status}`);
         }
         return res.json();
       })

@@ -33,9 +33,21 @@ const OrderHistory = () => {
   const [activeReview, setActiveReview] = useState(null);
   const { orders } = useOutletContext();
 
+  if (!user) return <Login />
+
+  if (!orders) {
+    return <h1>Loading Cart...</h1>
+  }
+
   const showOrders = orders.filter(order=>order.purchaseComplete)
 
-  if (!user) return <Login />
+  if (showOrders.length===0) {
+    return (
+      <StyledMain>
+        <h1>No Past Orders</h1>
+      </StyledMain>
+    );
+  }
 
   return (
       <StyledMain>

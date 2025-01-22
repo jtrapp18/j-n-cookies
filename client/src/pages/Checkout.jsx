@@ -50,6 +50,11 @@ const StyledDiv = styled.div`
   article {
     zoom: .7;
   }
+
+  .delivery-edit {
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 const OrderConfirmation = styled.article`
@@ -120,7 +125,7 @@ const Checkout = () => {
                     <Button onClick={()=>setIsEditing(true)}>Change Delivery Address</Button>
                   </>
                 ) : (
-                  <>
+                  <div className='delivery-edit'>
                     <input 
                       type="text" 
                       name="address" 
@@ -128,7 +133,7 @@ const Checkout = () => {
                       onChange={(e)=>setDeliveryAddress(e.target.value)} 
                     />
                     <Button onClick={()=>setIsEditing(false)}>Confirm Changes</Button>
-                  </>
+                  </div>
                 )}
               </div>
               <hr />

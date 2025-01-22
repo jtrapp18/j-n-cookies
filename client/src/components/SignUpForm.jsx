@@ -23,7 +23,7 @@ const FormField = styled.div`
 const Label = styled.label`
 `
 
-function SignUpForm({ onLogin }) {
+function SignUpForm({ setShowConfirm }) {
   const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +41,12 @@ function SignUpForm({ onLogin }) {
     }
 
     postJSONToDb("signup", body)
-    .then(setUser);
+    .then(newUser => {
+      if (newUser) {
+        setUser(newUser);
+        setShowConfirm(true);
+      }
+    });
   }
 
   return (
