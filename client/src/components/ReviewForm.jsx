@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
-import {postJSONToDb} from '../helper'
+import React, { useContext, useState } from "react";
+import { postJSONToDb } from '../helper';
 import styled from "styled-components";
-import {UserContext} from '../context/userProvider'
-import CookieCard from './CookieCard'
+import { UserContext } from '../context/userProvider';
+import CookieCard from './CookieCard';
 import CloseButton from 'react-bootstrap/CloseButton';
-import Rating from '../components/Rating'
+import Rating from '../components/Rating';
+import { useFormik } from 'formik';
 
 const ReviewContainer = styled.div`
   padding: 20px;
@@ -56,106 +57,105 @@ const ReviewContainer = styled.div`
       color: white;
     }
   }
-`
+`;
 
 function ReviewForm({ cookie, setActiveReview }) {
   const { user } = useContext(UserContext);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const emptyForm = {
-    reviewTitle: "",
-    rating: 0,
-    reviewBody: ""
-  }
-  const [formData, setFormData] = useState(emptyForm);
-
-  function handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    setFormData(prevData=>{
-        return {
-            ...prevData,
-            [name]: value,
-        }
-    });
-}
-
-  function updateRating(rating) {
-    setFormData(prevData=>{
-        return {
-            ...prevData,
-            rating: rating,
-        }
-    });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const body = {
-        ...formData,
+  const formik = useFormik({
+    initialValues: {
+      reviewTitle: '',
+      rating: 0,
+      reviewBody: '',
+    },
+    onSubmit: (values) => {
+      const body = {
+        ...values,
         user_id: user.id,
-        cookie_id: cookie.id
-    }
+        cookie_id: cookie.id,
+      };
 
-    postJSONToDb("reviews", body)
-    .then(review=> {
-      console.log(review)
-      setIsSubmitted(true);
-    })
-  }
+      postJSONToDb("reviews", body)
+        .then(review => {
+          console.log(review);
+          setIsSubmitted(true);
+        });
+    },
+    validate: (values) => {
+      const errors = {};
+      if (!values.reviewTitle) {
+        errors.reviewTitle = 'Title is required';
+      }
+      if (!values.reviewBody) {
+        errors.reviewBody = 'Description is required';
+      }
+      return errors;
+    }
+  });
+
+  const updateRating = (rating) => {
+    formik.setFieldValue("rating", rating);
+  };
 
   return (
     <ReviewContainer>
-      <CloseButton onClick={()=>setActiveReview(null)}/>
-        {(!isSubmitted) ? (
-          <>
-            <h1>{`Review ${cookie.name} Cookie`}</h1>
-            <CookieCard {...cookie}/>
-            <form onSubmit={handleSubmit}>
-              <Rating rating={formData.rating} handleStarClick={updateRating}/>
-              <div className="form-input">
-                <label htmlFor="reviewTitle">Title</label>
-                <input
-                  type="text"
-                  id="reviewTitle"
-                  name="reviewTitle"
-                  autoComplete="off"
-                  value={formData.reviewTitle}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-input">
-                <label htmlFor="reviewBody">Description</label>
-                <textarea
-                  id="reviewBody"
-                  name="reviewBody"
-                  autoComplete="off"
-                  value={formData.reviewBody}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <button type="submit">Submit Review</button>
-              </div>
-            </form>
-          </>
-        ) : (
-          <div className="submitted-confirm">
-            <h3>Thank you for your review!</h3>
-            <hr />
-            <Rating rating={formData.rating} handleStarClick={updateRating}/>
-            <div>
-              <label htmlFor="reviewTitle">Review Title:</label>
-              <p name="reviewTitle">{formData.reviewTitle}</p>
+      <CloseButton onClick={() => setActiveReview(null)} />
+      {(!isSubmitted) ? (
+        <>
+          <h1>{`Review ${cookie.name} Cookie`}</h1>
+          <CookieCard {...cookie} />
+          <form onSubmit={formik.handleSubmit}>
+            <Rating rating={formik.values.rating} handleStarClick={updateRating} />
+            <div className="form-input">
+              <label htmlFor="reviewTitle">Title</label>
+              <input
+                type="text"
+                id="reviewTitle"
+                name="reviewTitle"
+                autoComplete="off"
+                value={formik.values.reviewTitle}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.reviewTitle && formik.errors.reviewTitle ? (
+                <div>{formik.errors.reviewTitle}</div>
+              ) : null}
+            </div>
+            <div className="form-input">
+              <label htmlFor="reviewBody">Description</label>
+              <textarea
+                id="reviewBody"
+                name="reviewBody"
+                autoComplete="off"
+                value={formik.values.reviewBody}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.reviewBody && formik.errors.reviewBody ? (
+                <div>{formik.errors.reviewBody}</div>
+              ) : null}
             </div>
             <div>
-            <label htmlFor="reviewBody">Review:</label>
-            <p name="reviewBody">{formData.reviewBody}</p>
+              <button type="submit">Submit Review</button>
             </div>
+          </form>
+        </>
+      ) : (
+        <div className="submitted-confirm">
+          <h3>Thank you for your review!</h3>
+          <hr />
+          <Rating rating={formik.values.rating} handleStarClick={updateRating} />
+          <div>
+            <label htmlFor="reviewTitle">Review Title:</label>
+            <p>{formik.values.reviewTitle}</p>
           </div>
-        )}
+          <div>
+            <label htmlFor="reviewBody">Review:</label>
+            <p>{formik.values.reviewBody}</p>
+          </div>
+        </div>
+      )}
     </ReviewContainer>
   );
 }
