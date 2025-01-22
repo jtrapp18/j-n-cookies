@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { patchJSONToDb, postJSONToDb } from '../helper';
 
 const StyledMain = styled.main`
+  min-height: var(--size-body);
   padding: 20px;
   90vh;
   display: flex;

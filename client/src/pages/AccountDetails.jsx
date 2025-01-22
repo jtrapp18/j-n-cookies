@@ -6,11 +6,12 @@ import styled from "styled-components";
 import Button from 'react-bootstrap/Button';
 
 const StyledMain = styled.main`
+  min-height: var(--size-body);
   padding: 20px;
   margin: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
 
   button {

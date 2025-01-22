@@ -8,6 +8,7 @@ import ReviewForm from '../components/ReviewForm';
 import {useOutletContext} from "react-router-dom";
 
 const StyledMain = styled.main`
+  min-height: var(--size-body);
 `
 
 const CardContainer = styled.div`

@@ -6,13 +6,20 @@ const StyledFooter = styled.footer`
     flex-direction: column;
     position: relative;
     align-items: center;
+
+    img {
+        width: 100%;
+    }
 `
 
 const Footer = () => {
 
     return (
         <StyledFooter id="footer">
-            <p>footer</p>
+            <img
+                src={'images/cookies.png'}
+                alt='Chocolate chip cookies'
+            />
         </StyledFooter>
     );
 }

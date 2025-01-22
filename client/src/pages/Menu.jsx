@@ -8,6 +8,7 @@ import SearchBar from '../components/SearchBar';
 import SortBy from '../components/SortBy';
 
 const StyledMain = styled.main`
+  min-height: var(--size-body);
   padding: 2vw;
   display: flex;
   flex-direction: column;

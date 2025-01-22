@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom";
 
 const StyledMain = styled.main`
+  min-height: var(--size-body);
   padding: 20px;
   90vh;
   display: flex;

@@ -4,6 +4,7 @@ import SignupForm from '../components/SignUpForm'
 import styled from 'styled-components';
 
 const StyledMain = styled.main`
+  min-height: var(--size-body);
   padding: 20px;
   margin: 10px;
   display: flex;
