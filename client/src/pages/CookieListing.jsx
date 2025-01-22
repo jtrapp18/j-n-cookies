@@ -2,22 +2,20 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; // To access cookie ID from URL
 import CookieCard from '../components/CookieCard'; // Import CookieCard
 import { getReviewsByCookieId } from '../helper';
+import {useOutletContext} from "react-router-dom";
+
 const CookieListing = () => {
   const { id } = useParams(); // Get the cookie ID from the URL
-  const [cookie, setCookie] = useState(null);
+  const { cookies } = useOutletContext();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      if (!id) return; // Ensure ID exists before making API calls
-  
-      setLoading(true); // Start loading
-    // Fetch the specific cookie by ID
-    fetch(`/api/cookies/${id}`)
-      .then((response) => response.json())
-      .then((data) => setCookie(data))
-      .catch((error) => console.error('Error fetching cookie:', error));
+  const cookie = cookies.find((cookie) => cookie.id === parseInt(id));
 
+  useEffect(() => {
+    if (!id) return; // Ensure ID exists before making API calls
+  
+    setLoading(true); // Start loading
+    
     // Fetch reviews for this cookie
     getReviewsByCookieId(id)
       .then((data) => setReviews(data)) // Get the reviews for the specific cookie

@@ -58,12 +58,14 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
 
     // Update average review when reviews change
     useEffect(() => {
-        if (reviews.length > 0) {
-            const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-            const average = totalRating / reviews.length;
-            setAvgReview(average);
-        } else {
-            setAvgReview(0);
+        if (reviews) {
+            if (reviews.length > 0) {
+                const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+                const average = totalRating / reviews.length;
+                setAvgReview(average);
+            } else {
+                setAvgReview(0);
+            }
         }
     }, [reviews]);
 
@@ -135,12 +137,12 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 src={`images/menu_items/${image}`}
                 alt={name}
             />
-            <Rating rating={avgReview} />
-            <p>{`Based on ${reviews.length} Reviews`}</p>
-            <p>{`Favorited by ${favorites.length} Users`}</p>
             <Tags tags={tags} />
             {cartItems &&
                 <>
+                    <Rating rating={avgReview} />
+                    <p>{`Based on ${reviews.length} Reviews`}</p>
+                    <p>{`Favorited by ${favorites.length} Users`}</p>
                     {favoriteId ?
                         <Button variant="outline-danger" onClick={removeFromFavorites}><FaRegHeart /> Remove from Favorites</Button> :
                         <Button variant="outline-primary" onClick={addToFavorites}><FaRegHeart /> Add to Favorites</Button>
