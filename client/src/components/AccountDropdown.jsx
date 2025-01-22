@@ -3,12 +3,13 @@ import { useContext, useRef } from "react";
 import { scrollToTop } from "../helper";
 import { UserContext } from '../context/userProvider';
 import { NavLink } from "react-router-dom";
+import { userLogout } from "../helper";
 
 // Styled components
 
 const LinkContainer = styled.div`
   position: absolute;
-  top: 25px;
+  top: 50px;
   left: 0;
   z-index: 1000;
   width: 100%;
@@ -52,6 +53,8 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   position: relative;
   cursor: pointer;
+  padding: 10px;
+  font-size: clamp(1.2rem, 1.5vw, 2.2rem);
 
   &.active {
     text-decoration: overline;
@@ -60,7 +63,8 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &:hover {
-    color: var(--green);
+    color: var(--cookie);
+    background: var(--green);
   }
 `
 

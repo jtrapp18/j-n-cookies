@@ -175,6 +175,7 @@ class CartItems(Resource):
         return make_response(jsonify(cart_items), 200)
     
     def post(self):
+
         try:
             # Get data from the request
             data = request.get_json()
@@ -200,6 +201,16 @@ class CartItems(Resource):
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
             return {'message': f'An error occurred: {str(e)}'}, 500
+        data = request.get_json()
+        new_cart_item = CartItem(
+            order_id=data['order_id'],
+            cookie_id=data['cookie_id']
+        )
+        db.session.add(new_cart_item)
+        db.session.commit()
+        return make_response(jsonify(new_cart_item.to_dict()), 201)
+    
+
 class CartItemById(Resource):
 
     def patch(self, item_id):
@@ -259,6 +270,7 @@ class FavoriteById(Resource):
              
 class Reviews(Resource):
     def post(self):
+
         try:
             # Get data from the request
             data = request.get_json()
@@ -285,6 +297,18 @@ class Reviews(Resource):
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
             return {'message': f'An error occurred: {str(e)}'}, 500
+
+        data = request.get_json()
+        new_review = Review(
+            rating=data['rating'],
+            review_body=data['review_body'],
+            user_id=data['user_id'],
+            cookie_id=data['cookie_id']
+        )
+        db.session.add(new_review)
+        db.session.commit()
+        return make_response(jsonify(new_review.to_dict()), 201)
+
 
 class ReviewsByCookie(Resource):
 

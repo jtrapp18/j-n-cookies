@@ -7,6 +7,8 @@ const StyledOrderSummary = styled.article`
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
+    background: white;
+    border: 1px solid var(--chocolate);
 `
 
 const OrderSummary = ({id, purchaseComplete, orderDate, deliveryDate, orderTotal}) => {

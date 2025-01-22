@@ -11,6 +11,7 @@ const Error = styled.button`
 `
 
 const Input = styled.input`
+
 `
 
 const FormField = styled.div`
@@ -22,7 +23,7 @@ const FormField = styled.div`
 const Label = styled.label`
 `
 
-function LoginForm() {
+function LoginForm({setShowConfirm}) {
 
   const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState("");
@@ -35,11 +36,17 @@ function LoginForm() {
     const body = { username, password }
 
     postJSONToDb("login", body)
-    .then(setUser);
+    .then(user => {
+      if (user) {
+        setUser(user);
+        setShowConfirm(true);
+      }
+    });
   }
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Login</h1>
       <FormField>
         <Label htmlFor="username">Username</Label>
         <Input
