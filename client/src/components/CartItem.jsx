@@ -5,7 +5,7 @@ import { patchJSONToDb, deleteJSONFromDb } from '../helper';
 import { useOutletContext } from "react-router-dom";
 
 const StyledCartItem = styled.article`
-    height: 300px;
+    // height: 300px;
     max-width: 90vw;
     padding: 10px;
     margin-bottom: 10px;

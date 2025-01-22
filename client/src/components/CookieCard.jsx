@@ -1,11 +1,13 @@
-import {useEffect, useState, useContext} from 'react'
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Tags from "./Tags"
-import { deleteJSONFromDb, getReviewsByCookieId, postJSONToDb, userLogout } from "../helper";
+import Tags from "./Tags";
+import { deleteJSONFromDb, postJSONToDb } from "../helper";
 import Rating from './Rating';
-import {useOutletContext} from "react-router-dom";
-import {UserContext} from '../context/userProvider'
+import { useOutletContext } from "react-router-dom";
+import { UserContext } from '../context/userProvider';
+import Button from 'react-bootstrap/Button';  // Import React Bootstrap Button
+import { FaCartPlus, FaRegHeart } from 'react-icons/fa';  // Cart and Heart icons from React Icons
 
 const StyledCookieCard = styled.article`
     height: 500px;
@@ -23,7 +25,7 @@ const StyledCookieCard = styled.article`
     }
 `
 
-const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, frosting, reviews, favorites, cartItems}) => {
+const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, frosting, reviews, favorites, cartItems }) => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
     const { cartOrder, addCookieToCart, removeCookieFromCart, addCookieToFavorites, removeCookieFromFavorites } = useOutletContext();
@@ -36,20 +38,20 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
         if (user) {
             const userFavorite = favorites.filter((favorite) => favorite.userId === user.id);
             if (userFavorite.length > 0) {
-            setFavoriteId(userFavorite[0].id);
+                setFavoriteId(userFavorite[0].id);
             } else {
-            setFavoriteId("");
+                setFavoriteId("");
             }
         }
     }, [favorites, user]);
 
     useEffect(() => {
-        if (cartItems){
+        if (cartItems) {
             const userCart = cartItems.filter((cartItem) => cartItem.order_id === cartOrder.id);
             if (userCart.length > 0) {
-            setCartId(userCart[0].id);
+                setCartId(userCart[0].id);
             } else {
-            setCartId("");
+                setCartId("");
             }
         }
     }, [cartItems, user]);
@@ -57,20 +59,16 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
     // Update average review when reviews change
     useEffect(() => {
         if (reviews.length > 0) {
-        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-        const average = totalRating / reviews.length;
-        setAvgReview(average);
+            const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+            const average = totalRating / reviews.length;
+            setAvgReview(average);
         } else {
-        setAvgReview(0);
+            setAvgReview(0);
         }
     }, [reviews]);
 
     function handleClick() {
         navigate(`/menu/${id}`);
-    }
-
-    function handleClickHeart() {
-        console.log('clicked heart');
     }
 
     function addToCart() {
@@ -81,11 +79,11 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
         }
 
         postJSONToDb("cart_items", body)
-        .then(cartItem=>{
-            console.log(`Added to cart: ${cartItem}`)
-            addCookieToCart(cartItem);
-            setCartId(cartItem.id);
-        })
+            .then(cartItem => {
+                console.log(`Added to cart: ${cartItem}`);
+                addCookieToCart(cartItem);
+                setCartId(cartItem.id);
+            })
     }
 
     function removeFromCart() {
@@ -101,61 +99,55 @@ const CookieCard = ({id, name, image, price, isVegan, isGlutenFree, hasNuts, fro
         }
 
         postJSONToDb("favorites", body)
-        .then(favorite=>{
-            console.log(`Added to favorites: ${favorite}`)
-            addCookieToFavorites(favorite);
-            setFavoriteId(id, favorite.id);
-        })
+            .then(favorite => {
+                console.log(`Added to favorites: ${favorite}`);
+                addCookieToFavorites(favorite);
+                setFavoriteId(favorite.id);
+            })
     }
 
     function removeFromFavorites() {
-        deleteJSONFromDb("favorites", favoriteId)
+        deleteJSONFromDb("favorites", favoriteId);
         removeCookieFromFavorites(id, favoriteId);
         setFavoriteId("");
     }
 
-    const tags = []
+    const tags = [];
     if (isVegan) {
-        tags.push("Vegan")
+        tags.push("Vegan");
     }
 
     if (isGlutenFree) {
-        tags.push("GF")
+        tags.push("GF");
     }
 
     if (hasNuts) {
-        tags.push("Contains Nuts")
+        tags.push("Contains Nuts");
     }
 
     return (
-        <StyledCookieCard
-        >
+        <StyledCookieCard>
             <h2>{name}</h2>
             <h3>`Frosting: {frosting ? frosting : 'None'}`</h3>
             <span>${price}</span>
-            <img 
+            <img
                 onClick={handleClick}
                 src={`images/menu_items/${image}`}
                 alt={name}
-            >
-            </img>
-            <Rating rating={avgReview}/>
+            />
+            <Rating rating={avgReview} />
             <p>{`Based on ${reviews.length} Reviews`}</p>
             <p>{`Favorited by ${favorites.length} Users`}</p>
-            <Tags
-                tags={tags}
-            />
+            <Tags tags={tags} />
             {cartItems &&
                 <>
                     {favoriteId ?
-                        <button onClick={removeFromFavorites}>Remove from Favorites</button>
-                    :
-                        <button onClick={addToFavorites}>Add to Favorites</button>
+                        <Button variant="outline-danger" onClick={removeFromFavorites}><FaRegHeart /> Remove from Favorites</Button> :
+                        <Button variant="outline-primary" onClick={addToFavorites}><FaRegHeart /> Add to Favorites</Button>
                     }
                     {cartId ?
-                        <button onClick={removeFromCart}>Remove from Cart</button>
-                    :
-                        <button onClick={addToCart}>Add to Cart</button>
+                        <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button> :
+                        <Button variant="success" onClick={addToCart}><FaCartPlus /> Add to Cart</Button>
                     }
                 </>
             }

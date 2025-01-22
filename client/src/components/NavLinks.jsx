@@ -1,17 +1,24 @@
-import { useContext } from "react";
-import { StyledNavLink } from "../MiscStyling";
-import { userLogout } from "../helper";
-import {UserContext} from '../context/userProvider'
+import { useContext, useState } from "react";
+import { StyledMenuItem, StyledNavLink } from "../MiscStyling";
+import { UserContext } from '../context/userProvider';
+import { FaShoppingCart, FaUserAlt } from 'react-icons/fa'; // Import icons
+import { Badge } from 'react-bootstrap'; // For cart item count badge
+import AccountDropdown from "./AccountDropdown";
+import styled from "styled-components";
 
-function NavLinks({handleClick}) {
-  const { user, setUser } = useContext(UserContext);
+const StyledAccountIcon = styled.div`
+  ${StyledMenuItem}
+  position: relative;
+`
 
-  const handleAccountToggle = () => {
-    if (user) {
-      userLogout();
-      setUser(null);
-    }
-  }
+function NavLinks({ handleClick }) {
+  const { cartOrder } = useContext(UserContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
 
   return (
     <>
@@ -20,36 +27,32 @@ function NavLinks({handleClick}) {
         className="nav-link"
         onClick={handleClick}
       >
-          Menu
-      </StyledNavLink>
-      <StyledNavLink
-        to="/account_details"
-        className="nav-link"
-        onClick={handleClick}
-      >
-          Account Details
+        Menu
       </StyledNavLink>
       <StyledNavLink
         to="/cart"
         className="nav-link"
         onClick={handleClick}
       >
-          Cart
+        <FaShoppingCart />
+        {/* Cart bubble showing item count */}
+        {cartOrder && cartOrder.cartItems && (
+          <Badge bg="danger" style={{ position: 'absolute', top: '-5px', right: '-10px' }}>
+            {cartOrder.cartItems.length}
+          </Badge>
+        )}
       </StyledNavLink>
-      <StyledNavLink
-        to="/order_history"
+      <StyledAccountIcon
         className="nav-link"
-        onClick={handleClick}
+        onMouseOver={()=>setIsMenuOpen(true)}
+        onMouseOut={()=>setIsMenuOpen(false)}
       >
-          Order History
-      </StyledNavLink>
-      <StyledNavLink
-        to="/login"
-        className="nav-link"
-        onClick={handleAccountToggle}
-      >
-          {user ? 'Logout' : 'Login'}
-      </StyledNavLink>
+        <FaUserAlt />
+      </StyledAccountIcon>
+      <AccountDropdown 
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+      />
     </>
   );
 };
