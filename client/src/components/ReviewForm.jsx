@@ -28,7 +28,7 @@ const ReviewContainer = styled.div`
     position: absolute;
     top: 60%;
     padding: 20px;
-    background: var(--cookie);
+    background: var(--light-green);
     align-items: center;
 
     .form-input {
@@ -111,7 +111,7 @@ function ReviewForm({ cookie, setActiveReview }) {
       <CloseButton onClick={()=>setActiveReview(null)}/>
         {(!isSubmitted) ? (
           <>
-            <h1>{`Review ${cookie.name}`}</h1>
+            <h1>{`Review ${cookie.name} Cookie`}</h1>
             <CookieCard {...cookie}/>
             <form onSubmit={handleSubmit}>
               <Rating rating={formData.rating} handleStarClick={updateRating}/>

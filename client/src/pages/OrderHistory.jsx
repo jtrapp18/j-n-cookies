@@ -1,11 +1,11 @@
-import {useState, useEffect, useContext} from 'react';
+import {useState, useContext} from 'react';
 import Login from './Login'
 import styled from 'styled-components';
 import OrderCard from '../components/OrderCard';
-import {getJSON, snakeToCamel} from '../helper'
 import {UserContext} from '../context/userProvider'
 import ReviewForm from '../components/ReviewForm';
 import {useOutletContext} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const StyledMain = styled.main`
   min-height: var(--size-body);
@@ -13,6 +13,11 @@ const StyledMain = styled.main`
   90vh;
   display: flex;
   flex-direction: column;
+
+  a:hover {
+    text-decoration: underline;
+    color: blue;
+  }
 `
 
 const CardContainer = styled.div`
@@ -38,7 +43,15 @@ const OrderHistory = () => {
   if (showOrders.length===0) {
     return (
       <StyledMain>
-        <h1>No Past Orders</h1>
+        <div>
+          <h1>No Past Orders</h1>
+          <NavLink
+            to="/menu"
+            className="nav-link"
+          >
+            <h3>Check out our cookie menu!</h3>        
+          </NavLink>
+        </div>
       </StyledMain>
     );
   }

@@ -1,13 +1,14 @@
 import styled from "styled-components";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { StyledNavLink } from "../MiscStyling";
-import NavLinks from "./NavLinks";
 import { scrollToTop } from "../helper";
+import { UserContext } from '../context/userProvider';
+import { userLogout } from "../helper";
 
 // Styled components
 
 const StyledDiv = styled.div`
-    justify-content: right;
+    // justify-content: right;
     height: var(--height-header);
     position: relative;
     background: white;
@@ -15,13 +16,12 @@ const StyledDiv = styled.div`
     align-items: center;
 `
 const LinkContainer = styled.div`
-  position: absolute;
+  position: fixed;
   top: calc(var(--height-header) + 3px);
-  // scroll-y: none;
   
   left: 0;
   z-index: 1000;
-  width: 100%;
+  width: 100vw;
   text-decoration: none;
   text-align: right;
   background: white;
@@ -64,7 +64,7 @@ const HamburgerButton = styled.button`
   background: transparent;
   border: none;
   color: black;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   cursor: pointer;
   padding-right: 30px;
   transition: transform 1s ease;
@@ -89,6 +89,7 @@ const HamburgerButton = styled.button`
 
 // MobileNavBar Component
 const MobileNavBar = () => {
+  const { user, setUser } = useContext(UserContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cardRef = useRef(null); // Create a reference to the card element
 
@@ -106,6 +107,14 @@ const MobileNavBar = () => {
     scrollToTop();
     setIsMenuOpen(false); // Close menu after navigation
   };
+
+  const handleAccountToggle = () => {
+    if (user) {
+      userLogout();
+      setUser(null);
+      setIsMenuOpen(false);
+    }
+  }
 
   useEffect(() => {
     // Add event listener to detect clicks outside
@@ -129,9 +138,36 @@ const MobileNavBar = () => {
           className="nav-link"
           onClick={handleClick}
         >
-          home
+          Home
         </StyledNavLink>
-        <NavLinks handleClick={handleClick}/>
+        <StyledNavLink
+          to="/menu"
+          className="nav-link"
+          onClick={handleClick}
+        >
+          Menu
+        </StyledNavLink>
+        <StyledNavLink
+          to="/cart"
+          className="nav-link"
+          onClick={handleClick}
+        >
+          Cart
+        </StyledNavLink>
+        <StyledNavLink
+          to="/account_details"
+          className="nav-link"
+          onClick={handleClick}
+        >
+          Account Details
+        </StyledNavLink>
+        <StyledNavLink
+          to="/logout"
+          className="nav-link"
+          onClick={handleAccountToggle}
+          >
+            {user ? 'Logout' : 'Login'}
+        </StyledNavLink>
       </LinkContainer>
       <HamburgerButton 
         className={isMenuOpen ? "open" : ""} 

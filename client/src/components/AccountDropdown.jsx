@@ -54,7 +54,7 @@ const StyledNavLink = styled(NavLink)`
   position: relative;
   cursor: pointer;
   padding: 10px;
-  font-size: clamp(1.5rem, 1.5vw, 2.2rem);
+  font-size: clamp(1.2rem, 1.5vw, 2.2rem);
 
   &.active {
     text-decoration: overline;

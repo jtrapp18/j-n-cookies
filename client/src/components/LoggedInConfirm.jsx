@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { userLogout } from "../helper";
 import styled from "styled-components";
-import {UserContext} from '../context/userProvider'
+import {UserContext} from '../context/userProvider';
 import { NavLink } from "react-router-dom";
 
 const StyledDiv = styled.div`
