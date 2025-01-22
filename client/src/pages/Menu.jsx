@@ -14,12 +14,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  section {
-    width: 100%;
-    display: flex;
-    justiry-content: space-between;
-  }
+}
 `
 
 const CardContainer = styled.div`
