@@ -9,13 +9,14 @@ const StyledMain = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, var(--dark-purple), white);
+  background: linear-gradient(to bottom, var(--green), white);
 
   h1 {
     font-size: clamp(2rem, 6vw, 5rem);
     background: var(--dark-chocolate);
     color: var(--cookie);
     font-family: 'RubikMoonrocks';
+    border-radius: 200px;
   }
 
   .carousel {

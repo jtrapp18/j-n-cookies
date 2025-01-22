@@ -11,6 +11,7 @@ const Error = styled.button`
 `
 
 const Input = styled.input`
+
 `
 
 const FormField = styled.div`
@@ -40,6 +41,7 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Login</h1>
       <FormField>
         <Label htmlFor="username">Username</Label>
         <Input

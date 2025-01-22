@@ -3,6 +3,7 @@ import { useContext, useRef, useEffect } from "react";
 import { scrollToTop } from "../helper";
 import { UserContext } from '../context/userProvider';
 import { NavLink } from "react-router-dom";
+import { userLogout } from "../helper";
 
 // Styled components
 

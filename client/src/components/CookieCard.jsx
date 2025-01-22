@@ -8,6 +8,7 @@ import { useOutletContext } from "react-router-dom";
 import { UserContext } from '../context/userProvider';
 import Button from 'react-bootstrap/Button';
 import { FaCartPlus, FaRegHeart } from 'react-icons/fa';
+import NotLoggedInToast from './NotLoggedInToast';
 
 const StyledCookieCard = styled.article`
     height: 500px;
@@ -32,6 +33,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
     const [avgReview, setAvgReview] = useState(0);
     const [favoriteId, setFavoriteId] = useState("");
     const [cartId, setCartId] = useState("");
+    const [showToast, setShowToast] = useState(false);
 
     // Update favoriteId when favorites or user changes
     useEffect(() => {
@@ -47,7 +49,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
 
     useEffect(() => {
         if (cartItems) {
-            const userCart = cartItems.filter((cartItem) => cartItem.order_id === cartOrder.id);
+            const userCart = cartItems.filter((cartItem) => cartItem.orderId === cartOrder.id);
             if (userCart.length > 0) {
                 setCartId(userCart[0].id);
             } else {
@@ -74,18 +76,22 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
     }
 
     function addToCart() {
-        const body = {
-            numCookies: 1,
-            orderId: cartOrder.id,
-            cookieId: id
+        if (!user) {
+            setShowToast(true);
         }
-
-        postJSONToDb("cart_items", body)
-            .then(cartItem => {
-                console.log(`Added to cart: ${cartItem}`);
-                addCookieToCart(cartItem);
-                setCartId(cartItem.id);
-            })
+        else {
+            const body = {
+                orderId: cartOrder.id,
+                cookieId: id
+            }
+    
+            postJSONToDb("cart_items", body)
+                .then(cartItem => {
+                    console.log(`Added to cart: ${cartItem}`);
+                    addCookieToCart(cartItem);
+                    setCartId(cartItem.id);
+                })
+        }
     }
 
     function removeFromCart() {
@@ -95,17 +101,23 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
     }
 
     function addToFavorites() {
-        const body = {
-            userId: user.id,
-            cookieId: id
+        console.log(user)
+        if (!user) {
+            setShowToast(true);
         }
+        else {
+            const body = {
+                userId: user.id,
+                cookieId: id
+            }
 
-        postJSONToDb("favorites", body)
-            .then(favorite => {
-                console.log(`Added to favorites: ${favorite}`);
-                addCookieToFavorites(favorite);
-                setFavoriteId(favorite.id);
-            })
+            postJSONToDb("favorites", body)
+                .then(favorite => {
+                    console.log(`Added to favorites: ${favorite}`);
+                    addCookieToFavorites(favorite);
+                    setFavoriteId(favorite.id);
+                })
+        }
     }
 
     function removeFromFavorites() {
@@ -129,6 +141,9 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
 
     return (
         <StyledCookieCard className="cookie-card">
+            {showToast &&
+                <NotLoggedInToast onClose={() => setShowToast(false)}/>            
+            }
             <h2>{name}</h2>
             <h3>`Frosting: {frosting ? frosting : 'None'}`</h3>
             <span>${price}</span>

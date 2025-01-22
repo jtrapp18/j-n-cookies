@@ -9,12 +9,27 @@ const StyledMain = styled.main`
   margin: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 
   form {
-    width: 200px;
+    width: 300px;
     max-width: 90vw;
+    background: var(--cookie);
+    padding: 50px;
+    border: 3px double var(--dark-chocolate);
+
+    h1 {
+      background: var(--dark-chocolate);
+      color: var(--cookie);
+      font-family: 'RubikMoonrocks';
+      padding: 5px;
+      border-radius: 200px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+    }
   }
 
 `
