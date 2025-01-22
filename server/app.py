@@ -26,16 +26,23 @@ class ClearSession(Resource):
         return {}, 204
 
 class Signup(Resource):
-
     def post(self):
-        json = request.get_json()
-        user = User(
-            username=json['username']
-        )
-        user.password_hash = json['password']
-        db.session.add(user)
-        db.session.commit()
-        return user.to_dict(), 201
+        try:
+            json = request.get_json()
+            # Check if 'username' and 'password' are provided
+            if 'username' not in json or 'password' not in json:
+                return {'message': 'Username and password are required.'}, 400
+
+            user = User(username=json['username'])
+            user.password_hash = json['password']
+            db.session.add(user)
+            db.session.commit()
+
+            return user.to_dict(), 201
+        except Exception as e:
+            db.session.rollback()  # Rollback any changes made in the transaction
+            return {'message': f'An error occurred: {str(e)}'}, 500
+    
 
 class CheckSession(Resource):
 
@@ -49,20 +56,29 @@ class CheckSession(Resource):
         return {}, 204
 
 class Login(Resource):
-
     def post(self):
-        json = request.get_json()
+        try:
+            json = request.get_json()
 
-        username = json['username']
-        user = User.query.filter_by(username=username).first()
+            # Check if 'username' and 'password' are provided
+            if 'username' not in json or 'password' not in json:
+                return {'message': 'Username and password are required.'}, 400
 
-        password = json['password']
+            username = json['username']
+            user = User.query.filter_by(username=username).first()
 
-        if user.authenticate(password):
-            session['user_id'] = user.id
-            return user.to_dict(), 200
+            if not user:
+                return {'error': 'Invalid username or password'}, 401
 
-        return {'error': 'Invalid username or password'}, 401
+            password = json['password']
+
+            if user.authenticate(password):
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+
+            return {'error': 'Invalid username or password'}, 401
+        except Exception as e:
+            return {'message': f'An error occurred: {str(e)}'}, 500
 
 class Logout(Resource):
     
@@ -78,15 +94,31 @@ class Orders(Resource):
         orders = [order.to_dict() for order in Order.query.filter_by(user_id=user_id)]
         return make_response(jsonify(orders), 200)
     
-    def post(self):
-        data = request.get_json()
-        new_order = Order(
-            purchase_complete=data['purchase_complete'],
-            user_id=data['user_id']
-        )
-        db.session.add(new_order)
-        db.session.commit()
-        return make_response(jsonify(new_order.to_dict()), 201)
+def post(self):
+        try:
+            # Get data from the request
+            data = request.get_json()
+
+            # Check if the necessary keys exist in the data
+            if 'purchase_complete' not in data or 'user_id' not in data:
+                return {'message': 'Purchase complete and user ID are required.'}, 400
+
+            # Create new order
+            new_order = Order(
+                purchase_complete=data['purchase_complete'],
+                user_id=data['user_id']
+            )
+
+            # Add the new order to the database and commit
+            db.session.add(new_order)
+            db.session.commit()
+
+            # Return the created order as a response
+            return make_response(jsonify(new_order.to_dict()), 201)
+        except Exception as e:
+            # Rollback any changes made during the transaction if an error occurs
+            db.session.rollback()
+            return {'message': f'An error occurred: {str(e)}'}, 500
 
 class OrderById(Resource):
     def get(self, order_id):
@@ -143,6 +175,32 @@ class CartItems(Resource):
         return make_response(jsonify(cart_items), 200)
     
     def post(self):
+
+        try:
+            # Get data from the request
+            data = request.get_json()
+
+            # Check if the necessary keys exist in the data
+            if 'num_cookies' not in data or 'order_id' not in data or 'cookie_id' not in data:
+                return {'message': 'Number of cookies, order ID, and cookie ID are required.'}, 400
+
+            # Create new cart item
+            new_cart_item = CartItem(
+                num_cookies=data['num_cookies'],
+                order_id=data['order_id'],
+                cookie_id=data['cookie_id']
+            )
+
+            # Add the new cart item to the database and commit
+            db.session.add(new_cart_item)
+            db.session.commit()
+
+            # Return the created cart item as a response
+            return make_response(jsonify(new_cart_item.to_dict()), 201)
+        except Exception as e:
+            # Rollback any changes made during the transaction if an error occurs
+            db.session.rollback()
+            return {'message': f'An error occurred: {str(e)}'}, 500
         data = request.get_json()
         new_cart_item = CartItem(
             order_id=data['order_id'],
@@ -152,6 +210,7 @@ class CartItems(Resource):
         db.session.commit()
         return make_response(jsonify(new_cart_item.to_dict()), 201)
     
+
 class CartItemById(Resource):
 
     def patch(self, item_id):
@@ -172,18 +231,32 @@ class CartItemById(Resource):
         db.session.commit()
         return make_response({}, 204)
 
-
 class Favorites(Resource):
-
     def post(self):
-        data = request.get_json()
-        new_favorite = Favorite(
-            user_id=data['user_id'],
-            cookie_id=data['cookie_id']
-        )
-        db.session.add(new_favorite)
-        db.session.commit()
-        return make_response(jsonify(new_favorite.to_dict()), 201)
+        try:
+            # Get data from the request
+            data = request.get_json()
+
+            # Check if the necessary keys exist in the data
+            if 'user_id' not in data or 'cookie_id' not in data:
+                return {'message': 'User ID and cookie ID are required.'}, 400
+
+            # Create new favorite
+            new_favorite = Favorite(
+                user_id=data['user_id'],
+                cookie_id=data['cookie_id']
+            )
+
+            # Add the new favorite to the database and commit
+            db.session.add(new_favorite)
+            db.session.commit()
+
+            # Return the created favorite as a response
+            return make_response(jsonify(new_favorite.to_dict()), 201)
+        except Exception as e:
+            # Rollback any changes made during the transaction if an error occurs
+            db.session.rollback()
+            return {'message': f'An error occurred: {str(e)}'}, 500
 
 class FavoriteById(Resource):
 
@@ -195,10 +268,36 @@ class FavoriteById(Resource):
         db.session.commit()
         return make_response('', 204)
              
-
 class Reviews(Resource):
-
     def post(self):
+
+        try:
+            # Get data from the request
+            data = request.get_json()
+
+            # Check if the necessary keys exist in the data
+            if 'rating' not in data or 'review_text' not in data or 'user_id' not in data or 'cookie_id' not in data:
+                return {'message': 'Rating, review text, user ID, and cookie ID are required.'}, 400
+
+            # Create new review
+            new_review = Review(
+                rating=data['rating'],
+                review_text=data['review_text'],
+                user_id=data['user_id'],
+                cookie_id=data['cookie_id']
+            )
+
+            # Add the new review to the database and commit
+            db.session.add(new_review)
+            db.session.commit()
+
+            # Return the created review as a response
+            return make_response(jsonify(new_review.to_dict()), 201)
+        except Exception as e:
+            # Rollback any changes made during the transaction if an error occurs
+            db.session.rollback()
+            return {'message': f'An error occurred: {str(e)}'}, 500
+
         data = request.get_json()
         new_review = Review(
             rating=data['rating'],
@@ -209,6 +308,7 @@ class Reviews(Resource):
         db.session.add(new_review)
         db.session.commit()
         return make_response(jsonify(new_review.to_dict()), 201)
+
 
 class ReviewsByCookie(Resource):
 
