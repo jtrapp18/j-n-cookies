@@ -167,7 +167,7 @@ class CartItemById(Resource):
         cart_item_dict = cart_item.to_dict()
         db.session.delete(cart_item)
         db.session.commit()
-        return make_response(cart_item_dict, 204)
+        return make_response({}, 204)
 
 
 class Favorites(Resource):

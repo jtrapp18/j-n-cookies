@@ -125,9 +125,7 @@ function deleteJSONFromDb(dbKey, Id) {
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
-    return res.json();
   })
-  .then(data => console.log("DELETED", data))
   .catch(e => console.error(e));
 }
 

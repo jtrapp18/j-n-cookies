@@ -6,8 +6,8 @@ import { deleteJSONFromDb, postJSONToDb } from "../helper";
 import Rating from './Rating';
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from '../context/userProvider';
-import Button from 'react-bootstrap/Button';  // Import React Bootstrap Button
-import { FaCartPlus, FaRegHeart } from 'react-icons/fa';  // Cart and Heart icons from React Icons
+import Button from 'react-bootstrap/Button';
+import { FaCartPlus, FaRegHeart } from 'react-icons/fa';
 
 const StyledCookieCard = styled.article`
     height: 500px;

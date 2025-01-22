@@ -6,19 +6,51 @@ import {getJSON, snakeToCamel} from '../helper'
 import {UserContext} from '../context/userProvider'
 import {useOutletContext} from "react-router-dom";
 import CartItem from '../components/CartItem';
-import OrderSummary from '../components/OrderSummary';
+import Button from 'react-bootstrap/Button';
 
 const StyledMain = styled.main`
+  padding: 20px;
+  90vh;
+  display: flex;
+`
+const StyledOrderSummary = styled.article`
+    padding: 20px;
+    margin: 10px;
+    height: 100%;
+    width: 50%;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: var(--shadow);
+
+    h3 {
+      font-size: clamp(1rem, 1.8vw, 1.1rem)
+    }
 `
 
 const CardContainer = styled.div`
+  padding: 20px;
+  margin: 10px;
   display: grid;
-  // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  width: 50%;
+  box-shadow: var(--shadow);
+
+  article {
+    zoom: .7;
+  }
 `
 
 const Cart = () => {
   const { user, setUser } = useContext(UserContext);
   const { orders, cartOrder } = useOutletContext();
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  // Update average review when reviews change
+  useEffect(() => {
+    if (cartOrder && cartOrder.cartItems.length > 0) {
+      const totalPrice = cartOrder.cartItems.reduce((sum, item) => sum + (item.cookie.price * item.numCookies), 0);
+      setTotalPrice(totalPrice.toFixed(2));
+    }
+  }, [cartOrder]);
 
   if (!user) return <Login />
 
@@ -29,26 +61,31 @@ const Cart = () => {
   if (cartOrder.cartItems.length===0) {
     return (
       <StyledMain>
-        <h1>Cart</h1>
-        <p>Your cart is currently empty.</p>
+        <h1>Your Cart is Empty</h1>
       </StyledMain>
     );
   }
 
   return (
       <StyledMain>
-        <h1>Cart</h1>
         <CardContainer>
-          <OrderSummary
-            {...cartOrder}
-          />
+          <h2>Shopping Cart</h2>         
           {cartOrder.cartItems.map(cartItem=>
-            <CartItem
-                key={cartItem.id}
-                {...cartItem}
-            />
+            <>
+              <CartItem
+                  key={cartItem.id}
+                  {...cartItem}
+              />
+              <hr />
+            </>
           )}
         </CardContainer>
+        <StyledOrderSummary>
+          <h3>Subtotal ({2}) Items: <strong>${totalPrice}</strong></h3>
+          <p>Order ID: {cartOrder.id}</p>
+          <hr />
+          <Button variant="success">Proceed to Checkout</Button>
+        </StyledOrderSummary>
       </StyledMain>
     );
   };

@@ -3,15 +3,16 @@ import styled from "styled-components";
 import CookieCard from '../components/CookieCard';
 import { patchJSONToDb, deleteJSONFromDb } from '../helper';
 import { useOutletContext } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 const StyledCartItem = styled.article`
-    // height: 300px;
+    margin: 10px;
     max-width: 90vw;
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
-    box-shadow: var(--shadow);
-    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
 
     img {
         height: 50%;
@@ -49,28 +50,29 @@ function CartItem({ id, cookie, numCookies }) {
 
     function removeFromCart() {
         deleteJSONFromDb("cart_items", id)
-            .then(() => {
-                removeCookieFromCart(id);
-                updateCookieCount(id, 0);
-            })
-            .catch((error) => console.error("Failed to remove from cart:", error));
+        removeCookieFromCart(id);
+        updateCookieCount(id, 0);
     }
 
     return (
         <StyledCartItem>
             <CookieCard {...cookie} />
-            <label htmlFor="numCookies">Number of Cookies:</label>
-            <div className="input-wrapper">
-                <input
-                    type="number"
-                    id="numCookies"
-                    value={newNumCookies}
-                    onChange={handleInputChange}
-                    min="0"
-                    disabled={isUpdating} // Optional: disable while updating
-                />
+            <div>
+                <label htmlFor="numCookies">Number of Cookies:</label>
+                <div className="input-wrapper">
+                    <input
+                        type="number"
+                        id="numCookies"
+                        value={newNumCookies}
+                        onChange={handleInputChange}
+                        min={0}
+                        disabled={isUpdating} // Optional: disable while updating
+                    />
+                </div>
+                <hr />
+                <p>Subtotal: <strong>{cookie.price*numCookies}</strong></p>
+                <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
             </div>
-            <button onClick={removeFromCart}>Remove from Cart</button>
         </StyledCartItem>
     );
 }
