@@ -9,13 +9,24 @@ import {useOutletContext} from "react-router-dom";
 
 const StyledMain = styled.main`
   min-height: var(--size-body);
+  padding: 20px;
+  90vh;
+  display: flex;
+  flex-direction: column;
 `
 
 const CardContainer = styled.div`
+  padding: 20px;
+  margin: 10px;
   display: grid;
-`
-  // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  // box-shadow: var(--shadow);
+  gap: 0;
 
+  // article.cookie-card {
+  //   transform: scale(.7);
+  //   transform-origin: top left;
+  // }
+`
 
 const OrderHistory = () => {
   const { user, setUser} = useContext(UserContext);

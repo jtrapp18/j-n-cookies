@@ -12,7 +12,8 @@ const StyledOrderCard = styled.article`
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
-    border-radius: 10px;
+    // border-radius: 10px;
+    background: var(--cookie);
 `
 
 const OrderCard = ({order, setActiveReview}) => {

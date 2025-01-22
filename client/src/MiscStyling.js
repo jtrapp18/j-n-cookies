@@ -3,7 +3,6 @@ import styled, {css} from "styled-components";
 import { Link } from "react-scroll";
 
 const StyledMenuItem = css`
-  color: black;
   text-decoration: none;
   position: relative;
   padding: 0px 10px 0px 10px;

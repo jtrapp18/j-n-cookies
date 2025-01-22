@@ -17,7 +17,7 @@ const ReviewContainer = styled.div`
 `
 
 const StyledRating = styled.div`
-  background: var(--light-gray);
+  background: var(--cookie);
   padding: 1%;
   margin: 2%
 `

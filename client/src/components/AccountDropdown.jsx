@@ -9,15 +9,13 @@ import { NavLink } from "react-router-dom";
 const LinkContainer = styled.div`
   position: absolute;
   top: 25px;
-  background: white;
-  
   left: 0;
   z-index: 1000;
   width: 100%;
   text-decoration: none;
   text-align: right;
-  background: var(--light-gray);
-  border-bottom: 3px solid var(--green);
+  background: var(--cookie);
+  border-bottom: 3px solid var(--dark-chocolate);
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Ensures smooth animation */
@@ -51,7 +49,6 @@ const LinkContainer = styled.div`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  color: black;
   text-decoration: none;
   position: relative;
   cursor: pointer;
@@ -59,7 +56,7 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     text-decoration: overline;
     text-decoration-thickness: 2px;
-    color: var(--green);
+    color: var(--chocolate);
   }
 
   &:hover {

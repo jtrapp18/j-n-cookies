@@ -9,11 +9,11 @@ const StyledCartItem = styled.article`
     margin: 10px;
     max-width: 90vw;
     padding: 10px;
-    margin-bottom: 10px;
     position: relative;
     display: flex;
     justify-content: space-between;
-
+    height: 400px;
+    
     img {
         height: 50%;
         box-shadow: var(--shadow);

@@ -6,7 +6,7 @@ const Rating = ({rating, handleStarClick}) => {
   return (
     <StarRatings
       rating={rating}
-      starRatedColor="yellow"
+      starRatedColor="var(--dark-chocolate)"
       changeRating={(newRating) => handleStarClick(newRating)}
       numberOfStars={5}
       starDimension="30px"

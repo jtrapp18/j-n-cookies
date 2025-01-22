@@ -3,15 +3,22 @@ import styled from "styled-components";
 
 const StyledOrderDetail = styled.article`
     height: 100%;
-    width: 50%;
+    width: 60%;
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
-    box-shadow: var(--shadow);
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 
     span {
-        border-bottom: 1px solid gray;
+        border-bottom: 1px solid var(--dark-chocolate);
+        line-height: 3;
+    }
+
+    button {
+        margin-left: 20px;
+        height: 40px;
+        align-items: center;
     }
 `
 

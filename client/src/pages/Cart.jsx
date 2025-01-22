@@ -10,14 +10,13 @@ import { NavLink } from "react-router-dom";
 const StyledMain = styled.main`
   min-height: var(--size-body);
   padding: 20px;
-  90vh;
   display: flex;
 `
 const StyledOrderSummary = styled.article`
     padding: 20px;
     margin: 10px;
     height: 100%;
-    width: 50%;
+    width: 40%;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
@@ -31,11 +30,19 @@ const CardContainer = styled.div`
   padding: 20px;
   margin: 10px;
   display: grid;
-  width: 50%;
+  width: 60%;
   box-shadow: var(--shadow);
+  gap: 0;
 
-  article {
-    zoom: .7;
+  article.cookie-card {
+    transform: scale(.7);
+    transform-origin: top left;
+  }
+
+  h2 {
+    padding: 0;
+    margin: 0;
+    line-height: 1;
   }
 `
 

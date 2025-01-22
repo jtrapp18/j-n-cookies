@@ -128,7 +128,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
     }
 
     return (
-        <StyledCookieCard>
+        <StyledCookieCard className="cookie-card">
             <h2>{name}</h2>
             <h3>`Frosting: {frosting ? frosting : 'None'}`</h3>
             <span>${price}</span>

@@ -3,7 +3,7 @@
   --green: #4E7839;
   --chocolate: #542E28;
   --dark-chocolate: #432A28;
-  --cookie: #D29D72;
+  --cookie: #EDD0A3;
   --brown: #6B4226;
   --dark-purple: #301934;
   --light-green: #9DC183;
@@ -87,7 +87,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3 {
+h1, h2 {
   font-family: var(--title-font), sans-serif;
 }
 
@@ -106,9 +106,10 @@ h2 {
 
 h3 {
   font-size: clamp(.9rem, 2vw, 1.25rem);
+  font-family: var(--default-font)
 }
 
-p, label, i, li, a, button, span, option, select {
+p, label, i, li, a, button, span, option, select, input, textarea {
   font-size: var(--default-font-size);
   font-family: var(--default-font);
   color: var(--font-color-2);
