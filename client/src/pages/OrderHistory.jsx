@@ -19,13 +19,7 @@ const CardContainer = styled.div`
   padding: 20px;
   margin: 10px;
   display: grid;
-  // box-shadow: var(--shadow);
   gap: 0;
-
-  // article.cookie-card {
-  //   transform: scale(.7);
-  //   transform-origin: top left;
-  // }
 `
 
 const OrderHistory = () => {

@@ -11,6 +11,12 @@ const StyledMain = styled.main`
   min-height: var(--size-body);
   padding: 20px;
   display: flex;
+  justify-content: center;
+
+  a:hover {
+    text-decoration: underline;
+    color: blue;
+  }
 `
 const StyledOrderSummary = styled.article`
     padding: 20px;
@@ -68,7 +74,15 @@ const Cart = () => {
   if (cartOrder.cartItems.length===0) {
     return (
       <StyledMain>
-        <h1>Your Cart is Empty</h1>
+        <div>
+          <h1>Your Cart is Empty</h1>
+          <NavLink
+            to="/menu"
+            className="nav-link"
+          >
+            <h3>Check out our cookie menu!</h3>        
+          </NavLink>
+        </div>
       </StyledMain>
     );
   }
