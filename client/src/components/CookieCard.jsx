@@ -11,19 +11,54 @@ import { FaCartPlus, FaRegHeart } from 'react-icons/fa';
 import NotLoggedInToast from './NotLoggedInToast';
 
 const StyledCookieCard = styled.article`
-    height: 500px;
     max-width: 90vw;
     padding: 10px;
     margin-bottom: 10px;
-    position: relative;
     box-shadow: var(--shadow);
-    border-radius: 10px;
+    border-radius: 10px;  
+    background: var(--light-green);
 
-    img {
-        height: 40%;
-        box-shadow: var(--shadow);
-        // border-radius: 10px;
+    .btn-container {
+        height: 15%;
+        padding-top: 2%;
+        border-top: 3px double var(--dark-chocolate);
+        justify-content: end;
+        display: flex;
+    }
 
+    .main-cookie {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        height: 80%;
+        cursor: pointer;
+
+        img {
+            width: 90%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+        
+        section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            padding: 2%;
+            justify-content: center;
+
+            h3 {
+            font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+            }
+
+            .price {
+            font-size: clamp(2rem, 3.5vw, 4rem);
+            }
+
+            .cookie-info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
     }
 `
 
@@ -144,33 +179,45 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
 
     return (
         <StyledCookieCard className="cookie-card">
-            {showToast &&
-                <NotLoggedInToast onClose={() => setShowToast(false)}/>            
-            }
-            <h2>{name}</h2>
-            <h3>Frosting: {frosting ? frosting : 'None'}</h3>
-            <span>${price}</span>
-            <img
+            <div 
+                className="main-cookie"
                 onClick={handleClick}
-                src={`images/menu_items/${image}`}
-                alt={name}
-            />
-            <Tags tags={tags} />
-            {cartItems &&
-                <>
-                    <Rating rating={avgReview} />
-                    <p>{`Based on ${reviews.length} Reviews`}</p>
-                    <p>{`Favorited by ${favorites.length} Users`}</p>
-                    {favoriteId ?
-                        <Button variant="outline-danger" onClick={removeFromFavorites}><FaRegHeart /> Remove from Favorites</Button> :
-                        <Button variant="outline-primary" onClick={addToFavorites}><FaRegHeart /> Add to Favorites</Button>
+            >
+                {showToast &&
+                    <NotLoggedInToast onClose={() => setShowToast(false)}/>            
+                }
+                <section>
+                    <img
+                        src={`images/menu_items/${image}`}
+                        alt={name}
+                    />
+                </section>
+                <section>
+                    <div className="cookie-info">
+                        <h2>{name}</h2>
+                        <h3>Frosting: {frosting ? frosting : 'None'}</h3>
+                        <span className="price">${price}</span>
+                        <Tags tags={tags} />
+                    </div>
+                    {cartItems &&
+                        <div className="cookie-info">
+                            <Rating rating={avgReview} />
+                            <p>{`Based on ${reviews.length} Reviews`}</p>
+                            <p>{`Favorited by ${favorites.length} Users`}</p>
+                        </div>
                     }
-                    {cartId ?
-                        <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button> :
-                        <Button variant="success" onClick={addToCart}><FaCartPlus /> Add to Cart</Button>
-                    }
-                </>
-            }
+                </section>    
+            </div>
+            <div className="btn-container">
+                {favoriteId ?
+                    <Button variant="outline-danger" onClick={removeFromFavorites}><FaRegHeart /> Remove from Favorites</Button> :
+                    <Button variant="outline-primary" onClick={addToFavorites}><FaRegHeart /> Add to Favorites</Button>
+                }
+                {cartId ?
+                    <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button> :
+                    <Button variant="success" onClick={addToCart}><FaCartPlus /> Add to Cart</Button>
+                }
+            </div>      
         </StyledCookieCard>
     );
 }
