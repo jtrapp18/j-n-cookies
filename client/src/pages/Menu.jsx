@@ -14,6 +14,13 @@ const StyledMain = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .filter-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 `
 
@@ -84,7 +91,7 @@ const Menu = () => {
             searchInput={searchInput}
             setSearchInput={setSearchInput}
           />
-          <section>
+          <section className="filter-container">
             <Filters
               filterInput={filterInput}
               setFilterInput={setFilterInput}

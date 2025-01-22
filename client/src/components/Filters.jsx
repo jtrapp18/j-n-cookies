@@ -4,14 +4,22 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import Rating from './Rating';
 
 const FilterContainer = styled.div`
-    width: 100%;
     display: flex;
+    margin-bottom: 20px;
+    align-items: center;
     
     section {
         display: flex;
         flex-direction: column;
+        margin: 20px;
+        justify-content: space-between;
     }
 
+    .btn {
+        margin: 5px;
+        height: fit-content;
+        min-width: 110px;
+    }
 `
 
 const ClearFilter = styled.p`
