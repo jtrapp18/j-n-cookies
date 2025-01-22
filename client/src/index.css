@@ -1,6 +1,11 @@
 :root {
   /* --green: #0b7c21; */
   --green: #4E7839;
+  --chocolate: #542E28;
+  --dark-chocolate: #432A28;
+  --cookie: #D29D72;
+  --brown: #6B4226;
+  --dark-purple: #301934;
   --light-green: #9DC183;
   --light-peach: #fae9d8;
   /* --dark-green: #06402B; */
@@ -9,8 +14,8 @@
   --gray: #d1d1d1; 
   --yellow: #FFFDD0;
   --background: white;
-  --font-color-1: var(--green);
-  --font-color-2: black;
+  --font-color-1: var(--chocolate);
+  --font-color-2: var(--dark-chocolate);
   /* --striped: repeating-linear-gradient(-45deg, var(--light-gray),var(--light-gray) 2px, white 2px, white 10px); */
   --striped: repeating-linear-gradient(-45deg, white, white 3px, var(--light-peach) 3px, var(--light-peach) 6px);
   --padding-top: 75px;
@@ -19,7 +24,15 @@
   /* --size-body: 100vh; */
   --default-font-size: clamp(0.8rem, 1.7vw, .9rem);
   --shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+  --title-font: 'RubikDoodleShadow';
+  --default-font: 'YuseiMagic';
 }
+
+/* 'YuseiMagic';
+'TitanOne';
+'Atma';
+'RubikSprayPaint';
+'RubikDoodleShadow'; */
 
 #root {
   overflow-x: hidden;
@@ -32,45 +45,53 @@
 }
 
 @font-face {
-  font-family: 'Cascadia';
-  src: url('/fonts/Cascadia.ttf') format('truetype');
+  font-family: 'RubikMoonrocks';
+  src: url('/fonts/RubikMoonrocks-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Volkhov';
-  src: url('/fonts/Volkhov-Regular.ttf') format('truetype');
+  font-family: 'YuseiMagic';
+  src: url('/fonts/YuseiMagic-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
-
 @font-face {
-  font-family: 'Volkhov';
-  src: url('/fonts/Volkhov-Bold.ttf') format('truetype');
-  font-weight: bold;
+  font-family: 'TitanOne';
+  src: url('/fonts/TitanOne-Regular.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
 }
-
 @font-face {
-  font-family: 'NotoSerif';
-  src: url('/fonts/NotoSerif-VariableFont_wdth,wght.ttf') format('truetype');
+  font-family: 'Atma';
+  src: url('/fonts/Atma-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RubikSprayPaint';
+  src: url('/fonts/RubikSprayPaint-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RubikDoodleShadow';
+  src: url('/fonts/RubikDoodleShadow-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 body {
   margin: 0;
-  font-family: 'NotoSerif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3 {
-  font-family: 'Volkhov', sans-serif;
-  font-weight: normal;
+  font-family: var(--title-font), sans-serif;
 }
 
-h1, h3 {
+h1, h2, h3 {
   color: var(--font-color-1);
 }
 
@@ -87,12 +108,10 @@ h3 {
   font-size: clamp(.9rem, 2vw, 1.25rem);
 }
 
-p {
-  color: var(--font-color-2);  
-}
-
-p, label, i, li, a {
-  font-size: var(--default-font-size)
+p, label, i, li, a, button, span, option, select {
+  font-size: var(--default-font-size);
+  font-family: var(--default-font);
+  color: var(--font-color-2);
 }
 
 span {
