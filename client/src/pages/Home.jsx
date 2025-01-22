@@ -9,13 +9,14 @@ const StyledMain = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, var(--dark-purple), white);
+  background: linear-gradient(to bottom, var(--green), white);
 
   h1 {
     font-size: clamp(2rem, 6vw, 5rem);
     background: var(--dark-chocolate);
     color: var(--cookie);
     font-family: 'RubikMoonrocks';
+    border-radius: 200px;
   }
 
   .carousel {
@@ -41,28 +42,18 @@ function Home() {
             <h1>J&N Cookies</h1>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
+        {/* <Carousel.Item>
           <Image
               src="/images/cookies_falling.png" // Provide the relative or absolute path to the image
               alt="First slide"
           />
-          {/* <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption> */}
         </Carousel.Item>
         <Carousel.Item>
         <Image
               src="/images/cookies_falling.png" // Provide the relative or absolute path to the image
               alt="First slide"
           />
-          {/* <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption> */}
-        </Carousel.Item>
+        </Carousel.Item> */}
       </Carousel>
     </StyledMain>
   );

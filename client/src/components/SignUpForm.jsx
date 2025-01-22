@@ -23,7 +23,7 @@ const FormField = styled.div`
 const Label = styled.label`
 `
 
-function SignUpForm({ onLogin }) {
+function SignUpForm({ setShowConfirm }) {
   const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,11 +41,17 @@ function SignUpForm({ onLogin }) {
     }
 
     postJSONToDb("signup", body)
-    .then(setUser);
+    .then(newUser => {
+      if (newUser) {
+        setUser(newUser);
+        setShowConfirm(true);
+      }
+    });
   }
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>Sign Up</h1>
       <FormField>
         <Label htmlFor="username">Username</Label>
         <Input

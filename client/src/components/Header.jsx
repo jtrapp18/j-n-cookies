@@ -5,6 +5,7 @@ import {WindowWidthContext} from "../context/windowSize";
 import Headroom from 'react-headroom';
 import styled from 'styled-components';
 import Logo from './Logo';
+import {UserContext} from '../context/userProvider'
 
 const StyledHeader = styled(Headroom)`
   padding: 0;
@@ -13,14 +14,24 @@ const StyledHeader = styled(Headroom)`
   .headroom {
     display: flex;
     justify-content: space-between;
+    background: white;
+
+    #logged-in {
+      position: absolute;
+      right: 30px;
+      top: 10px;
+      color: var(--light-green);
+    }
   }
 `
 
 const Header = () => {
   const { isMobile } = useContext(WindowWidthContext);
+  const { user } = useContext(UserContext);
     
     return (
         <StyledHeader>
+          {user && <span id='logged-in'>{`Logged in as ${user.username}`}</span>}
           <Logo />
           {isMobile ? <MobileNavBar /> : <NavBar />}
         </StyledHeader>

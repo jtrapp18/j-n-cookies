@@ -17,6 +17,10 @@ const LinkContainer = styled.div`
   right: 0;
   bottom: 0;
   display: flex;
+
+  & > .nav-link {
+    font-size: clamp(1.5rem, 1.5vw, 2.5rem)
+  }
 `
 
 function NavBar() {
