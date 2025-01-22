@@ -18,10 +18,6 @@ const StyledCartItem = styled.article`
         height: 50%;
         box-shadow: var(--shadow);
     }
-
-    div.hide {
-        height: 0;
-    }
 `;
 
 function CartItem({ id, cookie, numCookies, isFinal }) {
@@ -49,7 +45,7 @@ function CartItem({ id, cookie, numCookies, isFinal }) {
     function handleInputChange(e) {
         const value = Math.max(0, parseInt(e.target.value) || 0);
         setNewNumCookies(value);
-        setIsUpdating(true); // Mark as updating
+        setIsUpdating(true);
     }
 
     function removeFromCart() {
@@ -61,28 +57,29 @@ function CartItem({ id, cookie, numCookies, isFinal }) {
     return (
         <StyledCartItem>
             <CookieCard {...cookie} />
-            <div className={isFinal ? "hide" : ""}>
-                <label htmlFor="numCookies">Number of Cookies:</label>
-                <div className="input-wrapper">
-                    <input
-                        type="number"
-                        id="numCookies"
-                        value={newNumCookies}
-                        onChange={handleInputChange}
-                        min={0}
-                        disabled={isUpdating} // Optional: disable while updating
-                    />
-                </div>
-                <hr />
-                <p>Subtotal: <strong>{cookie.price*newNumCookies}</strong></p>
-                <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
-            </div>
-            <div className={isFinal ? "" : "hide"}>
-                <p>Quantity: {numCookies}</p>
-                <hr />
-                <p>Subtotal: <strong>{cookie.price*numCookies}</strong></p>
-                <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
-            </div>
+            {!isFinal ?
+                (<div>
+                    <label htmlFor="numCookies">Number of Cookies:</label>
+                    <div className="input-wrapper">
+                        <input
+                            type="number"
+                            id="numCookies"
+                            value={newNumCookies}
+                            onChange={handleInputChange}
+                            min={0}
+                            disabled={isUpdating}
+                        />
+                    </div>
+                    <hr />
+                    <p>Subtotal: <strong>{cookie.price*newNumCookies}</strong></p>
+                    <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
+                </div>)
+                : (<div className={isFinal ? "" : "hide"}>
+                    <p>Quantity: {numCookies}</p>
+                    <hr />
+                    <p>Subtotal: <strong>{cookie.price*numCookies}</strong></p>
+                </div>)
+            }
         </StyledCartItem>
     );
 }

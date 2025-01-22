@@ -3,6 +3,23 @@ import { useParams } from 'react-router-dom'; // To access cookie ID from URL
 import CookieCard from '../components/CookieCard'; // Import CookieCard
 import { getReviewsByCookieId } from '../helper';
 import {useOutletContext} from "react-router-dom";
+import Rating from '../components/Rating';
+import styled from 'styled-components';
+
+const StyledMain = styled.main`
+  padding: 20px;
+  margin: 10px;
+`
+
+const ReviewContainer = styled.div`
+    padding: 20px;
+`
+
+const StyledRating = styled.div`
+  background: var(--light-gray);
+  padding: 1%;
+  margin: 2%
+`
 
 const CookieListing = () => {
   const { id } = useParams(); // Get the cookie ID from the URL
@@ -31,7 +48,7 @@ const CookieListing = () => {
     return <div>Error loading cookie details.</div>; // Error handling if cookie is null
   }
   return (
-    <div>
+    <StyledMain>
       <h1>Cookie Listing</h1>
       <CookieCard
         id={cookie.id}
@@ -46,18 +63,22 @@ const CookieListing = () => {
         favorites={cookie.favorites}
         cartItems={cookie.cartItems}
       />
-      <h3>Reviews:</h3>
-      {reviews.length > 0 ? (
-        reviews.map((review, index) => (
-          <div key={index}>
-            <p><strong>{review.user_id}</strong>: {review.review_body}</p>
-            <p>Rating: {review.rating}</p>
-          </div>
-        ))
-      ) : (
-        <p>No reviews yet.</p>
-      )}
-    </div>
+      <ReviewContainer>
+        <h2>Reviews:</h2>
+        {reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <StyledRating key={index}>
+              <span>{review.user.username}</span>
+              <Rating rating={review.rating} />
+              <h3>{review.review_title}</h3>
+              <p>{review.review_body}</p>
+            </StyledRating>
+          ))
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+      </ReviewContainer>
+    </StyledMain>
   );
 };
 

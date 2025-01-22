@@ -91,6 +91,19 @@ function App() {
     }));
   }
 
+  function placeCookieOrder(orderId, updatedOrder) {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === orderId
+          ? {
+              ...order,
+              ...updatedOrder,
+            }
+          : order
+      )
+    );
+  }
+
   return (
     <>
       <Header/>
@@ -103,7 +116,8 @@ function App() {
             removeCookieFromCart,
             updateCookieCount,
             addCookieToFavorites,
-            removeCookieFromFavorites
+            removeCookieFromFavorites,
+            placeCookieOrder
           }}
         />
       <Footer />

@@ -2,6 +2,7 @@
 
 from models import CartItem, Cookie, Favorite, Order, User, Review
 from config import app, db, api
+from datetime import datetime
 # from flask_migrate import Migrate
 from flask import request, jsonify, session, make_response
 from flask_restful import  Resource
@@ -78,12 +79,9 @@ class Orders(Resource):
         return make_response(jsonify(orders), 200)
     
     def post(self):
-        data = request.json()
+        data = request.get_json()
         new_order = Order(
             purchase_complete=data['purchase_complete'],
-            order_date=data['order_date'],
-            delivery_date=data['delivery_date'],
-            order_total=data['order_total'],
             user_id=data['user_id']
         )
         db.session.add(new_order)
@@ -103,10 +101,16 @@ class OrderById(Resource):
             return make_response(jsonify({'message': 'Order not found'}), 404)
         data = request.get_json()
 
-        order.purchase_complete = data.get('purchase_complete', order.purchase_complete)
-        order.order_date = data.get('order_date', order.order_date)
-        order.delivery_date = data.get('delivery_date', order.delivery_date)
-        order.order_total = data.get('order_total', order.order_total)
+        for attr in data:
+            if (attr == 'order_date') and (data[attr]=='today'):
+                setattr(order, attr, datetime.now().date())
+            # elif (attr == 'purchase_complete') and (data[attr]==1):
+            #     setattr(order, attr, True)
+            else:
+                setattr(order, attr, data.get(attr))
+
+        datetime.now().date()
+
         db.session.commit()
         return make_response(jsonify(order.to_dict()), 200)
     
@@ -164,7 +168,7 @@ class CartItemById(Resource):
         cart_item = CartItem.query.get(item_id)
         if not cart_item:
             return make_response(jsonify({'message': 'Cart item not found'}), 404)
-        cart_item_dict = cart_item.to_dict()
+        
         db.session.delete(cart_item)
         db.session.commit()
         return make_response({}, 204)

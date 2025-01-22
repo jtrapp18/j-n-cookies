@@ -26,7 +26,8 @@ class Cookie(db.Model, SerializerMixin):
     
     serialize_rules = ('-cart_items.cookie', '-cart_items.order', '-cart_items.cookie_id',
                        '-favorites.cookie','-favorites.user',
-                       '-reviews.cookie', '-reviews.user')
+                       '-reviews.cookie', '-reviews.user._password_hash',
+                       '-reviews.user.address', '-reviews.user.email', '-reviews.user.phone_number')
 
     def __repr__(self):
         return f'<Cookie {self.id}, {self.name}, {self.price}>'

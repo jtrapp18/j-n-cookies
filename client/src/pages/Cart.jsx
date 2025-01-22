@@ -73,7 +73,7 @@ const Cart = () => {
             <Fragment key={cartItem.id}>
               <CartItem
                   {...cartItem}
-                  isFinal={true}
+                  isFinal={false}
               />
               <hr />
             </Fragment>

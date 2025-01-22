@@ -4,6 +4,7 @@ import {UserContext} from '../context/userProvider'
 import {useOutletContext} from "react-router-dom";
 import CartItem from '../components/CartItem';
 import Button from 'react-bootstrap/Button';
+import { patchJSONToDb, postJSONToDb } from '../helper';
 
 const StyledMain = styled.main`
   padding: 20px;
@@ -50,9 +51,34 @@ const StyledDiv = styled.div`
   }
 `
 
+const OrderConfirmation = styled.article`
+    padding: 20px;
+    margin: 10px;
+    height: 100%;
+    width: 50%;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: var(--shadow);
+
+    div {
+      display: flex;
+      width: 50%;
+      justify-content: space-between;
+    }
+
+    h3 {
+      font-size: clamp(1rem, 1.8vw, 1.1rem)
+    }
+
+    p {
+      line-height: 1;
+    }
+`
+
 const Checkout = () => {
   const { user, setUser } = useContext(UserContext);
-  const { orders, cartOrder } = useOutletContext();
+  const { orders, cartOrder, placeCookieOrder } = useOutletContext();
+  const [orderComplete, setOrderComplete] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState(user.address);
   const [isEditing, setIsEditing] = useState(false);
@@ -65,64 +91,87 @@ const Checkout = () => {
     }
   }, [cartOrder]);
 
+  const handleSubmit = (e) => {
+
+    const orderObj = {
+      purchaseComplete: 1,
+      orderTotal: parseFloat(totalPrice),
+      orderDate: 'today'
+    }
+
+    patchJSONToDb("orders", cartOrder.id, orderObj)
+    setOrderComplete(true);
+    placeCookieOrder(cartOrder.id, orderObj);
+
+    postJSONToDb("orders", {userId: user.id, purchaseComplete: 0})
+  }
+
   return (
       <StyledMain>
-        <StyledDiv>
-          <div>
-            <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
-            {!isEditing ? (
-              <>
-                <p>{deliveryAddress}</p>
-                <Button onClick={()=>setIsEditing(true)}>Change Delivery Address</Button>
-              </>
-            ) : (
-              <>
-                <input 
-                  type="text" 
-                  name="address" 
-                  value={deliveryAddress} 
-                  onChange={(e)=>setDeliveryAddress(e.target.value)} 
+        {!orderComplete ? (
+          <>
+            <StyledDiv>
+              <div>
+                <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
+                {!isEditing ? (
+                  <>
+                    <p>{deliveryAddress}</p>
+                    <Button onClick={()=>setIsEditing(true)}>Change Delivery Address</Button>
+                  </>
+                ) : (
+                  <>
+                    <input 
+                      type="text" 
+                      name="address" 
+                      value={deliveryAddress} 
+                      onChange={(e)=>setDeliveryAddress(e.target.value)} 
+                    />
+                    <Button onClick={()=>setIsEditing(false)}>Confirm Changes</Button>
+                  </>
+                )}
+              </div>
+              <hr />
+              <h3>Selected Cookies</h3>         
+              {cartOrder.cartItems.map(cartItem=>
+                <Fragment key={cartItem.id}>
+                <CartItem
+                    {...cartItem}
+                    isFinal={true}
                 />
-                <Button onClick={()=>setIsEditing(false)}>Confirm Changes</Button>
-              </>
-            )}
-          </div>
-          <hr />
-          <h3>Selected Cookies</h3>         
-          {cartOrder.cartItems.map(cartItem=>
-            <Fragment key={cartItem.id}>
-            <CartItem
-                {...cartItem}
-                isFinal={true}
-            />
-            <hr />
-          </Fragment>
-          )}
-        </StyledDiv>
-        <StyledOrderSummary>
-          <div>
-            <p>Order ID:</p>
-            <p>{cartOrder.id}</p>
-          </div>
-          <div>
-            <p>Items ({2})</p>
-            <p>${totalPrice}</p>
-          </div>
-          <div>
-            <p>Shipping:</p>
-            <p>$0.00</p>
-          </div>
-          <div>
-            <p>Taxes:</p>
-            <p>$0.00</p>
-          </div>
-          <div>
-            <h3>Order Total</h3>
-            <h3>${totalPrice}</h3>
-          </div>
-          <hr />
-          <Button variant="warning">Place Order</Button>
-        </StyledOrderSummary>
+                <hr />
+              </Fragment>
+              )}
+            </StyledDiv>
+            <StyledOrderSummary>
+              <div>
+                <p>Order ID:</p>
+                <p>{cartOrder.id}</p>
+              </div>
+              <div>
+                <p>Items ({2})</p>
+                <p>${totalPrice}</p>
+              </div>
+              <div>
+                <p>Shipping:</p>
+                <p>$0.00</p>
+              </div>
+              <div>
+                <p>Taxes:</p>
+                <p>$0.00</p>
+              </div>
+              <div>
+                <h3>Order Total</h3>
+                <h3>${totalPrice}</h3>
+              </div>
+              <hr />
+              <Button variant="warning" onClick={handleSubmit}>Place Order</Button>
+            </StyledOrderSummary>
+          </>
+        ) : (
+          <OrderConfirmation>
+            Complete
+          </OrderConfirmation>
+        )}
       </StyledMain>
     );
   };
