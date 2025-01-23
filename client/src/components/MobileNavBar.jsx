@@ -114,6 +114,7 @@ const MobileNavBar = () => {
       setUser(null);
       setIsMenuOpen(false);
     }
+    handleClick()
   }
 
   useEffect(() => {
@@ -162,7 +163,7 @@ const MobileNavBar = () => {
           Account Details
         </StyledNavLink>
         <StyledNavLink
-          to="/logout"
+          to="/login"
           className="nav-link"
           onClick={handleAccountToggle}
           >

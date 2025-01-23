@@ -35,6 +35,8 @@ class Signup(Resource):
             db.session.add(user)
             db.session.commit()
 
+            session['user_id'] = user.id
+
             return user.to_dict(), 201
         except Exception as e:
             db.session.rollback()  # Rollback any changes made in the transaction
