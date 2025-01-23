@@ -57,19 +57,42 @@ function getJSON(dbKey) {
     });
 }
 
-function getJSONById(dbKey, Id) {
+// function getJSONById(dbKey, Id) {
 
-    // Make the API call to your Lambda (via API Gateway)
-    fetch(`/api/${dbKey}/${Id}`)
-      .then(res => {
+//     // Make the API call to your Lambda (via API Gateway)
+//     fetch(`/api/${dbKey}/${Id}`)
+//       .then(res => {
+//         if (!res.ok) {
+//           console.error(`Error fetching user information! Status: ${res.status}`);
+//         }
+//         return res.json();
+//       })
+//       .catch(err => {
+//         console.error('Request failed', err);
+//         // You can handle further error logic here if needed
+//       });
+//   }
+
+  function getJSONById(dbKey, Id) {
+    console.log(`Fetching data for ${dbKey}/${Id}`);  // Debugging log
+    return fetch(`/api/${dbKey}/${Id}`)
+      .then((res) => {
+        console.log('Response Status:', res.status);  // Log status
+        console.log('Response Body:', res);  // Log full response
         if (!res.ok) {
-          console.error(`Error fetching user information! Status: ${res.status}`);
+          console.error(`Error fetching order! Status: ${res.status}`);
+          return null;
         }
-        return res.json();
+  
+        return res.json();  // Parse the response as JSON
       })
-      .catch(err => {
-        console.error('Request failed', err);
-        // You can handle further error logic here if needed
+      .then((data) => {
+        console.log('Parsed Data:', data);  // Log parsed data to see what it looks like
+        return data;  // Return the parsed data
+      })
+      .catch((err) => {
+        console.error('Request failed:', err);  // Log any errors
+        return null;
       });
   }
 

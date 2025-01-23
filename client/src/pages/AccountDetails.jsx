@@ -134,19 +134,17 @@ const AccountDetails = () => {
               />
             </div>
             <div>
-              <Button 
+              <button 
                 type="submit" 
-                variant="success"
               >
                 Save
-              </Button>
-              <Button 
+              </button>
+              <button 
                 type="button" 
-                variant="danger" 
                 onClick={() => setIsEditing(false)}
               >
                   Cancel
-              </Button>
+              </button>
             </div>
           </StyledForm>
         )}

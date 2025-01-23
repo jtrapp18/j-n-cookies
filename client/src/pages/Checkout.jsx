@@ -102,7 +102,7 @@ const OrderConfirmation = styled.article`
 
 const Checkout = () => {
   const { user } = useContext(UserContext);
-  const { cartOrder, placeCookieOrder } = useOutletContext();
+  const { cartOrder, placeCookieOrder, createNewCart } = useOutletContext();
   const [orderComplete, setOrderComplete] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState(user.address);
@@ -124,11 +124,12 @@ const Checkout = () => {
       orderDate: 'today'
     }
 
-    patchJSONToDb("orders", cartOrder.id, orderObj)
+    patchJSONToDb("orders", cartOrder.id, orderObj);
     setOrderComplete(true);
     placeCookieOrder(cartOrder.id, orderObj);
 
     postJSONToDb("orders", {userId: user.id, purchaseComplete: 0})
+    .then(newOrder => createNewCart(newOrder.id));
   }
 
   return (
@@ -205,7 +206,6 @@ const Checkout = () => {
                 <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
                 <p>{deliveryAddress}</p>
                 <hr />
-                <p>Order ID: {cartOrder.id}</p>
                 <h3><strong>Order Total: </strong>${totalPrice}</h3>
                 <hr />
               </div>

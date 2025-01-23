@@ -2,7 +2,7 @@ import {useState, useEffect, useContext} from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
-import { getJSON, snakeToCamel } from './helper';
+import { getJSON, getJSONById, snakeToCamel } from './helper';
 import { UserContext } from './context/userProvider';
 
 function App() {
@@ -34,13 +34,16 @@ function App() {
       getJSON("orders").then((orders) => {
         const orderTransformed = snakeToCamel(orders);
         setOrders(orderTransformed);
-
-        const cartOrder = orderTransformed.filter(order=>!order.purchaseComplete)[0]
-        setCartOrder(cartOrder);
       });
     }
-
   }, [user]);
+
+  useEffect(() => {
+    if (user && orders.length > 0) {
+      const cart = orders.find((order) => !order.purchaseComplete) || null;
+      setCartOrder(cart);
+    }
+  }, [orders, user]);
 
   function addCookieToFavorites(cookieId, favorite) {
     setCookies((prevCookies) =>
@@ -69,26 +72,44 @@ function App() {
   }
 
   function addCookieToCart(cartItem) {
-    setCartOrder(prevCartOrder=>({
-      ...prevCartOrder,
-      cartItems: [...prevCartOrder.cartItems, {...cartItem, numCookies: 1}],
-    }))
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order === cartOrder
+          ? {
+              ...order,
+              cartItems: [...order.cartItems, { ...cartItem, numCookies: 1 }],
+            }
+          : order
+      )
+    );
   }
 
   function removeCookieFromCart(cartId) {
-    setCartOrder(prevCartOrder => ({
-      ...prevCartOrder,
-      cartItems: prevCartOrder.cartItems.filter(item => item.id !== cartId)
-    }));
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order === cartOrder
+          ? {
+              ...order,
+              cartItems: order.cartItems.filter((item) => item.id !== cartId),
+            }
+          : order
+      )
+    );
   }
 
   function updateCookieCount(cartId, newCount) {
-    setCartOrder((prevCartOrder) => ({
-        ...prevCartOrder,
-        cartItems: prevCartOrder.cartItems.map((item) =>
-        item.id === cartId ? { ...item, count: newCount } : item
-        ),
-    }));
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order === cartOrder
+          ? {
+              ...order,
+              cartItems: order.cartItems.map((item) =>
+                item.id === cartId ? { ...item, count: newCount } : item
+              ),
+            }
+          : order
+      )
+    );
   }
 
   function placeCookieOrder(orderId, updatedOrder) {
@@ -104,6 +125,19 @@ function App() {
     );
   }
 
+  function createNewCart(newOrderId) {
+    console.log(newOrderId)
+
+    getJSONById("orders", newOrderId).then((order) => {
+      const newOrder = snakeToCamel(order);
+
+      setOrders((prevOrders) => [
+        ...prevOrders,
+        newOrder
+      ])
+    });
+  }
+
   return (
     <>
       <Header/>
@@ -117,7 +151,8 @@ function App() {
             updateCookieCount,
             addCookieToFavorites,
             removeCookieFromFavorites,
-            placeCookieOrder
+            placeCookieOrder,
+            createNewCart
           }}
         />
       <Footer />

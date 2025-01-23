@@ -87,7 +87,7 @@ class Orders(Resource):
         orders = [order.to_dict() for order in Order.query.filter_by(user_id=user_id)]
         return make_response(jsonify(orders), 200)
     
-def post(self):
+    def post(self):
         try:
             # Get data from the request
             data = request.get_json()
@@ -111,7 +111,7 @@ def post(self):
 
 class OrderById(Resource):
     def get(self, order_id):
-        order = Order.query.get(order_id)
+        order = Order.query.filter_by(id=order_id).first()
         if not order:
             return make_response(jsonify({'message': 'Order not found'}), 404)
         return make_response(jsonify(order.to_dict()), 200)
@@ -190,7 +190,7 @@ class CartItems(Resource):
 class CartItemById(Resource):
 
     def patch(self, item_id):
-        cart_item = CartItem.query.get(item_id)
+        cart_item = CartItem.query.filter_by(id=item_id).first()
         if not cart_item:
             return make_response(jsonify({'message': 'Cart item not found'}), 404)
         data = request.get_json()
