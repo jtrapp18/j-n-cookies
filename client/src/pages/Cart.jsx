@@ -62,7 +62,13 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalCookies, setTotalCookies] = useState(0);
 
-  // Update average review when reviews change
+  const updateTotalPrice = (cookieAdj, cookiePrice) => {
+    // Update both total price and total cookies based on the adjustment
+    setTotalPrice(prevPrice => prevPrice + cookieAdj * cookiePrice);
+    setTotalCookies(prevCookies => prevCookies + cookieAdj);
+  };
+
+  // Update average price when carts change
   useEffect(() => {
     if (cartOrder && cartOrder.cartItems.length > 0) {
       const totalPrice = cartOrder.cartItems.reduce((sum, item) => sum + (item.cookie.price * item.numCookies), 0);
@@ -103,6 +109,7 @@ const Cart = () => {
               <CartItem
                   {...cartItem}
                   isFinal={false}
+                  updateTotalPrice={updateTotalPrice}
               />
               <hr />
             </Fragment>

@@ -14,7 +14,7 @@ const StyledCartItem = styled.article`
     justify-content: space-between;
 `;
 
-function CartItem({ id, cookie, numCookies, isFinal }) {
+function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
     const [newNumCookies, setNewNumCookies] = useState(numCookies);
     const { removeCookieFromCart, updateCookieCount } = useOutletContext();
     const [isUpdating, setIsUpdating] = useState(false); // To manage async updates
@@ -38,9 +38,15 @@ function CartItem({ id, cookie, numCookies, isFinal }) {
 
     function handleInputChange(e) {
         const value = Math.max(1, parseInt(e.target.value) || 1);
-        setNewNumCookies(value);
+        
+        setNewNumCookies(prevNum => {
+          const cookieAdj = value - prevNum;
+          updateTotalPrice(cookieAdj, cookie.price);
+          return value;
+        });
+      
         setIsUpdating(true);
-    }
+      }
 
     function removeFromCart() {
         deleteJSONFromDb("cart_items", id)
