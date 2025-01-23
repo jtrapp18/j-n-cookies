@@ -275,6 +275,7 @@ class Reviews(Resource):
             # Create new review
             new_review = Review(
                 rating=data['rating'],
+                review_title=data['review_title'],
                 review_body=data['review_body'],
                 user_id=data['user_id'],
                 cookie_id=data['cookie_id']
