@@ -4,14 +4,17 @@ import styled from "styled-components";
 const LogoContainer = styled.div` 
   text-align: left;
   height: 100%;
+  display: flex;
+  align-items: center;
 
   img {
-    height: 100%;
-    padding: 10px;
+    height: clamp(2rem, 6vw, 4rem);
   }
 `
 
 function Logo() {
+
+
   return (
       <LogoContainer>
         <StyledNavLink

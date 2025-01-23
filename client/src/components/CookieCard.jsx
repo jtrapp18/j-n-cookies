@@ -183,9 +183,6 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 className="main-cookie"
                 onClick={handleClick}
             >
-                {showToast &&
-                    <NotLoggedInToast onClose={() => setShowToast(false)}/>            
-                }
                 <img
                     src={`images/menu_items/${image}`}
                     alt={name}
@@ -206,16 +203,21 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                     }
                 </section>    
             </div>
-            <div className="btn-container">
-                {favoriteId ?
-                    <Button variant="outline-danger" onClick={removeFromFavorites}><FaRegHeart /> Remove from Favorites</Button> :
-                    <Button variant="outline-primary" onClick={addToFavorites}><FaRegHeart /> Add to Favorites</Button>
-                }
-                {cartId ?
-                    <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button> :
-                    <Button variant="success" onClick={addToCart}><FaCartPlus /> Add to Cart</Button>
-                }
-            </div>      
+            {cartItems &&
+                <div className="btn-container">
+                    {favoriteId ?
+                        <Button variant="outline-danger" onClick={removeFromFavorites}><FaRegHeart /> Remove from Favorites</Button> :
+                        <Button variant="outline-primary" onClick={addToFavorites}><FaRegHeart /> Add to Favorites</Button>
+                    }
+                    {cartId ?
+                        <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button> :
+                        <Button variant="success" onClick={addToCart}><FaCartPlus /> Add to Cart</Button>
+                    }
+                    {showToast &&
+                        <NotLoggedInToast onClose={() => setShowToast(false)}/>            
+                    }
+                </div>
+            }    
         </StyledCookieCard>
     );
 }

@@ -18,7 +18,7 @@ const FilterContainer = styled.div`
     .btn {
         margin: 5px;
         height: fit-content;
-        min-width: 110px;
+        width: fit-content;
     }
 `
 

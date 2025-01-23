@@ -64,10 +64,13 @@ const HamburgerButton = styled.button`
   background: transparent;
   border: none;
   color: black;
-  font-size: clamp(2rem, 4vw, 3rem);
   cursor: pointer;
   padding-right: 30px;
   transition: transform 1s ease;
+
+  span {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
 
   @media (max-width: 768px) {
     display: block;

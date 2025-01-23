@@ -21,6 +21,7 @@ const StyledMain = styled.main`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    // overflow: scroll;
   }
 }
 `
@@ -30,6 +31,8 @@ const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 10px;
+  max-width: 100vw;
+  justify-items: center;
 `
 
 const Menu = () => {

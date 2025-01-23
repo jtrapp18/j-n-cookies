@@ -3,9 +3,9 @@ import styled from "styled-components";
 const SearchContainer = styled.div`
     display: flex;
     align-items: center;
-    width: 100%;
-    background-color: var(--blue);
-    padding: 0;
+    width: 100vw;
+    background-color: var(--green);
+    padding: 1vh 0 1vh 0;
     position: relative;
     justify-content: center;
     margin: 0;

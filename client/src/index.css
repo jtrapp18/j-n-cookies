@@ -41,7 +41,10 @@
 
 .no-scroll {
   overflow-y: hidden;
+}
 
+div.star-ratings{
+  display: flex;  
 }
 
 @font-face {
