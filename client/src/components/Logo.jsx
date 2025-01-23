@@ -17,7 +17,7 @@ function Logo() {
           to="/"
           className="home"
         >
-          <img src={`images/cookie_line_drawing.png`} alt="home"/>
+          <img src={`images/cookie-store-logo.png`} alt="home"/>
         </StyledNavLink>
       </LogoContainer>
   );

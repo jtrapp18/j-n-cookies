@@ -10,7 +10,7 @@ const SearchContainer = styled.div`
     width: 500px;
     max-width: 80%;
     position: relative;
-    top: -70px;
+    top: -60px;
 
     input {
         border-radius: 20px;
