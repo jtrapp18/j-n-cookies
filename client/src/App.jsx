@@ -11,6 +11,8 @@ function App() {
   const [cookies, setCookies] = useState([]);
   const [orders, setOrders] = useState([]);
   const [cartOrder, setCartOrder] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalCookies, setTotalCookies] = useState(0);
 
   useEffect(() => {
     
@@ -42,6 +44,20 @@ function App() {
     if (user && orders.length > 0) {
       const cart = orders.find((order) => !order.purchaseComplete) || null;
       setCartOrder(cart);
+
+      if (cart.cartItems.length > 0) {
+        // Manually calculate totals after updating the cart (not relying on useEffect)
+        const newTotalPrice = cart.cartItems.reduce(
+          (sum, item) => sum + item.cookie.price * item.numCookies,
+          0
+        );
+        const newTotalCookies = cart.cartItems.reduce(
+          (sum, item) => sum + item.numCookies,
+          0
+        );
+        setTotalPrice(newTotalPrice.toFixed(2));
+        setTotalCookies(newTotalCookies);        
+      }
     }
   }, [orders, user]);
 
@@ -104,14 +120,14 @@ function App() {
           ? {
               ...order,
               cartItems: order.cartItems.map((item) =>
-                item.id === cartId ? { ...item, count: newCount } : item
+                item.id === cartId ? { ...item, numCookies: newCount } : item
               ),
             }
           : order
       )
     );
   }
-
+  
   function placeCookieOrder(orderId, updatedOrder) {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
@@ -152,7 +168,9 @@ function App() {
             addCookieToFavorites,
             removeCookieFromFavorites,
             placeCookieOrder,
-            createNewCart
+            createNewCart,
+            totalPrice,
+            totalCookies,
           }}
         />
       <Footer />

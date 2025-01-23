@@ -17,13 +17,14 @@ const StyledCartItem = styled.article`
     }
 `;
 
-function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
+function CartItem({ id, cookie, numCookies, isFinal }) {
     const [newNumCookies, setNewNumCookies] = useState(numCookies);
     const { removeCookieFromCart, updateCookieCount } = useOutletContext();
     const [isUpdating, setIsUpdating] = useState(false); // To manage async updates
 
     useEffect(() => {
         if (isUpdating) {
+            
             // Patch to DB after a delay (debounced effect)
             const timeout = setTimeout(async () => {
                 try {
@@ -41,15 +42,10 @@ function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
 
     function handleInputChange(e) {
         const value = Math.max(1, parseInt(e.target.value) || 1);
-        
-        setNewNumCookies(prevNum => {
-          const cookieAdj = value - prevNum;
-          updateTotalPrice(cookieAdj, cookie.price);
-          return value;
-        });
+        setNewNumCookies(value);
       
         setIsUpdating(true);
-      }
+    }
 
     function removeFromCart() {
         deleteJSONFromDb("cart_items", id)
@@ -80,7 +76,7 @@ function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
                 : (<div className="cookie-count">
                     <p>Quantity: {numCookies}</p>
                     <hr />
-                    <p>Subtotal: <strong>{cookie.price*numCookies}</strong></p>
+                    <p>Subtotal: <strong>{(cookie.price*numCookies).toFixed(2)}</strong></p>
                 </div>)
             }
         </StyledCartItem>
