@@ -152,8 +152,8 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
             postJSONToDb("favorites", body)
                 .then(favorite => {
                     console.log(`Added to favorites: ${favorite}`);
-                    addCookieToFavorites(favorite);
-                    setFavoriteId(favorite.id);
+                    setFavoriteId(favorite.id);                    
+                    addCookieToFavorites(id, {...body, id: favorite.id});
                 })
         }
     }
