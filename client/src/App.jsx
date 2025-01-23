@@ -87,7 +87,20 @@ function App() {
     );
   }
 
-  function addCookieToCart(cartItem) {
+  function addCookieToCart(cookieId, cartItem) {
+    console.log("cart item", cartItem)
+
+    setCookies((prevCookies) =>
+      prevCookies.map((cookie) =>
+        cookie.id === cookieId
+          ? {
+              ...cookie,
+              cartItems: [...cookie.cartItems, { id: cartItem.id, numCookies: 1, orderId: cartItem.order_id }],
+            }
+          : cookie
+      )
+    );
+
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order === cartOrder
@@ -96,20 +109,6 @@ function App() {
               cartItems: [...order.cartItems, { ...cartItem, numCookies: 1 }],
             }
           : order
-      )
-    );
-
-    setCookies((prevCookies) =>
-      prevCookies.map((cookie) =>
-        cookie.id === cartItem.cookie_id
-          ? {
-              ...cookie,
-              cartItems: [
-                ...cookie.cartItems,
-                { id: cartItem.id, numCookies: 1, orderId: cartItem.orderId },
-              ],
-            }
-          : cookie
       )
     );
   }

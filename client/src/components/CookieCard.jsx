@@ -124,7 +124,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
             postJSONToDb("cart_items", body)
                 .then(cartItem => {
                     console.log(`Added to cart: ${cartItem}`);
-                    addCookieToCart(cartItem);
+                    addCookieToCart(id, cartItem);
                     setCartId(cartItem.id);
                 })
         }
