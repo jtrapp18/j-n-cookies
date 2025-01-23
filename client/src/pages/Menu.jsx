@@ -6,6 +6,7 @@ import {useOutletContext} from "react-router-dom";
 import CookieCard from '../components/CookieCard';
 import SearchBar from '../components/SearchBar';
 import SortBy from '../components/SortBy';
+import {UserContext} from '../context/userProvider'
 
 const StyledMain = styled.main`
   min-height: var(--size-body);
@@ -32,6 +33,7 @@ const CardContainer = styled.div`
 `
 
 const Menu = () => {
+  const { user } = useContext(UserContext);
   const { isMobile } = useContext(WindowWidthContext);
   const { cookies } = useOutletContext();
 
@@ -40,6 +42,7 @@ const Menu = () => {
   const [filterInput, setFilterInput] = useState({
       price: 5,
       rating: 0,
+      isFavorite: "",
       isVegan: "",
       isGlutenFree: "",
       nutFree: "",
@@ -63,7 +66,18 @@ const Menu = () => {
       } else {
         ratingFilter = true
       }
-   
+
+      let favoriteFilter
+
+      if (!user && filterInput.isFavorite) {
+        favoriteFilter = false
+      } else if (filterInput.isFavorite) {
+        const userFavorite = cookie.favorites.filter(favorite => favorite.userId === user.id);
+        favoriteFilter = (userFavorite.length > 0)
+      } else {
+        favoriteFilter = true
+      }
+
       const searchFilter = searchInput==="" ? true : cookie.name.toLowerCase().includes(searchInput.toLowerCase());
       const priceFilter = filterInput.price ? filterInput.price >= cookie.price : true;
       const veganFilter = !filterInput.isVegan ? true : cookie.isVegan;
@@ -71,7 +85,7 @@ const Menu = () => {
       const nutsFilter = !filterInput.nutFree ? true : !cookie.hasNuts;
       const frostingFilter = !filterInput.hasFrosting ? true : cookie.frosting != null;
 
-      return searchFilter && priceFilter && ratingFilter && veganFilter && glutenFreeFilter && nutsFilter && frostingFilter;   
+      return searchFilter && priceFilter && ratingFilter && favoriteFilter && veganFilter && glutenFreeFilter && nutsFilter && frostingFilter;   
   })
 
   const sortedCookies = sortInput === "" 

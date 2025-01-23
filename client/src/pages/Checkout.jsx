@@ -19,7 +19,7 @@ const StyledOrderSummary = styled.article`
     padding: 20px;
     margin: 10px;
     height: 100%;
-    width: 50%;
+    width: 40%;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
@@ -46,10 +46,10 @@ const StyledDiv = styled.div`
   padding: 20px;
   margin: 10px;
   display: grid;
-  width: 50%;
+  width: 60%;
   box-shadow: var(--shadow);
 
-  article {
+  .cookie-card {
     zoom: .7;
   }
 

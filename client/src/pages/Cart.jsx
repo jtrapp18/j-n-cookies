@@ -13,6 +13,10 @@ const StyledMain = styled.main`
   display: flex;
   justify-content: center;
 
+  .cookie-card {
+    zoom: .7;
+  }
+
   a:hover {
     text-decoration: underline;
     color: blue;
@@ -23,6 +27,7 @@ const StyledOrderSummary = styled.article`
     margin: 10px;
     height: 100%;
     width: fit-content;
+    min-width: 30%;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);

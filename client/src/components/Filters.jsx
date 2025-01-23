@@ -110,6 +110,16 @@ const Filters = ({filterInput, setFilterInput}) => {
                     </ClearFilter>
                 </section>
                 <ToggleButton
+                    id="toggle-favorite"
+                    name="isFavorite"
+                    type="checkbox"
+                    variant="outline-success"
+                    checked={filterInput.isFavorite}
+                    onChange={handleChange}
+                >
+                    Favorited
+                </ToggleButton>
+                <ToggleButton
                     id="toggle-vegan"
                     name="isVegan"
                     type="checkbox"

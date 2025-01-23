@@ -12,12 +12,6 @@ const StyledCartItem = styled.article`
     position: relative;
     display: flex;
     justify-content: space-between;
-    height: 400px;
-    
-    img {
-        height: 50%;
-        box-shadow: var(--shadow);
-    }
 `;
 
 function CartItem({ id, cookie, numCookies, isFinal }) {
@@ -43,7 +37,7 @@ function CartItem({ id, cookie, numCookies, isFinal }) {
     }, [newNumCookies, id, updateCookieCount, isUpdating]);
 
     function handleInputChange(e) {
-        const value = Math.max(0, parseInt(e.target.value) || 0);
+        const value = Math.max(1, parseInt(e.target.value) || 1);
         setNewNumCookies(value);
         setIsUpdating(true);
     }
@@ -71,7 +65,7 @@ function CartItem({ id, cookie, numCookies, isFinal }) {
                         />
                     </div>
                     <hr />
-                    <p>Subtotal: <strong>{cookie.price*newNumCookies}</strong></p>
+                    <p>Subtotal: <strong>${(cookie.price*newNumCookies).toFixed(2)}</strong></p>
                     <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
                 </div>)
                 : (<div className={isFinal ? "" : "hide"}>

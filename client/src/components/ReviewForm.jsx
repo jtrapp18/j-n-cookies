@@ -7,53 +7,57 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Rating from '../components/Rating'
 
 const ReviewContainer = styled.div`
-  padding: 20px;
   position: fixed;
   z-index: 1000;
   top: var(--height-header);
   left: 50%;
   transform: translateX(-50%);
-  background: white;
   border: 1px solid black;
+  background: var(--gray);
 
-  article.cookie-card {
-    transform: scale(.5);
-    transform-origin: top left;
-  }
-
-  form {
+  .main-review {
+    padding: 20px;
+    background: white;
+    height: fit-content;
     display: flex;
     flex-direction: column;
-    width: 90%;
-    position: absolute;
-    top: 60%;
-    padding: 20px;
-    background: var(--light-green);
     align-items: center;
 
-    .form-input {
-      &:not(:last-child) {
-        margin-bottom: 12px;
-      }
-
+    form {
       display: flex;
       flex-direction: column;
-      align-items: space-between;
       width: 90%;
+      padding: 20px;
+      align-items: center;
+
+      .form-input {
+        &:not(:last-child) {
+          margin-bottom: 12px;
+        }
+
+        input:hover, textarea:hover {
+          background: var(--yellow);
+        }
+
+        display: flex;
+        flex-direction: column;
+        align-items: space-between;
+        width: 90%;
+      }
     }
-  }
 
-  .submitted-confirm {
-    background: var(--green);
-    border-radius: 20px;
-    padding: 20px;
+    .submitted-confirm {
+      background: var(--green);
+      border-radius: 20px;
+      padding: 20px;
 
-    label {
-      font-weight: bold;
-    }
+      label {
+        font-weight: bold;
+      }
 
-    p, label, h3 {
-      color: white;
+      p, label, h3 {
+        color: white;
+      }
     }
   }
 `
@@ -109,6 +113,7 @@ function ReviewForm({ cookie, setActiveReview }) {
   return (
     <ReviewContainer>
       <CloseButton onClick={()=>setActiveReview(null)}/>
+        <div className="main-review">
         {(!isSubmitted) ? (
           <>
             <h1>{`Review ${cookie.name} Cookie`}</h1>
@@ -156,6 +161,7 @@ function ReviewForm({ cookie, setActiveReview }) {
             </div>
           </div>
         )}
+      </div>
     </ReviewContainer>
   );
 }

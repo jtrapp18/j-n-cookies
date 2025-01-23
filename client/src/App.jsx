@@ -71,7 +71,7 @@ function App() {
   function addCookieToCart(cartItem) {
     setCartOrder(prevCartOrder=>({
       ...prevCartOrder,
-      cartItems: [...prevCartOrder.cartItems, cartItem]
+      cartItems: [...prevCartOrder.cartItems, {...cartItem, numCookies: 1}],
     }))
   }
 

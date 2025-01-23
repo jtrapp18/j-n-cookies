@@ -11,7 +11,7 @@ const StyledOrderSummary = styled.article`
     border: 1px solid var(--chocolate);
 `
 
-const OrderSummary = ({id, purchaseComplete, orderDate, deliveryDate, orderTotal}) => {
+const OrderSummary = ({id, orderDate, deliveryDate, orderTotal}) => {
 
     return (
         <StyledOrderSummary>
