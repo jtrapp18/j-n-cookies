@@ -32,18 +32,26 @@ class Signup(Resource):
 
             # Check if the username already exists in the database
             existing_user = User.query.filter_by(username=json['username']).first()
-            if existing_user:
-                return {'message': 'Username already taken.'}, 400
 
             # Check if the email already exists in the database
-            existing_email = User.query.filter_by(email=json['email']).first()
+            existing_email = User.query.filter_by(email=json['email']).first()        
+
+            error_dict = {}
+
+            if existing_user:
+                error_dict['username'] = 'Username already taken.'
+
             if existing_email:
-                return {'message': 'Email already registered.'}, 400
+                error_dict['email'] = 'Email already registered.'
+
+            if existing_user or existing_email:
+                return {'error': error_dict}, 400                
 
             user = User(
                 username=json['username'],
                 first_name=json['first_name'],
-                last_name=json['last_name']
+                last_name=json['last_name'],
+                email=json['email']
                 )
             
             user.password_hash = json['password']
@@ -55,7 +63,7 @@ class Signup(Resource):
             return user.to_dict(), 201
         except Exception as e:
             db.session.rollback()  # Rollback any changes made in the transaction
-            return {'message': f'An error occurred: {str(e)}'}, 500
+            return {'error': f'An error occurred: {str(e)}'}, 500
     
 
 class CheckSession(Resource):
@@ -88,7 +96,7 @@ class Login(Resource):
 
             return {'error': 'Invalid username or password'}, 401
         except Exception as e:
-            return {'message': f'An error occurred: {str(e)}'}, 500
+            return {'error': f'An error occurred: {str(e)}'}, 500
 
 class Logout(Resource):
     
@@ -124,19 +132,19 @@ class Orders(Resource):
         except Exception as e:
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
-            return {'message': f'An error occurred: {str(e)}'}, 500
+            return {'error': f'An error occurred: {str(e)}'}, 500
 
 class OrderById(Resource):
     def get(self, order_id):
         order = Order.query.filter_by(id=order_id).first()
         if not order:
-            return make_response(jsonify({'message': 'Order not found'}), 404)
+            return make_response(jsonify({'error': 'Order not found'}), 404)
         return make_response(jsonify(order.to_dict()), 200)
     
     def patch(self, order_id):
         order = Order.query.get(order_id)
         if not order:
-            return make_response(jsonify({'message': 'Order not found'}), 404)
+            return make_response(jsonify({'error': 'Order not found'}), 404)
         data = request.get_json()
 
         for attr in data:
@@ -155,7 +163,7 @@ class OrderById(Resource):
     def delete(self, order_id):
         order = Order.query.get(order_id)
         if not order:
-            return make_response(jsonify({'message': 'Order not found'}), 404)
+            return make_response(jsonify({'error': 'Order not found'}), 404)
         db.session.delete(order)
         db.session.commit()
         return make_response('', 204)
@@ -171,7 +179,7 @@ class CookieById(Resource):
     def get(self, cookie_id):
         cookie = Cookie.query.get(cookie_id)
         if not cookie:
-            return make_response(jsonify({'message': 'Cookie not found'}), 404)
+            return make_response(jsonify({'error': 'Cookie not found'}), 404)
         return make_response(jsonify(cookie.to_dict()), 200)
 
 class CartItems(Resource):
@@ -201,7 +209,7 @@ class CartItems(Resource):
         except Exception as e:
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
-            return {'message': f'An error occurred: {str(e)}'}, 500
+            return {'error': f'An error occurred: {str(e)}'}, 500
     
 
 class CartItemById(Resource):
@@ -209,7 +217,7 @@ class CartItemById(Resource):
     def patch(self, item_id):
         cart_item = CartItem.query.filter_by(id=item_id).first()
         if not cart_item:
-            return make_response(jsonify({'message': 'Cart item not found'}), 404)
+            return make_response(jsonify({'error': 'Cart item not found'}), 404)
         data = request.get_json()
         cart_item.num_cookies = data.get('num_cookies', cart_item.num_cookies)
         db.session.commit()
@@ -218,7 +226,7 @@ class CartItemById(Resource):
     def delete(self, item_id):
         cart_item = CartItem.query.get(item_id)
         if not cart_item:
-            return make_response(jsonify({'message': 'Cart item not found'}), 404)
+            return make_response(jsonify({'error': 'Cart item not found'}), 404)
         
         db.session.delete(cart_item)
         db.session.commit()
@@ -245,14 +253,14 @@ class Favorites(Resource):
         except Exception as e:
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
-            return {'message': f'An error occurred: {str(e)}'}, 500
+            return {'error': f'An error occurred: {str(e)}'}, 500
 
 class FavoriteById(Resource):
 
     def delete(self, favorite_id):
         favorite = Favorite.query.get(favorite_id)
         if not favorite:
-            return make_response(jsonify({'message': 'Favorite not found'}), 404)
+            return make_response(jsonify({'error': 'Favorite not found'}), 404)
         db.session.delete(favorite)
         db.session.commit()
         return make_response('', 204)
@@ -281,7 +289,7 @@ class Reviews(Resource):
         except Exception as e:
             # Rollback any changes made during the transaction if an error occurs
             db.session.rollback()
-            return {'message': f'An error occurred: {str(e)}'}, 500
+            return {'error': f'An error occurred: {str(e)}'}, 500
 
 
 class ReviewsByCookie(Resource):
@@ -295,7 +303,7 @@ class ReviewById(Resource):
     def patch(self, item_id):
         review = Review.query.get(item_id)
         if not review:
-            return make_response(jsonify({'message': 'Review not found'}), 404)
+            return make_response(jsonify({'error': 'Review not found'}), 404)
         
         data = request.get_json()
 
@@ -308,7 +316,7 @@ class ReviewById(Resource):
     def delete(self, item_id):
         review = Review.query.get(item_id)
         if not review:
-            return make_response(jsonify({'message': 'Review not found'}), 404)
+            return make_response(jsonify({'error': 'Review not found'}), 404)
         db.session.delete(review)
         db.session.commit()
         return make_response('', 204)
@@ -318,13 +326,13 @@ class UserById(Resource):
     def get(self, user_id):
         user = User.query.get(user_id)
         if not user:
-            return make_response(jsonify({'message': 'User not found'}), 404)
+            return make_response(jsonify({'error': 'User not found'}), 404)
         return make_response(jsonify(user.to_dict()), 200)
     
     def patch(self, user_id):
         user = User.query.get(user_id)
         if not user:
-            return make_response(jsonify({'message': 'User not found'}), 404)
+            return make_response(jsonify({'error': 'User not found'}), 404)
         
         data = request.get_json()
 

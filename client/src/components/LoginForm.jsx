@@ -4,15 +4,7 @@ import { postJSONToDb } from "../helper";
 import styled from "styled-components";
 import { UserContext } from '../context/userProvider';
 import { useFormik } from 'formik';
-
-const Button = styled.button`
-`;
-
-const Error = styled.button`
-`;
-
-const Input = styled.input`
-`;
+import Error from "./Error";
 
 const FormField = styled.div`
   &:not(:last-child) {
@@ -37,6 +29,10 @@ function LoginForm({ setShowConfirm }) {
           setUser(user);
           setShowConfirm(true);
       } catch (error) {
+
+        console.log("Error object:", error);
+        
+        console.log(error.message)
           // Display the error message from the backend
           setErrors({ password: error.message });
       }
@@ -58,7 +54,7 @@ function LoginForm({ setShowConfirm }) {
       <h1>Login</h1>
       <FormField>
         <label htmlFor="username">Username</label>
-        <Input
+        <input
           type="text"
           id="username"
           name="username"
@@ -73,7 +69,7 @@ function LoginForm({ setShowConfirm }) {
       </FormField>
       <FormField>
         <label htmlFor="password">Password</label>
-        <Input
+        <input
           type="password"
           id="password"
           name="password"
@@ -87,9 +83,9 @@ function LoginForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Button variant="fill" color="primary" type="submit">
+        <button variant="fill" color="primary" type="submit">
           Login
-        </Button>
+        </button>
       </FormField>
     </form>
   );

@@ -3,20 +3,13 @@ import { postJSONToDb } from '../helper';
 import styled from "styled-components";
 import { UserContext } from '../context/userProvider';
 import { useFormik } from 'formik';
-
-const Button = styled.button``;
-
-const Error = styled.button``;
-
-const Input = styled.input``;
+import Error from "./Error";
 
 const FormField = styled.div`
   &:not(:last-child) {
     margin-bottom: 12px;
   }
 `;
-
-const Label = styled.label``;
 
 function SignUpForm({ setShowConfirm }) {
   const { setUser } = useContext(UserContext);
@@ -30,7 +23,7 @@ function SignUpForm({ setShowConfirm }) {
       password: "",
       password_confirmation: "",
     },
-    onSubmit: (values) => {
+    onSubmit: async (values, { setErrors }) => {
       const body = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -39,24 +32,26 @@ function SignUpForm({ setShowConfirm }) {
         password: values.password,
         password_confirmation: values.password_confirmation,
       };
-
-      postJSONToDb("signup", body)
-        .then(newUser => {
-          if (newUser) {
+  
+      try {
+        const newUser = await postJSONToDb("signup", body);
+        if (newUser) {
             postJSONToDb("orders", {userId: newUser.id, purchaseComplete: 0});
             setUser(newUser);
             setShowConfirm(true);
+        }
+      } catch (error) {
+          const errors = {};
+
+          if (error.message.toLowerCase().includes('username'))  {
+            errors.username = 'Username already taken.';
+          } 
+          if (error.message.toLowerCase().includes('email'))  {
+            errors.email = 'Email already registered.';
           }
-        })
-        .catch(error => {
-          // Handle errors such as username/email already taken
-          if (error.message === 'Username already taken') {
-            formik.setFieldError('username', 'Username is already taken');
-          }
-          if (error.message === 'Email already in use') {
-            formik.setFieldError('email', 'Email is already in use');
-          }
-        });
+
+          setErrors(errors)
+      }
     },
     validate: (values) => {
       const errors = {};
@@ -114,8 +109,8 @@ function SignUpForm({ setShowConfirm }) {
     <form onSubmit={formik.handleSubmit}>
       <h1>Sign Up</h1>
       <FormField>
-        <Label htmlFor="firstName">First Name</Label>
-        <Input
+        <label htmlFor="firstName">First Name</label>
+        <input
           type="text"
           id="firstName"
           name="firstName"
@@ -129,8 +124,8 @@ function SignUpForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Label htmlFor="lastName">Last Name</Label>
-        <Input
+        <label htmlFor="lastName">Last Name</label>
+        <input
           type="text"
           id="lastName"
           name="lastName"
@@ -141,8 +136,8 @@ function SignUpForm({ setShowConfirm }) {
         />
       </FormField>
       <FormField>
-        <Label htmlFor="username">Username</Label>
-        <Input
+        <label htmlFor="username">Username</label>
+        <input
           type="text"
           id="username"
           name="username"
@@ -156,8 +151,8 @@ function SignUpForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Label htmlFor="email">Email</Label>
-        <Input
+        <label htmlFor="email">Email</label>
+        <input
           type="email"
           id="email"
           name="email"
@@ -170,8 +165,8 @@ function SignUpForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Label htmlFor="password">Password</Label>
-        <Input
+        <label htmlFor="password">Password</label>
+        <input
           type="password"
           id="password"
           name="password"
@@ -184,8 +179,8 @@ function SignUpForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Label htmlFor="password_confirmation">Password Confirmation</Label>
-        <Input
+        <label htmlFor="password_confirmation">Password Confirmation</label>
+        <input
           type="password"
           id="password_confirmation"
           name="password_confirmation"
@@ -198,7 +193,7 @@ function SignUpForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Button type="submit">Sign Up</Button>
+        <button type="submit">Sign Up</button>
       </FormField>
     </form>
   );

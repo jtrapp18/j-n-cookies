@@ -82,23 +82,47 @@ function getJSON(dbKey) {
 
   function postJSONToDb(dbKey, jsonObj) {
     const snake_object = camelToSnake(jsonObj);
-
+  
     return fetch(`/api/${dbKey}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(snake_object),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(snake_object),
     })
-        .then(async (res) => {
-            if (!res.ok) {
-                // Extract the error message from the response JSON
-                const errorData = await res.json();
-                throw new Error(errorData.error || `HTTP error! Status: ${res.status}`);
-            }
-            return res.json();
-        });
-}
+      .then(async (res) => {
+        if (!res.ok) {
+          let errorData = {};
+          try {
+            // Attempt to parse JSON if the response is not OK
+            errorData = await res.json();
+          } catch (err) {
+            // If there is no JSON or invalid JSON, set a default error message
+            errorData = { error: `HTTP error! Status: ${res.status}` };
+          }
+  
+          // If the error response contains an error message, flatten it
+          const errorMessages = [];
+  
+          // Check for specific error fields like username or email
+          if (errorData.error.username) {
+            errorMessages.push(errorData.error.username);
+          }
+          if (errorData.error.email) {
+            errorMessages.push(errorData.error.email);
+          }
+  
+          // If no specific error, use a generic error message
+          if (errorMessages.length > 0) {
+            // If there are multiple error messages, join them into one string
+            throw new Error(errorMessages.join(', '));
+          } else {
+            throw new Error(errorData.error || 'An error occurred');
+          }
+        }
+        return res.json(); // Return the JSON if response is OK
+      });
+  }
 
 function patchJSONToDb(dbKey, Id, jsonObj) {
 
