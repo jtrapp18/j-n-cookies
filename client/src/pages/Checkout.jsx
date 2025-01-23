@@ -9,10 +9,7 @@ import { patchJSONToDb, postJSONToDb } from '../helper';
 const StyledMain = styled.main`
   min-height: var(--size-body);
   padding: 20px;
-  90vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
 
   h3 {
     font-size: clamp(1rem, 1.8vw, 1.1rem)
@@ -22,10 +19,13 @@ const StyledOrderSummary = styled.article`
     padding: 20px;
     margin: 10px;
     height: 100%;
-    width: 50%;
+    width: 40%;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     div {
       display: flex;
@@ -46,10 +46,10 @@ const StyledDiv = styled.div`
   padding: 20px;
   margin: 10px;
   display: grid;
-  width: 50%;
+  width: 60%;
   box-shadow: var(--shadow);
 
-  article {
+  .cookie-card {
     zoom: .7;
   }
 
@@ -60,41 +60,49 @@ const StyledDiv = styled.div`
 `
 
 const OrderConfirmation = styled.article`
-    padding: 20px;
-    margin: 10px;
-    height: 100%;
-    width: 50%;
-    margin-bottom: 10px;
-    position: relative;
-    background: var(--green);
-    border-radius: 20px;
 
-    div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+
+    .confirm-container {
+      padding: 20px;
+      margin: 10px;
+      width: fit-content;
+      min-width: 50%;
+      max-width: 90vw;
+      margin-bottom: 10px;
+      position: relative;
+      background: var(--green);
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
-      width: q00%;
-    }
+      align-items: center;
 
-    .article {
-    
-    }
+      div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
 
-    h3 {
-      font-size: clamp(1rem, 1.8vw, 1.1rem)
-    }
+      h3 {
+        font-size: clamp(1rem, 1.8vw, 1.1rem)
+      }
 
-    p {
-      line-height: 1;
-    }
+      p {
+        line-height: 1;
+      }
 
-    h2, h3, p {
-      color: white;
+      h2, h3, p {
+        color: white;
+      }
     }
 `
 
 const Checkout = () => {
-  const { user, setUser } = useContext(UserContext);
-  const { orders, cartOrder, placeCookieOrder } = useOutletContext();
+  const { user } = useContext(UserContext);
+  const { cartOrder, placeCookieOrder, createNewCart } = useOutletContext();
   const [orderComplete, setOrderComplete] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState(user.address);
@@ -116,11 +124,12 @@ const Checkout = () => {
       orderDate: 'today'
     }
 
-    patchJSONToDb("orders", cartOrder.id, orderObj)
+    patchJSONToDb("orders", cartOrder.id, orderObj);
     setOrderComplete(true);
     placeCookieOrder(cartOrder.id, orderObj);
 
     postJSONToDb("orders", {userId: user.id, purchaseComplete: 0})
+    .then(newOrder => createNewCart(newOrder.id));
   }
 
   return (
@@ -181,26 +190,26 @@ const Checkout = () => {
                 <h3>${totalPrice}</h3>
               </div>
               <hr />
-              <Button variant="warning" onClick={handleSubmit}>Place Order</Button>
+              <div>
+                <Button variant="warning" onClick={handleSubmit}>Place Order</Button>
+              </div>
             </StyledOrderSummary>
           </>
         ) : (
           <OrderConfirmation>
-            <h2>Order Placed!</h2>
-            <div>
-              <h3>Confirmation email sent to: {`${user.email}`}</h3>  
-            </div>
-            <hr />
-            <div>
-              <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
-              <p>{deliveryAddress}</p>
-            </div>
-            <hr />
-            <article>
-              <p>Order ID: {cartOrder.id}</p>
-              <h3><strong>Order Total: </strong>${totalPrice}</h3>
+            <div className="confirm-container">
+              <h2>Thank you for your Order!</h2>
               <hr />
-            </article>
+              <div>
+                <h3>Confirmation email sent to: {`${user.email}`}</h3>  
+                <hr />
+                <h3>Delivering to {`${user.first_name} ${user.last_name}`}</h3>  
+                <p>{deliveryAddress}</p>
+                <hr />
+                <h3><strong>Order Total: </strong>${totalPrice}</h3>
+                <hr />
+              </div>
+            </div>
           </OrderConfirmation>
         )}
       </StyledMain>

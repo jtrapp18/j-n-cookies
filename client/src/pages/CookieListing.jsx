@@ -10,16 +10,24 @@ const StyledMain = styled.main`
   min-height: var(--size-body);
   padding: 20px;
   margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .listing-container {
+    max-width: 90vw;
+    width: 1000px;  
+  }
 `
 
 const ReviewContainer = styled.div`
-    padding: 20px;
+    margin-top: 20px;
 `
 
 const StyledRating = styled.div`
   background: var(--cookie);
   padding: 1%;
-  margin: 2%
+  margin-bottom: 2%
 `
 
 const CookieListing = () => {
@@ -50,35 +58,38 @@ const CookieListing = () => {
   }
   return (
     <StyledMain>
-      <h1>Cookie Listing</h1>
-      <CookieCard
-        id={cookie.id}
-        name={cookie.name}
-        image={cookie.image}
-        price={cookie.price}
-        isVegan={cookie.isVegan}
-        isGlutenFree={cookie.isGlutenFree}
-        hasNuts={cookie.hasNuts}
-        frosting={cookie.frosting}
-        reviews={reviews}
-        favorites={cookie.favorites}
-        cartItems={cookie.cartItems}
-      />
-      <ReviewContainer>
-        <h2>Reviews:</h2>
-        {reviews.length > 0 ? (
-          reviews.map((review, index) => (
-            <StyledRating key={index}>
-              <span>{review.user.username}</span>
-              <Rating rating={review.rating} />
-              <h3>{review.review_title}</h3>
-              <p>{review.review_body}</p>
-            </StyledRating>
-          ))
-        ) : (
-          <p>No reviews yet.</p>
-        )}
-      </ReviewContainer>
+      <div className='listing-container'>
+        <h1>Cookie Listing</h1>
+        <CookieCard
+          id={cookie.id}
+          name={cookie.name}
+          image={cookie.image}
+          price={cookie.price}
+          isVegan={cookie.isVegan}
+          isGlutenFree={cookie.isGlutenFree}
+          hasNuts={cookie.hasNuts}
+          frosting={cookie.frosting}
+          reviews={reviews}
+          favorites={cookie.favorites}
+          cartItems={cookie.cartItems}
+        />
+        <hr />
+        <ReviewContainer>
+          <h2>Reviews:</h2>
+          {reviews.length > 0 ? (
+            reviews.map((review, index) => (
+              <StyledRating key={index}>
+                <span>{review.user.username}</span>
+                <Rating rating={review.rating} />
+                <h3>{review.review_title}</h3>
+                <p>{review.review_body}</p>
+              </StyledRating>
+            ))
+          ) : (
+            <p>No reviews yet.</p>
+          )}
+        </ReviewContainer>
+      </div>
     </StyledMain>
   );
 };

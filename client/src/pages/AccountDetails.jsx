@@ -92,7 +92,7 @@ const AccountDetails = () => {
               <label>First Name:</label>
               <input 
                 type="text" 
-                name="firstName" 
+                name="first_name" 
                 value={formData.first_name} 
                 onChange={handleChange} 
               />
@@ -101,7 +101,7 @@ const AccountDetails = () => {
               <label>Last Name:</label>
               <input 
                 type="text" 
-                name="lastName" 
+                name="last_name" 
                 value={formData.last_name} 
                 onChange={handleChange} 
               />
@@ -128,25 +128,23 @@ const AccountDetails = () => {
               <label>Phone Number:</label>
               <input 
                 type="text" 
-                name="phoneNumber" 
+                name="phone_number" 
                 value={formData.phone_number} 
                 onChange={handleChange} 
               />
             </div>
             <div>
-              <Button 
+              <button 
                 type="submit" 
-                variant="success"
               >
                 Save
-              </Button>
-              <Button 
+              </button>
+              <button 
                 type="button" 
-                variant="secondary" 
                 onClick={() => setIsEditing(false)}
               >
                   Cancel
-              </Button>
+              </button>
             </div>
           </StyledForm>
         )}

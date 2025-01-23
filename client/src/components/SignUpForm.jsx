@@ -23,27 +23,35 @@ function SignUpForm({ setShowConfirm }) {
 
   const formik = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
       username: "",
       password: "",
       password_confirmation: "",
     },
     onSubmit: (values) => {
       const body = {
+        firstName: values.firstName,
+        lastName: values.lastName,
         username: values.username,
         password: values.password,
         password_confirmation: values.password_confirmation,
       };
 
-      postJSONToDb("signup", body)
-        .then((newUser) => {
-          if (newUser) {
-            setUser(newUser);
-            setShowConfirm(true);
-          }
-        });
+    postJSONToDb("signup", body)
+    .then(newUser => {
+      if (newUser) {
+        postJSONToDb("orders", {userId: newUser.id, purchaseComplete: 0});
+        setUser(newUser);
+        setShowConfirm(true);
+        }
+      });
     },
     validate: (values) => {
       const errors = {};
+      if (!values.firstName) {
+        errors.firstName = 'First Name is required';
+      }
       if (!values.username) {
         errors.username = 'Username is required';
       }
@@ -60,6 +68,33 @@ function SignUpForm({ setShowConfirm }) {
   return (
     <form onSubmit={formik.handleSubmit}>
       <h1>Sign Up</h1>
+      <FormField>
+        <Label htmlFor="firstName">First Name</Label>
+        <Input
+          type="text"
+          id="firstName"
+          name="firstName"
+          autoComplete="off"
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.firstName && formik.errors.firstName ? (
+          <Error>{formik.errors.firstName}</Error>
+        ) : null}
+      </FormField>
+      <FormField>
+        <Label htmlFor="lastName">Last Name</Label>
+        <Input
+          type="text"
+          id="lastName"
+          name="lastName"
+          autoComplete="off"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+      </FormField>
       <FormField>
         <Label htmlFor="username">Username</Label>
         <Input

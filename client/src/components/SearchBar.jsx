@@ -2,23 +2,26 @@ import styled from "styled-components";
 
 const SearchContainer = styled.div`
     display: flex;
-    // justify-content: center;
     align-items: center;
-    height: 100px;
+    width: 100%;
     background-color: var(--blue);
     padding: 0;
-    width: 500px;
-    max-width: 80%;
     position: relative;
-    top: -60px;
+    justify-content: center;
+    margin: 0;
 
     input {
+        width: 500px;
+        max-width: 80%;
         border-radius: 20px;
         height: 45px;
-        width: 80%;
         font-size: 16px;
         border: 1px solid #ccc;
         padding: 10px 15px;
+
+        &:hover {
+            background: var(--yellow);
+        }
     }
 `
 

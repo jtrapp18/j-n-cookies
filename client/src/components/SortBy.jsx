@@ -2,21 +2,24 @@ import styled from "styled-components";
 
 const SortContainer = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
-    height: 100px;
+    height: 100%;
     background-color: var(--blue);
     padding: 0;
-    width: 500px;
-    max-width: 80%;
+    width: 300px;
     position: relative;
-    input {
-        border-radius: 20px;
+
+    select {
         height: 45px;
         width: 80%;
         font-size: 16px;
         border: 1px solid #ccc;
         padding: 10px 15px;
+        
+        &:hover {
+            background: var(--yellow);
+        }
     }
 `
 

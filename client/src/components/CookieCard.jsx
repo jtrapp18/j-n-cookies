@@ -11,7 +11,8 @@ import { FaCartPlus, FaRegHeart } from 'react-icons/fa';
 import NotLoggedInToast from './NotLoggedInToast';
 
 const StyledCookieCard = styled.article`
-    max-width: 90vw;
+    width: 100%;
+    max-width: clamp(300px, 100%, 600px);
     padding: 10px;
     margin-bottom: 10px;
     box-shadow: var(--shadow);
@@ -34,24 +35,23 @@ const StyledCookieCard = styled.article`
         cursor: pointer;
 
         img {
-            width: 90%;
+            max-width: 50%;
             aspect-ratio: 1 / 1;
-            object-fit: cover;
+            object-fit: contain;
         }
         
         section {
-            width: 50%;
             display: flex;
             flex-direction: column;
             padding: 2%;
             justify-content: center;
 
             h3 {
-            font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+                font-size: clamp(1.2rem, 1.8vw, 1.8rem);
             }
 
             .price {
-            font-size: clamp(2rem, 3.5vw, 4rem);
+                font-size: clamp(2rem, 3.5vw, 4rem);
             }
 
             .cookie-info {
@@ -186,12 +186,10 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 {showToast &&
                     <NotLoggedInToast onClose={() => setShowToast(false)}/>            
                 }
-                <section>
-                    <img
-                        src={`images/menu_items/${image}`}
-                        alt={name}
-                    />
-                </section>
+                <img
+                    src={`images/menu_items/${image}`}
+                    alt={name}
+                />
                 <section>
                     <div className="cookie-info">
                         <h2>{name}</h2>

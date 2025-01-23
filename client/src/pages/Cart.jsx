@@ -13,6 +13,10 @@ const StyledMain = styled.main`
   display: flex;
   justify-content: center;
 
+  .cookie-card {
+    zoom: .7;
+  }
+
   a:hover {
     text-decoration: underline;
     color: blue;
@@ -22,7 +26,8 @@ const StyledOrderSummary = styled.article`
     padding: 20px;
     margin: 10px;
     height: 100%;
-    width: 40%;
+    width: fit-content;
+    min-width: 30%;
     margin-bottom: 10px;
     position: relative;
     box-shadow: var(--shadow);
@@ -36,13 +41,12 @@ const CardContainer = styled.div`
   padding: 20px;
   margin: 10px;
   display: grid;
-  width: 60%;
   box-shadow: var(--shadow);
   gap: 0;
+  justify-content: center;
 
   article.cookie-card {
-    transform: scale(.7);
-    transform-origin: top left;
+    width: 70%;
   }
 
   h2 {
@@ -53,15 +57,18 @@ const CardContainer = styled.div`
 `
 
 const Cart = () => {
-  const { user, setUser } = useContext(UserContext);
-  const { orders, cartOrder } = useOutletContext();
+  const { user } = useContext(UserContext);
+  const { cartOrder } = useOutletContext();
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalCookies, setTotalCookies] = useState(0);
 
   // Update average review when reviews change
   useEffect(() => {
     if (cartOrder && cartOrder.cartItems.length > 0) {
       const totalPrice = cartOrder.cartItems.reduce((sum, item) => sum + (item.cookie.price * item.numCookies), 0);
+      const totalCookies = cartOrder.cartItems.reduce((sum, item) => sum + (item.numCookies), 0);
       setTotalPrice(totalPrice.toFixed(2));
+      setTotalCookies(totalCookies);
     }
   }, [cartOrder]);
 
@@ -102,7 +109,7 @@ const Cart = () => {
           )}
         </CardContainer>
         <StyledOrderSummary>
-          <h3>Subtotal ({2}) Items: <strong>${totalPrice}</strong></h3>
+          <h3>Subtotal ({totalCookies}) Items: <strong>${totalPrice}</strong></h3>
           <p>Order ID: {cartOrder.id}</p>
           <hr />
           <NavLink

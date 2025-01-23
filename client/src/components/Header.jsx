@@ -15,6 +15,7 @@ const StyledHeader = styled(Headroom)`
     display: flex;
     justify-content: space-between;
     background: white;
+    height: var(--height-header);
 
     #logged-in {
       position: absolute;

@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import LoginForm from '../components/LoginForm'
 import SignupForm from '../components/SignUpForm'
 import styled from 'styled-components';
-import { userLogout } from "../helper";
 import LoggedInConfirm from '../components/LoggedInConfirm';
 
 const StyledMain = styled.main`
