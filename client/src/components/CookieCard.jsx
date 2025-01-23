@@ -92,7 +92,7 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 setCartId("");
             }
         }
-    }, [cartItems, user, cartOrder.id]);
+    }, [cartItems, user]);
 
     // Update average review when reviews change
     useEffect(() => {
@@ -120,8 +120,6 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
                 orderId: cartOrder.id,
                 cookieId: id
             }
-
-            console.log("trying to add...", body)
     
             postJSONToDb("cart_items", body)
                 .then(cartItem => {
@@ -139,7 +137,6 @@ const CookieCard = ({ id, name, image, price, isVegan, isGlutenFree, hasNuts, fr
     }
 
     function addToFavorites() {
-        console.log(user)
         if (!user) {
             setShowToast(true);
         }

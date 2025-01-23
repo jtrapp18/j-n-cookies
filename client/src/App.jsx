@@ -98,6 +98,20 @@ function App() {
           : order
       )
     );
+
+    setCookies((prevCookies) =>
+      prevCookies.map((cookie) =>
+        cookie.id === cartItem.cookie_id
+          ? {
+              ...cookie,
+              cartItems: [
+                ...cookie.cartItems,
+                { id: cartItem.id, numCookies: 1, orderId: cartItem.orderId },
+              ],
+            }
+          : cookie
+      )
+    );
   }
 
   function removeCookieFromCart(cartId) {
@@ -109,6 +123,17 @@ function App() {
               cartItems: order.cartItems.filter((item) => item.id !== cartId),
             }
           : order
+      )
+    );
+
+    setCookies((prevCookies) =>
+      prevCookies.map((cookie) =>
+        cookie.cartItems.some(item => item.id === cartId) // Check if cart_items contains the id to remove
+          ? {
+              ...cookie,
+              cartItems: cookie.cartItems.filter((item) => item.id !== cartId), // Filter by cart item id
+            }
+          : cookie
       )
     );
   }
