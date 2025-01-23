@@ -20,9 +20,6 @@ const FormField = styled.div`
   }
 `;
 
-const Label = styled.label`
-`;
-
 function LoginForm({ setShowConfirm }) {
 
   const { setUser } = useContext(UserContext);
@@ -60,7 +57,7 @@ function LoginForm({ setShowConfirm }) {
     <form onSubmit={formik.handleSubmit}>
       <h1>Login</h1>
       <FormField>
-        <Label htmlFor="username">Username</Label>
+        <label htmlFor="username">Username</label>
         <Input
           type="text"
           id="username"
@@ -75,7 +72,7 @@ function LoginForm({ setShowConfirm }) {
         ) : null}
       </FormField>
       <FormField>
-        <Label htmlFor="password">Password</Label>
+        <label htmlFor="password">Password</label>
         <Input
           type="password"
           id="password"
