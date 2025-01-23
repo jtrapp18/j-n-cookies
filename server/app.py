@@ -30,6 +30,16 @@ class Signup(Resource):
         try:
             json = request.get_json()
 
+            # Check if the username already exists in the database
+            existing_user = User.query.filter_by(username=json['username']).first()
+            if existing_user:
+                return {'message': 'Username already taken.'}, 400
+
+            # Check if the email already exists in the database
+            existing_email = User.query.filter_by(email=json['email']).first()
+            if existing_email:
+                return {'message': 'Email already registered.'}, 400
+
             user = User(
                 username=json['username'],
                 first_name=json['first_name'],
