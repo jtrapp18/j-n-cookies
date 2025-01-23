@@ -80,7 +80,7 @@ const AccountDetails = () => {
             <p><strong>Phone Number:</strong> {user.phone_number}</p>
             <Button 
               type="button" 
-              variant="warning" 
+              variant="success" 
               onClick={() => setIsEditing(true)}
             >
                 Edit
@@ -142,7 +142,7 @@ const AccountDetails = () => {
               </Button>
               <Button 
                 type="button" 
-                variant="danger" 
+                variant="secondary" 
                 onClick={() => setIsEditing(false)}
               >
                   Cancel
