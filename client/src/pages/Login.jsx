@@ -13,7 +13,7 @@ const StyledMain = styled.main`
   align-items: center;
 
   form {
-    width: 300px;
+    width: 500px;
     max-width: 90vw;
     background: var(--cookie);
     padding: 50px;

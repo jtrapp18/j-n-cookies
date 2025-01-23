@@ -26,6 +26,7 @@ function SignUpForm({ setShowConfirm }) {
       firstName: "",
       lastName: "",
       username: "",
+      email: "",
       password: "",
       password_confirmation: "",
     },
@@ -34,33 +35,77 @@ function SignUpForm({ setShowConfirm }) {
         firstName: values.firstName,
         lastName: values.lastName,
         username: values.username,
+        email: values.email,
         password: values.password,
         password_confirmation: values.password_confirmation,
       };
 
-    postJSONToDb("signup", body)
-    .then(newUser => {
-      if (newUser) {
-        postJSONToDb("orders", {userId: newUser.id, purchaseComplete: 0});
-        setUser(newUser);
-        setShowConfirm(true);
-        }
-      });
+      postJSONToDb("signup", body)
+        .then(newUser => {
+          if (newUser) {
+            postJSONToDb("orders", {userId: newUser.id, purchaseComplete: 0});
+            setUser(newUser);
+            setShowConfirm(true);
+          }
+        })
+        .catch(error => {
+          // Handle errors such as username/email already taken
+          if (error.message === 'Username already taken') {
+            formik.setFieldError('username', 'Username is already taken');
+          }
+          if (error.message === 'Email already in use') {
+            formik.setFieldError('email', 'Email is already in use');
+          }
+        });
     },
     validate: (values) => {
       const errors = {};
+
+      // First Name validation
       if (!values.firstName) {
         errors.firstName = 'First Name is required';
       }
+
+      // Username validation
       if (!values.username) {
         errors.username = 'Username is required';
+      } else if (values.username.length < 3) {
+        errors.username = 'Username must be at least 3 characters';
       }
+
+      // Email validation
+      if (!values.email) {
+        errors.email = 'Email is required';
+      } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+        errors.email = 'Email address is invalid';
+      }
+
+      // Password validation
       if (!values.password) {
         errors.password = 'Password is required';
+      } else {
+        if (values.password.length < 8) {
+          errors.password = 'Password must be at least 8 characters long';
+        }
+        if (!/[A-Z]/.test(values.password)) {
+          errors.password = 'Password must include at least one uppercase letter';
+        }
+        if (!/[a-z]/.test(values.password)) {
+          errors.password = 'Password must include at least one lowercase letter';
+        }
+        if (!/\d/.test(values.password)) {
+          errors.password = 'Password must include at least one number';
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+          errors.password = 'Password must include at least one special character';
+        }
       }
+
+      // Password confirmation validation
       if (values.password !== values.password_confirmation) {
         errors.password_confirmation = 'Passwords must match';
       }
+
       return errors;
     }
   });
@@ -108,6 +153,20 @@ function SignUpForm({ setShowConfirm }) {
         />
         {formik.touched.username && formik.errors.username ? (
           <Error>{formik.errors.username}</Error>
+        ) : null}
+      </FormField>
+      <FormField>
+        <Label htmlFor="email">Email</Label>
+        <Input
+          type="email"
+          id="email"
+          name="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          autoComplete="off"
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <Error>{formik.errors.email}</Error>
         ) : null}
       </FormField>
       <FormField>
