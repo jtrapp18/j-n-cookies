@@ -57,22 +57,6 @@ function getJSON(dbKey) {
     });
 }
 
-// function getJSONById(dbKey, Id) {
-
-//     // Make the API call to your Lambda (via API Gateway)
-//     fetch(`/api/${dbKey}/${Id}`)
-//       .then(res => {
-//         if (!res.ok) {
-//           console.error(`Error fetching user information! Status: ${res.status}`);
-//         }
-//         return res.json();
-//       })
-//       .catch(err => {
-//         console.error('Request failed', err);
-//         // You can handle further error logic here if needed
-//       });
-//   }
-
   function getJSONById(dbKey, Id) {
     console.log(`Fetching data for ${dbKey}/${Id}`);  // Debugging log
     return fetch(`/api/${dbKey}/${Id}`)
@@ -96,23 +80,24 @@ function getJSON(dbKey) {
       });
   }
 
-function postJSONToDb(dbKey, jsonObj) {
-
+  function postJSONToDb(dbKey, jsonObj) {
     const snake_object = camelToSnake(jsonObj);
 
     return fetch(`/api/${dbKey}`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(snake_object)
-        })
-        .then(res => {
+        body: JSON.stringify(snake_object),
+    })
+        .then(async (res) => {
             if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
+                // Extract the error message from the response JSON
+                const errorData = await res.json();
+                throw new Error(errorData.error || `HTTP error! Status: ${res.status}`);
             }
             return res.json();
-        })
+        });
 }
 
 function patchJSONToDb(dbKey, Id, jsonObj) {

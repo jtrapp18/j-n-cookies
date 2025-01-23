@@ -32,16 +32,17 @@ function LoginForm({ setShowConfirm }) {
       username: '',
       password: ''
     },
-    onSubmit: (values) => {
+    onSubmit: async (values, { setErrors }) => {
       const body = { username: values.username, password: values.password };
-
-      postJSONToDb("login", body)
-        .then(user => {
-          if (user) {
-            setUser(user);
-            setShowConfirm(true);
-          }
-        });
+  
+      try {
+          const user = await postJSONToDb("login", body);
+          setUser(user);
+          setShowConfirm(true);
+      } catch (error) {
+          // Display the error message from the backend
+          setErrors({ password: error.message });
+      }
     },
     validate: (values) => {
       const errors = {};

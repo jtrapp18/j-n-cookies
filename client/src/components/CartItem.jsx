@@ -6,12 +6,15 @@ import { useOutletContext } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
 const StyledCartItem = styled.article`
-    margin: 10px;
     max-width: 90vw;
     padding: 10px;
     position: relative;
     display: flex;
     justify-content: space-between;
+
+    .cookie-count {
+        margin: 2%;
+    }
 `;
 
 function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
@@ -58,7 +61,7 @@ function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
         <StyledCartItem>
             <CookieCard {...cookie} />
             {!isFinal ?
-                (<div>
+                (<div className="cookie-count">
                     <label htmlFor="numCookies">Number of Cookies:</label>
                     <div className="input-wrapper">
                         <input
@@ -74,7 +77,7 @@ function CartItem({ id, cookie, numCookies, isFinal, updateTotalPrice }) {
                     <p>Subtotal: <strong>${(cookie.price*newNumCookies).toFixed(2)}</strong></p>
                     <Button variant="outline-danger" onClick={removeFromCart}>Remove from Cart</Button>
                 </div>)
-                : (<div className={isFinal ? "" : "hide"}>
+                : (<div className="cookie-count">
                     <p>Quantity: {numCookies}</p>
                     <hr />
                     <p>Subtotal: <strong>{cookie.price*numCookies}</strong></p>
