@@ -20,6 +20,10 @@ const StyledMain = styled.main`
 `
 
 const StyledDiv = styled.div`
+  width: 400px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
 `
 
 const StyledForm = styled.form`

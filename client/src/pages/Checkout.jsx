@@ -5,6 +5,7 @@ import {useOutletContext} from "react-router-dom";
 import CartItem from '../components/CartItem';
 import Button from 'react-bootstrap/Button';
 import { patchJSONToDb, postJSONToDb } from '../helper';
+import NeedAddressToast from '../components/NeedAddressToast'
 
 const StyledMain = styled.main`
   min-height: var(--size-body);
@@ -27,7 +28,7 @@ const StyledOrderSummary = styled.article`
     flex-direction: column;
     align-items: center;
 
-    div {
+    section {
       display: flex;
       width: 50%;
       justify-content: space-between;
@@ -107,6 +108,7 @@ const Checkout = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState(user.address);
   const [isEditing, setIsEditing] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
 
   // Update average review when reviews change
   useEffect(() => {
@@ -118,18 +120,23 @@ const Checkout = () => {
 
   const handleSubmit = (e) => {
 
-    const orderObj = {
-      purchaseComplete: 1,
-      orderTotal: parseFloat(totalPrice),
-      orderDate: 'today'
+    if (deliveryAddress) {
+      const orderObj = {
+        purchaseComplete: 1,
+        orderTotal: parseFloat(totalPrice),
+        orderDate: 'today'
+      }
+  
+      patchJSONToDb("orders", cartOrder.id, orderObj);
+      setOrderComplete(true);
+      placeCookieOrder(cartOrder.id, orderObj);
+  
+      postJSONToDb("orders", {userId: user.id, purchaseComplete: 0})
+      .then(newOrder => createNewCart(newOrder.id));
     }
-
-    patchJSONToDb("orders", cartOrder.id, orderObj);
-    setOrderComplete(true);
-    placeCookieOrder(cartOrder.id, orderObj);
-
-    postJSONToDb("orders", {userId: user.id, purchaseComplete: 0})
-    .then(newOrder => createNewCart(newOrder.id));
+    else {
+      setShowErrorToast(true);
+    }
   }
 
   return (
@@ -169,30 +176,31 @@ const Checkout = () => {
               )}
             </StyledDiv>
             <StyledOrderSummary>
-              <div>
+              <section>
                 <p>Order ID:</p>
                 <p>{cartOrder.id}</p>
-              </div>
-              <div>
+              </section>
+              <section>
                 <p>Items ({2})</p>
                 <p>${totalPrice}</p>
-              </div>
-              <div>
+              </section>
+              <section>
                 <p>Shipping:</p>
                 <p>$0.00</p>
-              </div>
-              <div>
+              </section>
+              <section>
                 <p>Taxes:</p>
                 <p>$0.00</p>
-              </div>
-              <div>
+              </section>
+              <section>
                 <h3>Order Total</h3>
                 <h3>${totalPrice}</h3>
-              </div>
+              </section>
               <hr />
-              <div>
+              <section>
                 <Button variant="warning" onClick={handleSubmit}>Place Order</Button>
-              </div>
+              </section>
+              {showErrorToast && <section><NeedAddressToast onClose={()=>setShowErrorToast(false)}/></section>}
             </StyledOrderSummary>
           </>
         ) : (
