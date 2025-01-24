@@ -119,7 +119,6 @@ const Checkout = () => {
   }, [cartOrder]);
 
   const handleSubmit = (e) => {
-
     if (deliveryAddress) {
       const orderObj = {
         purchaseComplete: 1,

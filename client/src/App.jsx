@@ -45,7 +45,7 @@ function App() {
       const cart = orders.find((order) => !order.purchaseComplete) || null;
       setCartOrder(cart);
 
-      if (cart.cartItems.length > 0) {
+      if (cart && cart.cartItems.length > 0) {
         // Manually calculate totals after updating the cart (not relying on useEffect)
         const newTotalPrice = cart.cartItems.reduce(
           (sum, item) => sum + item.cookie.price * item.numCookies,

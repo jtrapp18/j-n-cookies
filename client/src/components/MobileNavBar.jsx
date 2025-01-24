@@ -159,6 +159,13 @@ const MobileNavBar = () => {
           Cart
         </StyledNavLink>
         <StyledNavLink
+          to="/order_history"
+          className="nav-link"
+          onClick={handleClick}
+        >
+          Order History
+        </StyledNavLink>
+        <StyledNavLink
           to="/account_details"
           className="nav-link"
           onClick={handleClick}
