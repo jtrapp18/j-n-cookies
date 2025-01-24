@@ -1,1 +1,1 @@
-web: FLASK_APP=server.app gunicorn --chdir server app:app
+web: gunicorn --chdir server app:app
