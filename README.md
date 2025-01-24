@@ -1,8 +1,8 @@
-# Cookie Store
+# J&N Cookies
 
 ## About this project
 
-The **Cookie Store** is an online cookie store that allows users to view the cookie menu and search and filter cookies. Users can also create and log into accounts using secure authorization, which will allow them to access additional features, such as managing their carts and account information.
+**J&N Cookies** is an online cookie store that allows users to view the cookie menu and search and filter cookies. Users can also create and log into accounts using secure authorization, which will allow them to access additional features, such as managing their carts and account information.
 
 ## Contributors
 
@@ -38,7 +38,7 @@ GitHub: [Nemswirls](https://github.com/nemswirls)
 
 See this gif for an example of how the app works.
 
-![demo](https://github.com/jtrapp18/j-n-cookies/blob/main/img/j-n-cookies.gif?raw=true)
+![demo](https://raw.githubusercontent.com/jtrapp18/j-n-cookies/refs/heads/main/client/public/images/j-n-cookies.gif)
 
 ## Setup
 
