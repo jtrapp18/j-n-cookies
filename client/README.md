@@ -42,8 +42,6 @@ See this gif for an example of how the app works.
 
 ## Description of Key Directories and Files
 
-## File Structure
-
 - **`src/components/`**: Contains reusable React components, such as form elements, modals, and UI elements, as well as CRUD operations for managing data (e.g., `Cookie`, `Review`, `Order`, and `User` models).
 - **`src/context/`**: Contains context providers for managing global state, such as `UserProvider` for user authentication and `WindowSizeProvider` for handling window size changes.
 - **`src/pages/`**: Contains main route components, such as `Menu`, `Cart`, `Orders`, and `Account` pages.
