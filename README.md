@@ -40,18 +40,7 @@ See this gif for an example of how the app works.
 
 ![demo](https://raw.githubusercontent.com/jtrapp18/j-n-cookies/refs/heads/main/client/public/images/j-n-cookies.gif)
 
-## Setup
-
-1. Fork and clone this repo to your local machine.
-2. Run `pipenv install` to install dependencies.
-3. Run `pipenv shell` to activate the virtual environment.
-4. Run `pipenv run start` to launch the application in the CLI.
-
 ## Description of Key Directories and Files
-
-## File Structure
-
-## File Structure
 
 - **`src/components/`**: Contains reusable React components, such as form elements, modals, and UI elements, as well as CRUD operations for managing data (e.g., `Cookie`, `Review`, `Order`, and `User` models).
 - **`src/context/`**: Contains context providers for managing global state, such as `UserProvider` for user authentication and `WindowSizeProvider` for handling window size changes.
