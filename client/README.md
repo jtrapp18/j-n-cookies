@@ -1,4 +1,4 @@
-# Rental Management Tool
+# Cookie Store
 
 ## About this project
 
@@ -14,31 +14,31 @@ GitHub: [Nemswirls](https://github.com/nemswirls)
 
 ## Features
 
-- **View Menu**: View cookie menu, search for cookies by name, filter on one or more cookie attributes (maximum price, minimum rating, gluten-free, nut-free, frosted, favorited).
-- **Create User Account**: Log in or sign up to access full features of the cookie store. 
+- **View Menu**: View cookie menu, search for cookies by name, and filter on one or more cookie attributes (maximum price, minimum rating, gluten-free, nut-free, frosted).
+- **Create User Account**: Log in or sign up to access full features of the cookie store.
 - **Manage Account Information**: View and edit user information.
-- **Manage Cart**: Add/remove cookies to/from cart, and update number of cookies.
+- **Manage Cart**: Add/remove cookies to/from the cart, and update the quantity of cookies.
 - **Order Cookies**: Place mock orders for cookies and view past orders.
+- **Review Cookies**: Users can leave reviews and ratings for cookies they have tried.
 
 ## Technical
 
-- **Hierarchical Menu System**: Implements a tree structure using `Node` instances to provide dynamic, multi-level menu navigation with parent-child relationships.
-- **Customizable Actions**: Each `Node` can trigger user-defined procedures, allowing for dynamic operations like filtering tenants or viewing payment details.
-- **Dynamic Menu Navigation**: Built with `MenuTree` and `Node` classes, enabling an expandable, user-friendly navigation structure.
-- **CLI Interface with Custom ASCII Art**: A command-line interface enhanced with rich text formatting and custom ASCII art for improved user experience.
-- **Modular and Extendable**: Easily extend the menu system to support future features and operations like tenant or payment management.
-- **Procedural Chaining**: Seamlessly chain multiple actions (e.g., saving data and generating receipts) for greater flexibility in workflows.
-- **Database Integration & CRUD Operations**: Manages database interactions for creating, reading, updating, and deleting records, with SQL (SQLite or chosen database).
-- **Data Binding**: Menu `Node` instances bind dynamically to data, such as tenants or payments, enabling users to view and edit records interactively.
-- **Input Validation**: Ensures that only valid data is entered into the system with custom validation functions for all key attributes (e.g., description, payment amounts).
-- **SQL Helper Functions**: SQL functions abstracted for simplified database interactions, making it easier to execute CRUD operations.
-- **Well-Organized Codebase**: The project is structured with clear separation of concerns, including dedicated modules for database models, helpers, and menu navigation.
+- **Full CRUD Actions**: Supports complete Create, Read, Update, and Delete functionality for cookies, users, and orders.
+- **6 Models**: Implements 6 different models (e.g., User, Cookie, Order, CartItem, Favorite, Review) to manage data.
+- **Form Validation (Formik)**: Uses Formik for front-end form validation to ensure smooth user experience when creating accounts, managing the cart, etc.
+- **Backend Model Validation**: Ensures data integrity with model validation on the backend using Flask and SQLAlchemy.
+- **RESTful API**: The backend is built with Flask, providing a RESTful API for communication with the React frontend.
+- **SQLAlchemy**: Utilizes SQLAlchemy for ORM-based database interactions with full support for CRUD operations.
+- **Secure Authentication**: Implements user authentication with JWT tokens for secure login and session management.
+- **Responsive Frontend**: Built with React, providing a dynamic, responsive user interface.
+- **Database Integration**: Uses SQLite to store and manage user, cookie, and order data.
+- **Well-Organized Codebase**: Project is structured for maintainability, with clear separation of concerns, including dedicated modules for API routes, database models, and frontend components.
 
 ## Demo
 
 See this gif for an example of how the app works.
 
-![demo](https://github.com/jtrapp18/rental_management_tool/blob/main/img/rental_management_tool.gif?raw=true)
+![demo](https://github.com/jtrapp18/j-n-cookies/blob/main/img/j-n-cookies.gif?raw=true)
 
 ## Setup
 
@@ -49,21 +49,18 @@ See this gif for an example of how the app works.
 
 ## Description of Key Directories and Files
 
-- **`src/lib/database/`**: Contains models and CRUD operations for `Expense`, `Payment`, `Tenant`, and `Unit` data.
-  
-- **`src/lib/helper/`**: Utility files for:
-  - **`ascii.py`**: Functions for displaying ASCII art and formatted text.
-  - **`report.py`**: Functions for generating PDF income reports based on stored data.
-  - **`sql_helper.py`**: Helper functions that simplify database queries and operations.
-  - **`validation.py`**: Custom validation functions to ensure data integrity (e.g., valid payment amounts, description lengths).
+## File Structure
 
-- **`src/lib/tree/`**: Menu and navigation components:
-  - **`menu_tree.py`**: Defines the menu structure, with options and navigation.
-  - **`populate_menu.py`**: Manages the population of menu options and linking actions to user interactions.
+## File Structure
 
-- **`_1_seeds.py`**: Used for seeding the database with initial test data.
-- **`_2_cli.py`**: The entry point for the CLI interface, where users interact with the application.
-
-- **`img/`**: Contains image assets used in the application.
-- **`Pipfile`**: Defines project dependencies and virtual environment setup.
-- **`rental_management_db`**: Database which stores relevant data.
+- **`src/components/`**: Contains reusable React components, such as form elements, modals, and UI elements, as well as CRUD operations for managing data (e.g., `Cookie`, `Review`, `Order`, and `User` models).
+- **`src/context/`**: Contains context providers for managing global state, such as `UserProvider` for user authentication and `WindowSizeProvider` for handling window size changes.
+- **`src/pages/`**: Contains main route components, such as `Menu`, `Cart`, `Orders`, and `Account` pages.
+- **`App.jsx`**: Serves as the main application file, responsible for rendering the app, managing routes, and setting up context providers.
+- **`index.css`**: Global CSS file for styling the application.
+- **`main.jsx`**: Entry point for the React application, rendering the root component and applying global configurations.
+- **`MiscStyling.js`**: Contains additional styling configurations or helper functions for styling components.
+- **`routes.jsx`**: Defines the application's routing structure and maps paths to corresponding pages.
+- **`index.html`**: The base HTML file for the React application.
+- **`package.json`**: Defines the project's dependencies, scripts, and metadata for the React frontend.
+- **`Pipfile`**: Specifies dependencies and virtual environment setup for the Flask backend.
