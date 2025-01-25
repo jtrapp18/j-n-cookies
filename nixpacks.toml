@@ -1,4 +1,15 @@
-[phases]
-install = "pip install -r requirements.txt && npm install --prefix client"
-build = "npm run build --prefix client"
-start = "gunicorn --chdir server --log-level debug app:app"
+[phases.install]
+commands = [
+  "pip install -r requirements.txt",
+  "npm install --prefix client"
+]
+
+[phases.build]
+commands = [
+  "npm run build --prefix client"
+]
+
+[phases.start]
+commands = [
+  "gunicorn --chdir server --log-level debug app:app"
+]
