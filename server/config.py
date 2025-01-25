@@ -18,13 +18,7 @@ app = Flask(
 )
 
 app.secret_key = os.getenv('FLASK_SECRET_KEY', default=b'fallback_secret_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-
-print("DATABASE_URL:", os.getenv('DATABASE_URL'))
-# app.config['SQLALCHEMY_DATABASE_URI'] = (
-#     f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-#     f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-# )
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_PUBLIC_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
