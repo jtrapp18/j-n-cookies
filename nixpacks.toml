@@ -9,7 +9,7 @@ commands = [
   "npm run build --prefix client"
 ]
 
-[phases.start]
+[start]
 commands = [
   "gunicorn --chdir server --log-level debug app:app"
 ]
