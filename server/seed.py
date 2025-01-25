@@ -16,12 +16,13 @@ fake = Faker()
 with app.app_context():
 
     print("Deleting all records...")
-    CartItem.query.delete()
-    Cookie.query.delete()
+
     Favorite.query.delete()
-    Order.query.delete()
-    User.query.delete()
     Review.query.delete()
+    CartItem.query.delete()
+    Order.query.delete()
+    Cookie.query.delete()
+    User.query.delete()
 
     fake = Faker()
 
@@ -148,7 +149,7 @@ with app.app_context():
             for cart_item in order.cart_items:
                 if random()>.6:
                     review = Review(
-                        rating=randint(0, 5),
+                        rating=randint(1, 5),
                         user_id=order.user_id,
                         cookie_id=cart_item.cookie_id,
                         review_title="Review Title",
