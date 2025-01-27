@@ -36,7 +36,7 @@ function SignUpForm({ setShowConfirm }) {
       try {
         const newUser = await postJSONToDb("signup", body);
         if (newUser) {
-            postJSONToDb("orders", {userId: newUser.id, purchaseComplete: 0});
+            postJSONToDb("orders", {userId: newUser.id, purchaseComplete: 0, orderTotal: 0});
             setUser(newUser);
             setShowConfirm(true);
         }

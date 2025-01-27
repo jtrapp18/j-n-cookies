@@ -130,7 +130,7 @@ const Checkout = () => {
       setOrderComplete(true);
       placeCookieOrder(cartOrder.id, orderObj);
   
-      postJSONToDb("orders", {userId: user.id, purchaseComplete: 0})
+      postJSONToDb("orders", {userId: user.id, purchaseComplete: 0, orderTotal: 0})
       .then(newOrder => createNewCart(newOrder.id));
     }
     else {

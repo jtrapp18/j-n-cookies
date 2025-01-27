@@ -11,7 +11,7 @@ class Order(db.Model, SerializerMixin):
     purchase_complete = db.Column(db.Boolean, default=False, nullable=False)
     order_date = db.Column(db.Date, nullable=False, default=date.today)
     delivery_date = db.Column(db.Date, nullable=True)
-    order_total = db.Column(db.Float, nullable=False)
+    order_total = db.Column(db.Float, nullable=False, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship('User', back_populates='orders')
