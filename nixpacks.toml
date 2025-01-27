@@ -1,13 +1,13 @@
 [phases.build]
-cmds =[
-    "pip install --no-cache-dir -r requirements.txt",
-    "flask --app server.app db init",
-    "flask --app server.app db migrate -m 'initial migration on deployment'",
-    "flask --app server.app db upgrade",
-    "python server/seed.py",
-    "npm install --prefix client",
-    "npm run build --prefix client"
+cmds = [
+    "pip install --no-cache-dir -r requirements.txt",  # Install Python dependencies
+    "FLASK_APP=server.app PYTHONPATH=server flask db init",  # Set PYTHONPATH and FLASK_APP for db init
+    "FLASK_APP=server.app PYTHONPATH=server flask db migrate -m 'initial migration on deployment'",  # Create migration
+    "FLASK_APP=server.app PYTHONPATH=server flask db upgrade",  # Apply migrations
+    "python server/seed.py",  # Run seed script
+    "npm install --prefix client",  # Install frontend dependencies
+    "npm run build --prefix client"  # Build the frontend
 ]
 
 [start]
-cmd ="gunicorn --chdir server --log-level debug app:app"
+cmd = "FLASK_APP=server.app PYTHONPATH=server gunicorn -b 0.0.0.0:8000 app:app"  # Start Flask app with Gunicorn
