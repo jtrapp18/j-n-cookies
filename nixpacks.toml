@@ -1,7 +1,6 @@
 [phases.build]
 cmds = [
     "pip install --no-cache-dir -r requirements.txt",  # Install Python dependencies
-    "FLASK_APP=server.app PYTHONPATH=server flask db init",  # Set PYTHONPATH and FLASK_APP for db init
     "FLASK_APP=server.app PYTHONPATH=server flask db migrate -m 'initial migration on deployment'",  # Create migration
     "FLASK_APP=server.app PYTHONPATH=server flask db upgrade",  # Apply migrations
     "python server/seed.py",  # Run seed script
