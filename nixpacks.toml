@@ -1,0 +1,13 @@
+[phases.build]
+cmds =[
+    "pip install --no-cache-dir -r requirements.txt",
+    "flask --app server.app db init",
+    "flask --app server.app db migrate -m 'initial migration on deployment'",
+    "flask --app server.app db upgrade",
+    "python server/seed.py",
+    "npm install --prefix client",
+    "npm run build --prefix client"
+]
+
+[start]
+cmd ="gunicorn -b 0.0.0.0:8000 server.app:app"
