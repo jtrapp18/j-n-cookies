@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     && apt-get clean
 
-# Install Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+# Install Node.js and npm (with Node 18.x instead of 16.x)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
 # Set working directory
