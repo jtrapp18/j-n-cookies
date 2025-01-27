@@ -1,4 +1,5 @@
 import os
+import binascii
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
@@ -17,7 +18,7 @@ app = Flask(
     template_folder='../client/dist'
 )
 
-app.secret_key = os.getenv('FLASK_SECRET_KEY', default=b'fallback_secret_key')
+app.config['SECRET_KEY'] = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_PUBLIC_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
