@@ -27,6 +27,6 @@ RUN npm run build --prefix client
 # Copy the rest of the app
 COPY . .
 
-# Expose the port and set the command
+# Expose the port and set the command to start Gunicorn
 EXPOSE 5000
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "--chdir", "server", "--log-level", "debug", "app:app"]
