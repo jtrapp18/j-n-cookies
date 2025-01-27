@@ -8,24 +8,18 @@ RUN apt-get update && apt-get install -y \
     curl \
     && apt-get clean
 
-# Install Node.js and npm (with Node 18.x instead of 16.x)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs
-
 # Set working directory
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt ./
+COPY requirements.txt ./ 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install and build the React frontend
-COPY client ./client
-RUN npm install --prefix client
-RUN npm run build --prefix client
+# Copy the React 'dist' folder directly
+COPY client/dist ./client/dist
 
-# Copy the rest of the app
-COPY . .
+# Copy the rest of the Flask backend
+COPY server ./server
 
 # Expose the port and set the command to start Gunicorn
 EXPOSE 5000

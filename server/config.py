@@ -14,8 +14,8 @@ load_dotenv()
 app = Flask(
     __name__,
     static_url_path='/',
-    static_folder='../client/build/static',  # Correct path to static files
-    template_folder='../client/build'        # Correct path to index.html and other templates
+    static_folder='../client/dist',
+    template_folder='../client/dist'
 )
 
 app.config['SECRET_KEY'] = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
