@@ -9,10 +9,9 @@ cmds = [
 cmd = "gunicorn --chdir server --log-level debug app:app"
 
 [dependencies]
-# Add dependencies for Python, Node.js, PostgreSQL, etc.
 packages = [
-  "python38",  # Specify the Python version
-  "pipenv",    # Python dependency manager
-  "postgresql_16", # PostgreSQL database
-  "nodejs",    # Node.js runtime
+  "python38",
+  "pipenv",
+  "postgresql_16.devel",
+  "nodejs"
 ]
