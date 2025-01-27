@@ -12,12 +12,13 @@ flask-migrate = "4.0.0"
 flask-restful = "0.3.9"
 importlib-metadata = "6.0.0"
 importlib-resources = "5.10.0"
-psycopg2-binary = "*"
+psycopg2 = "*"
 pytest = "7.2.0"
 python-dotenv = "*"
 sqlalchemy = "2.0.25"
 flask-bcrypt = "1.0.1"
 faker = "15.3.2"
+gunicorn = "23.0.0"
 
 [dev-packages]
 
