@@ -10,4 +10,4 @@ cmds =[
 ]
 
 [start]
-cmd ="gunicorn -b 0.0.0.0:8000 server.app:app"
+cmd ="gunicorn --chdir server --log-level debug app:app"
