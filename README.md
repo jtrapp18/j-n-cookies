@@ -1,4 +1,5 @@
 # J&N Cookies
+[Click to Navigate to Deployed Project](https://j-n-cookies-production.up.railway.app/)
 
 ## About this project
 
