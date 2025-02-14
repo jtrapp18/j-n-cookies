@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import StarRatings from 'react-star-ratings';
 
 const Rating = ({rating, handleStarClick}) => {
@@ -9,8 +8,8 @@ const Rating = ({rating, handleStarClick}) => {
       starRatedColor="var(--dark-chocolate)"
       changeRating={(newRating) => handleStarClick(newRating)}
       numberOfStars={5}
-      starDimension="30px"
-      starSpacing="5px"
+      starDimension="1.5rem"
+      starSpacing=".1rem"
     />
   );
 };

@@ -8,7 +8,7 @@ const SortContainer = styled.div`
     background-color: var(--blue);
     padding: 0;
     width: 300px;
-    min-width: 100px;
+    min-width: 150px;
     position: relative;
 
     select {

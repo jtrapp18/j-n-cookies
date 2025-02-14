@@ -20,8 +20,8 @@ const StyledMain = styled.main`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    // overflow: scroll;
+    // justify-content: space-between;
+    overflow-x: auto;
   }
 }
 `
@@ -33,6 +33,10 @@ const CardContainer = styled.div`
   gap: 10px;
   max-width: 100vw;
   justify-items: center;
+
+  @media (max-width: 768px) {  /* Mobile screens */
+    grid-template-columns: repeat(auto-fit, minmax(90vw, 1fr)); /* Adjust grid items to take up 90% of the viewport width on mobile */
+  }
 `
 
 const Menu = () => {

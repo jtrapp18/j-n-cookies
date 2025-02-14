@@ -13,12 +13,19 @@ const FilterContainer = styled.div`
         flex-direction: column;
         margin: 20px;
         justify-content: space-between;
+
+        #rating-filter-container {
+            display: flex;
+            width: fit-content;
+            white-space: nowrap;
+        }
     }
 
     .btn {
         margin: 5px;
         height: fit-content;
         width: fit-content;
+        white-space: nowrap;
     }
 `
 
@@ -102,7 +109,9 @@ const Filters = ({filterInput, setFilterInput}) => {
                 </section>
                 <section> 
                     <p>Minimum Rating</p>
-                    <Rating rating={filterInput.rating} handleStarClick={updateRating}/>   
+                    <div id='rating-filter-container'>
+                        <Rating rating={filterInput.rating} handleStarClick={updateRating}/>
+                    </div>   
                     <ClearFilter 
                         onClick={()=>clearFilter("rating")}
                     >
